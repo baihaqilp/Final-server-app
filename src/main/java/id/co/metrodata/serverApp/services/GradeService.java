@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class GradeService {
     private GradeRepository gradeRepository;
+
     public List<Grade> getAll() {
         return gradeRepository.findAll();
     }
