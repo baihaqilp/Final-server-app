@@ -21,4 +21,8 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "discussion_id", nullable = false)
     private Discussion discussion;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 }

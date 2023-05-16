@@ -1,5 +1,9 @@
 package id.co.metrodata.serverApp.models;
 
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,12 +16,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -52,4 +55,16 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Submission> submissions;
+
+    @OneToMany(mappedBy = "employee")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Discussion> discussions;
+
+    @OneToMany(mappedBy = "employee")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "employee")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Grade> grades;
 }

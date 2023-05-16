@@ -1,7 +1,7 @@
 package id.co.metrodata.serverApp.controllers;
 
 import id.co.metrodata.serverApp.models.Comment;
-import id.co.metrodata.serverApp.models.dto.CommentRequest;
+import id.co.metrodata.serverApp.models.dto.request.CommentRequest;
 import id.co.metrodata.serverApp.services.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -21,7 +21,15 @@ public class Grade {
     @Column(nullable = false, name = "grade_name")
     private String name;
     @Column(nullable = false, name = "grade_average")
-    private int average;
+    private float average;
     @Column(nullable = false, name = "grade_status")
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
+
+    @ManyToOne
+    @JoinColumn(name = "segment_id", nullable = false)
+    private Segment segment;
 }

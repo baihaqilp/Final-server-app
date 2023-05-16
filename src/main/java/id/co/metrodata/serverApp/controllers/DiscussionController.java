@@ -1,6 +1,7 @@
 package id.co.metrodata.serverApp.controllers;
 
 import id.co.metrodata.serverApp.models.Discussion;
+import id.co.metrodata.serverApp.models.dto.request.DiscussionRequest;
 import id.co.metrodata.serverApp.services.DiscussionService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +21,12 @@ public class DiscussionController {
         return discussionService.getById(id);
     }
     @PostMapping
-    public Discussion create(@RequestBody Discussion discussion) {
-        return discussionService.create(discussion);
+    public Discussion create(@RequestBody DiscussionRequest discussionRequest) {
+        return discussionService.create(discussionRequest);
     }
     @PutMapping("/{id}")
-    public Discussion update(@RequestBody Discussion discussion, @PathVariable Long id) {
-        return discussionService.update(discussion, id);
+    public Discussion update(@RequestBody DiscussionRequest discussionRequest, @PathVariable Long id) {
+        return discussionService.update(discussionRequest, id);
     }
     @DeleteMapping("/{id}")
     public Discussion delete(@PathVariable Long id) {
