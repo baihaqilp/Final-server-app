@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.metrodata.serverApp.models.Submission;
+import id.co.metrodata.serverApp.models.dto.request.SubmissionRequest;
 import id.co.metrodata.serverApp.services.SubmissionService;
 import lombok.AllArgsConstructor;
 
@@ -32,13 +33,13 @@ public class SubmissionController {
     }
 
     @PostMapping
-    public Submission create(@RequestBody Submission submission) {
-        return submissionService.create(submission);
+    public Submission create(@RequestBody SubmissionRequest submissionRequest) {
+        return submissionService.create(submissionRequest);
     }
 
     @PutMapping("/{id}")
-    public Submission update(@PathVariable Long id, @RequestBody Submission submission) {
-        return submissionService.update(id, submission);
+    public Submission update(@PathVariable Long id, @RequestBody SubmissionRequest submissionRequest) {
+        return submissionService.update(id, submissionRequest);
     }
 
     @DeleteMapping("/{id}")

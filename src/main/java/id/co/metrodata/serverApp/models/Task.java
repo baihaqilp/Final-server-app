@@ -5,8 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -22,6 +27,15 @@ public class Task {
     private String name;
     @Column(nullable = false, name = "task_desc")
     private String desc;
+    @JsonFormat(pattern = "dd-MM-yyyy", shape = Shape.STRING)
     @Column(nullable = false, name = "task_deadline")
-    private LocalDateTime deadline;
+    private Date deadline;
+
+    @OneToMany(mappedBy = "task_id", cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Submission> submissions;
+
+    @ManyToOne
+    @JoinColumn(name = "segment_id")
+    private Segment segment;
 }

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -28,8 +30,17 @@ public class Submission {
 
     @Column(nullable = false)
     private String submission_file;
+
     @JsonFormat(pattern = "dd-MM-yyyy", shape = Shape.STRING)
     @Column(nullable = false)
     private Date submission_date;
     private Float nilai;
+
+    @ManyToOne
+    @JoinColumn(name = "task_id")
+    private Task task_id;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 }

@@ -1,6 +1,5 @@
 package id.co.metrodata.serverApp.models.dto.request;
 
-import id.co.metrodata.serverApp.models.Employee;
 import lombok.Data;
 
 @Data
