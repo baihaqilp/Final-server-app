@@ -13,22 +13,27 @@ import java.util.List;
 @RequestMapping("/materi")
 public class MateriController {
     private MateriService materiService;
+
     @GetMapping
     public List<Materi> getAll() {
         return materiService.getAll();
     }
+
     @GetMapping("/{id}")
     public Materi getById(@PathVariable Long id) {
         return materiService.getById(id);
     }
+
     @PostMapping
     public Materi create(@RequestBody MateriRequest materiRequest) {
         return materiService.create(materiRequest);
     }
+
     @PutMapping("/{id}")
-    public Materi update(@PathVariable Long id, @RequestBody Materi materi) {
-        return materiService.update(id, materi);
+    public Materi update(@PathVariable Long id, @RequestBody MateriRequest materiRequest) {
+        return materiService.update(id, materiRequest);
     }
+
     @DeleteMapping("/{id}")
     public Materi delete(@PathVariable Long id) {
         return materiService.delete(id);
