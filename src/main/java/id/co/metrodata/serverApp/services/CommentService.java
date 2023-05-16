@@ -1,7 +1,7 @@
 package id.co.metrodata.serverApp.services;
 
 import id.co.metrodata.serverApp.models.Comment;
-import id.co.metrodata.serverApp.models.dto.CommentRequest;
+import id.co.metrodata.serverApp.models.dto.request.CommentRequest;
 import id.co.metrodata.serverApp.repositories.CommentRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
