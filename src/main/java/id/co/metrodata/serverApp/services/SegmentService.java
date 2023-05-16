@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.metrodata.serverApp.models.Segment;
+import id.co.metrodata.serverApp.models.dto.request.SegmentRequest;
 import id.co.metrodata.serverApp.repositories.SegmentRepository;
 import lombok.AllArgsConstructor;
 
@@ -14,6 +15,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SegmentService {
     private SegmentRepository segmentRepository;
+    private ClassroomService classroomService;
+    private EmployeeService employeeService;
 
     public List<Segment> getAll() {
         return segmentRepository.findAll();
@@ -29,13 +32,20 @@ public class SegmentService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id Not Found"));
     }
 
-    public Segment create(Segment segment) {
+    public Segment create(SegmentRequest segmentRequest) {
+        Segment segment = new Segment();
+        segment.setClassroom(classroomService.getById(segmentRequest.getClassroomId()));
+        segment.setEmployee(employeeService.getById(segmentRequest.getTrainerId()));
+
         return segmentRepository.save(segment);
     }
 
-    public Segment update(Long id, Segment segment) {
+    public Segment update(Long id, SegmentRequest segmentRequest) {
         getById(id);
+        Segment segment = new Segment();
         segment.setId(id);
+        segment.setClassroom(classroomService.getById(segmentRequest.getClassroomId()));
+        segment.setEmployee(employeeService.getById(segmentRequest.getTrainerId()));
         return segmentRepository.save(segment);
     }
 

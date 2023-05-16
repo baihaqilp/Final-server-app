@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.metrodata.serverApp.models.Segment;
+import id.co.metrodata.serverApp.models.dto.request.SegmentRequest;
 import id.co.metrodata.serverApp.services.SegmentService;
 import lombok.AllArgsConstructor;
 
@@ -32,13 +33,13 @@ public class SegmentController {
     }
 
     @PutMapping("/{id}")
-    public Segment update(@PathVariable Long id, @RequestBody Segment segment) {
-        return segmentService.update(id, segment);
+    public Segment update(@PathVariable Long id, @RequestBody SegmentRequest segmentRequest) {
+        return segmentService.update(id, segmentRequest);
     }
 
     @PostMapping
-    public Segment create(@RequestBody Segment segment) {
-        return segmentService.create(segment);
+    public Segment create(@RequestBody SegmentRequest segmentRequest) {
+        return segmentService.create(segmentRequest);
     }
 
     @DeleteMapping("/{id}")
