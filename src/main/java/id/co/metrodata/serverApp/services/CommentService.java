@@ -17,6 +17,7 @@ public class CommentService {
     private CommentRepository commentRepository;
     private ModelMapper modelMapper;
     private DiscussionService discussionService;
+    private EmployeeService employeeService;
 
     public List<Comment> getAll() {
         return commentRepository.findAll();
@@ -31,6 +32,7 @@ public class CommentService {
     public Comment create(CommentRequest commentRequest) {
         Comment comment = modelMapper.map(commentRequest, Comment.class);
         comment.setDiscussion(discussionService.getById(commentRequest.getDiscussionId()));
+        comment.setEmployee(employeeService.getById(commentRequest.getEmployeeId()));
         return commentRepository.save(comment);
     }
 
@@ -38,6 +40,7 @@ public class CommentService {
         getById(id);
         Comment comment = modelMapper.map(commentRequest, Comment.class);
         comment.setDiscussion(discussionService.getById(commentRequest.getDiscussionId()));
+        comment.setEmployee(employeeService.getById(commentRequest.getEmployeeId()));
         comment.setId(id);
         return commentRepository.save(comment);
     }
