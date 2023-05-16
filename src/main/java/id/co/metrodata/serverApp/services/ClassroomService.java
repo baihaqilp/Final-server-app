@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import id.co.metrodata.serverApp.models.Classroom;
 import id.co.metrodata.serverApp.models.Segment;
+import id.co.metrodata.serverApp.models.dto.request.ClassroomRequest;
 import id.co.metrodata.serverApp.models.dto.request.SegmentRequest;
 import id.co.metrodata.serverApp.repositories.ClassroomRepository;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ClassroomService {
     private ClassroomRepository classroomRepository;
-    private SegmentService segmentService;
+    private ProgramService programService;
 
     public List<Classroom> getAll() {
         return classroomRepository.findAll();
@@ -29,19 +30,19 @@ public class ClassroomService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Classroom id not found"));
     }
 
-    public Classroom create(Classroom classroom) {
-        // Segment segments = modelMapper.map(classRequest, Segment.class);
-        // segments.setClassroom(getById(classRequest.getClass_id()));
-        // segments.setEmployee(employeeService.getById(classRequest.getTrainer_id()));
-        // createSegment(segments);
-        // Classroom classroom = modelMapper.map(classRequest, Classroom.class);
-        // classroom.setName(classroom.getName());
+    public Classroom create(ClassroomRequest classroomRequest) {
+        Classroom classroom = new Classroom();
+        classroom.setName(classroomRequest.getName());
+        classroom.setProgram(programService.getById(classroomRequest.getProgramId()));
         return classroomRepository.save(classroom);
     }
 
-    public Classroom update(Long id, Classroom classroom) {
+    public Classroom update(Long id, ClassroomRequest classroomRequest) {
         getById(id);
+        Classroom classroom = new Classroom();
         classroom.setId(id);
+        classroom.setName(classroomRequest.getName());
+        classroom.setProgram(programService.getById(classroomRequest.getProgramId()));
         return classroomRepository.save(classroom);
     }
 
