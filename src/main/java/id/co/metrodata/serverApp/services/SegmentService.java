@@ -35,7 +35,7 @@ public class SegmentService {
     public Segment create(SegmentRequest segmentRequest) {
         Segment segment = new Segment();
         segment.setClassroom(classroomService.getById(segmentRequest.getClassroomId()));
-        segment.setEmployee(employeeService.getById(segmentRequest.getTrainerId()));
+        segment.setTrainer(employeeService.getById(segmentRequest.getTrainerId()));
 
         return segmentRepository.save(segment);
     }
@@ -45,7 +45,7 @@ public class SegmentService {
         Segment segment = new Segment();
         segment.setId(id);
         segment.setClassroom(classroomService.getById(segmentRequest.getClassroomId()));
-        segment.setEmployee(employeeService.getById(segmentRequest.getTrainerId()));
+        segment.setTrainer(employeeService.getById(segmentRequest.getTrainerId()));
         return segmentRepository.save(segment);
     }
 

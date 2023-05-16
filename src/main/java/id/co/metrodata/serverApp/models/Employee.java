@@ -45,7 +45,11 @@ public class Employee {
     @PrimaryKeyJoinColumn
     private User user;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "trainer")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Segment> employees;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Submission> submissions;
 }
