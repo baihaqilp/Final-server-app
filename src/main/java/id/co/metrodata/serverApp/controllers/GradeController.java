@@ -1,6 +1,7 @@
 package id.co.metrodata.serverApp.controllers;
 
 import id.co.metrodata.serverApp.models.Grade;
+import id.co.metrodata.serverApp.models.dto.request.GradeRequest;
 import id.co.metrodata.serverApp.services.GradeService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +25,13 @@ public class GradeController {
     }
 
     @PostMapping
-    public Grade create(@RequestBody Grade grade) {
-        return gradeService.create(grade);
+    public Grade create(@RequestBody GradeRequest gradeRequest) {
+        return gradeService.create(gradeRequest);
     }
 
     @PutMapping("/{id}")
-    public Grade update(@RequestBody Grade grade, @PathVariable Long id) {
-        return gradeService.update(id, grade);
+    public Grade update(@RequestBody GradeRequest gradeRequest, @PathVariable Long id) {
+        return gradeService.update(id, gradeRequest);
     }
 
     @DeleteMapping("/{id}")

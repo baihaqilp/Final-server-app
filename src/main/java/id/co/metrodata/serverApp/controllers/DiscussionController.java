@@ -1,7 +1,7 @@
 package id.co.metrodata.serverApp.controllers;
 
 import id.co.metrodata.serverApp.models.Discussion;
-import id.co.metrodata.serverApp.models.dto.DiscussionRequest;
+import id.co.metrodata.serverApp.models.dto.request.DiscussionRequest;
 import id.co.metrodata.serverApp.services.DiscussionService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
