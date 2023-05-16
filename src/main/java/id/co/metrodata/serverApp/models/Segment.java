@@ -1,6 +1,5 @@
 package id.co.metrodata.serverApp.models;
 
-<<<<<<< HEAD
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,11 +14,9 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-=======
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
->>>>>>> e93d6d84024d8df05739664a55598fcd58faa34c
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
