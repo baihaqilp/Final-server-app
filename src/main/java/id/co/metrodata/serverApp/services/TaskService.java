@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskService {
     private TaskRepository taskRepository;
+
     public List<Task> getAll() {
         return taskRepository.findAll();
     }

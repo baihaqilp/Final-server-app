@@ -13,24 +13,27 @@ import java.util.List;
 @AllArgsConstructor
 public class TopicService {
     private TopicRepository topicRepository;
+
     public List<Topic> getAll() {
         return topicRepository.findAll();
     }
+
     public Topic getById(Long id) {
         return topicRepository
                 .findById(id)
-                .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Topic not Found!")
-                );
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Topic not Found!"));
     }
+
     public Topic create(Topic topic) {
         return topicRepository.save(topic);
     }
+
     public Topic update(Topic topic, Long id) {
         getById(id);
         topic.setId(id);
         return topicRepository.save(topic);
     }
+
     public Topic delete(Long id) {
         Topic topic = getById(id);
         topicRepository.delete(topic);

@@ -12,22 +12,27 @@ import java.util.List;
 @RequestMapping("/topic")
 public class TopicController {
     private TopicService topicService;
+
     @GetMapping
     public List<Topic> getAll() {
         return topicService.getAll();
     }
+
     @GetMapping("/{id}")
     public Topic getById(@PathVariable Long id) {
         return topicService.getById(id);
     }
+
     @PostMapping
     public Topic create(@RequestBody Topic topic) {
         return topicService.create(topic);
     }
+
     @PutMapping("/{id}")
     public Topic update(@RequestBody Topic topic, @PathVariable Long id) {
         return topicService.update(topic, id);
     }
+
     @DeleteMapping("/{id}")
     public Topic delete(@PathVariable Long id) {
         return topicService.delete(id);
