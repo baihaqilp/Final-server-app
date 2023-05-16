@@ -1,7 +1,7 @@
 package id.co.metrodata.serverApp.services;
 
 import id.co.metrodata.serverApp.models.Materi;
-import id.co.metrodata.serverApp.models.dto.MateriRequest;
+import id.co.metrodata.serverApp.models.dto.request.MateriRequest;
 import id.co.metrodata.serverApp.repositories.MateriRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
