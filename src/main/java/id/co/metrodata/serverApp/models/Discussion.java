@@ -24,8 +24,17 @@ public class Discussion {
     @Column(nullable = false, name = "discussion_desc")
     private String desc;
     @Column(nullable = false, name = "discussion_create_at")
-    private LocalDateTime createAt = LocalDateTime.now();
-    @OneToMany(mappedBy = "discussion")
+    private LocalDateTime createAt;
+
+    @OneToMany(mappedBy = "discussion", cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Comment> comments;
+
+    @ManyToOne
+    @JoinColumn(name = "materi_id", nullable = false)
+    private Materi materi;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 }
