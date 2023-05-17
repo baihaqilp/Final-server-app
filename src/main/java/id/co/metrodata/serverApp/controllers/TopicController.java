@@ -1,6 +1,7 @@
 package id.co.metrodata.serverApp.controllers;
 
 import id.co.metrodata.serverApp.models.Topic;
+import id.co.metrodata.serverApp.models.dto.request.TopicRequest;
 import id.co.metrodata.serverApp.services.TopicService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +25,13 @@ public class TopicController {
     }
 
     @PostMapping
-    public Topic create(@RequestBody Topic topic) {
-        return topicService.create(topic);
+    public Topic create(@RequestBody TopicRequest topicRequest) {
+        return topicService.create(topicRequest);
     }
 
     @PutMapping("/{id}")
-    public Topic update(@RequestBody Topic topic, @PathVariable Long id) {
-        return topicService.update(topic, id);
+    public Topic update(@RequestBody TopicRequest topicRequest, @PathVariable Long id) {
+        return topicService.update(topicRequest, id);
     }
 
     @DeleteMapping("/{id}")

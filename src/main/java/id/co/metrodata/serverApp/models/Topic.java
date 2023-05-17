@@ -20,7 +20,12 @@ public class Topic {
     private Long id;
     @Column(nullable = false, name = "topic_name")
     private String name;
+
     @OneToMany(mappedBy = "topic")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Materi> materis;
+
+    @ManyToOne
+    @JoinColumn(name = "program_id", nullable = false)
+    private Program program;
 }

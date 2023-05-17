@@ -2,13 +2,7 @@ package id.co.metrodata.serverApp.models;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -24,12 +18,17 @@ import lombok.NoArgsConstructor;
 public class Program {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name = "program_id", nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "program")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Classroom> classrooms;
+
+    @OneToMany(mappedBy = "program")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Topic> topics;
 }
