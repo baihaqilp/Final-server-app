@@ -2,6 +2,7 @@ package id.co.metrodata.serverApp.services;
 
 import java.util.List;
 
+import id.co.metrodata.serverApp.models.Materi;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,6 +18,7 @@ public class SegmentService {
     private SegmentRepository segmentRepository;
     private ClassroomService classroomService;
     private EmployeeService employeeService;
+    private MateriService materiService;
 
     public List<Segment> getAll() {
         return segmentRepository.findAll();
@@ -55,4 +57,11 @@ public class SegmentService {
         return segment;
     }
 
+    public Segment addMateri(Long id, Materi materi) {
+        Segment segment = getById(id);
+        List<Materi> materis = segment.getMateris();
+        materis.add(materiService.getById(materi.getId()));
+        segment.setMateris(materis);
+        return segmentRepository.save(segment);
+    }
 }

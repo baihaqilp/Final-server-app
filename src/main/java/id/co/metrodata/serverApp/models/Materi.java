@@ -30,4 +30,8 @@ public class Materi {
     @OneToMany(mappedBy = "materi")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Discussion> discussions;
+
+    @ManyToMany(mappedBy = "materis")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Segment> segments;
 }

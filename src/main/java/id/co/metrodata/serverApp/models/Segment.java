@@ -47,4 +47,12 @@ public class Segment {
     @OneToMany(mappedBy = "segment")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Grade> grades;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "tb_segment_materi",
+            joinColumns = @JoinColumn(name = "segment_id"),
+            inverseJoinColumns = @JoinColumn(name = "materi_id")
+    )
+    private List<Materi> materis;
 }
