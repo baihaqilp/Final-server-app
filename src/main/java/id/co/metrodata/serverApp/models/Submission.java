@@ -2,18 +2,12 @@ package id.co.metrodata.serverApp.models;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +28,7 @@ public class Submission {
     @JsonFormat(pattern = "dd-MM-yyyy", shape = Shape.STRING)
     @Column(nullable = false)
     private Date submission_date;
-    private Float nilai;
+
 
     @ManyToOne
     @JoinColumn(name = "task_id")
@@ -43,4 +37,8 @@ public class Submission {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
+
+    @OneToOne(mappedBy = "submission")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Evaluation evaluation;
 }
