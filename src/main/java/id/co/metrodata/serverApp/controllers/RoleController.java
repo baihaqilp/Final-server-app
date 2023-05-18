@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.metrodata.serverApp.models.Role;
+import id.co.metrodata.serverApp.models.dto.request.RoleRequest;
 import id.co.metrodata.serverApp.services.RoleService;
 import lombok.AllArgsConstructor;
 
@@ -32,13 +33,13 @@ public class RoleController {
     }
 
     @PostMapping
-    public Role create(@RequestBody Role role) {
-        return roleService.create(role);
+    public Role create(@RequestBody RoleRequest roleRequest) {
+        return roleService.create(roleRequest);
     }
 
     @PutMapping("/{id}")
-    public Role update(@PathVariable Long id, @RequestBody Role role) {
-        return roleService.update(id, role);
+    public Role update(@PathVariable Long id, @RequestBody RoleRequest roleRequest) {
+        return roleService.update(id, roleRequest);
     }
 
     @DeleteMapping("/{id}")

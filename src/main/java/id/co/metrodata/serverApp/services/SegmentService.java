@@ -3,6 +3,8 @@ package id.co.metrodata.serverApp.services;
 import java.util.List;
 
 import id.co.metrodata.serverApp.models.Materi;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,7 +20,9 @@ public class SegmentService {
     private SegmentRepository segmentRepository;
     private ClassroomService classroomService;
     private EmployeeService employeeService;
+    private RoleService roleService;
     private MateriService materiService;
+    private ModelMapper modelMapper;
 
     public List<Segment> getAll() {
         return segmentRepository.findAll();
@@ -35,16 +39,17 @@ public class SegmentService {
     }
 
     public Segment create(SegmentRequest segmentRequest) {
-        Segment segment = new Segment();
+        Segment segment = modelMapper.map(segmentRequest, Segment.class);
+        // segmentRepository.findByEmployee_Id(segmentRequest.getTrainerId()).getTrainer();
+
         segment.setClassroom(classroomService.getById(segmentRequest.getClassroomId()));
         segment.setTrainer(employeeService.getById(segmentRequest.getTrainerId()));
-
         return segmentRepository.save(segment);
     }
 
     public Segment update(Long id, SegmentRequest segmentRequest) {
         getById(id);
-        Segment segment = new Segment();
+        Segment segment = modelMapper.map(segmentRequest, Segment.class);
         segment.setId(id);
         segment.setClassroom(classroomService.getById(segmentRequest.getClassroomId()));
         segment.setTrainer(employeeService.getById(segmentRequest.getTrainerId()));

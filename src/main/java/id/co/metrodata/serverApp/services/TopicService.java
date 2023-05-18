@@ -30,14 +30,14 @@ public class TopicService {
 
     public Topic create(TopicRequest topicRequest) {
         Topic topic = modelMapper.map(topicRequest, Topic.class);
-        topic.setProgram(programService.getById(topicRequest.getProgram_id()));
+        topic.setProgram(programService.getById(topicRequest.getProgramId()));
         return topicRepository.save(topic);
     }
 
     public Topic update(TopicRequest topicRequest, Long id) {
         getById(id);
         Topic topic = modelMapper.map(topicRequest, Topic.class);
-        topic.setProgram(programService.getById(topicRequest.getProgram_id()));
+        topic.setProgram(programService.getById(topicRequest.getProgramId()));
         topic.setId(id);
         return topicRepository.save(topic);
     }

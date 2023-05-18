@@ -29,6 +29,11 @@ public class SegmentController {
     }
 
     @GetMapping("/{id}")
+    public Segment getById(@PathVariable Long id) {
+        return segmentService.getById(id);
+    }
+
+    @GetMapping("/class/{id}")
     public List<Segment> getSegmentClass(@PathVariable Long id) {
         return segmentService.getSegmentClass(id);
     }
