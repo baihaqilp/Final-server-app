@@ -1,5 +1,6 @@
 package id.co.metrodata.serverApp.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
+    private RoleService roleService;
     private ModelMapper modelMapper;
 
     public List<User> getAll() {
@@ -29,16 +31,20 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User id not found"));
     }
 
+    // public List<User> getByRole(Long id){
+    // return userRepository.findByRole_Id(id)
+    // }
+
     public User create(UserRequest userRequest) {
         User user = modelMapper.map(userRequest, User.class);
         Employee employee = modelMapper.map(userRequest, Employee.class);
         employee.setUser(user);
         user.setEmployee(employee);
 
-        // set default role
-        // List<Role> roles = new ArrayList<>();
-        // roles.add(roleService.getById(1));
-        // user.setRoles(roles);
+        // set role
+        List<Role> roles = new ArrayList<>();
+        roles.add(roleService.getById(userRequest.getRoleId()));
+        user.setRoles(roles);
         return userRepository.save(user);
     }
 

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.metrodata.serverApp.models.Employee;
+import id.co.metrodata.serverApp.models.Role;
+import id.co.metrodata.serverApp.models.dto.response.EmployeeResponse;
 import id.co.metrodata.serverApp.repositories.EmployeeRepository;
 import lombok.AllArgsConstructor;
 
@@ -14,6 +16,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeeService {
     private EmployeeRepository employeeRepository;
+    private RoleService roleService;
 
     public List<Employee> getAll() {
         return employeeRepository.findAll();
@@ -23,6 +26,10 @@ public class EmployeeService {
     public Employee getById(Long id) {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee id not found"));
+    }
+
+    public List<Employee> getByRoleId(Long id) {
+        return employeeRepository.findByUserRole(roleService.getById(id).getId());
     }
 
     public Employee create(Employee employee) {
