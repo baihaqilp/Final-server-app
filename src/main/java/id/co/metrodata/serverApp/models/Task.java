@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -27,9 +27,9 @@ public class Task {
     private String name;
     @Column(nullable = false, name = "task_desc")
     private String desc;
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = Shape.STRING)
-    @Column(nullable = false, name = "task_deadline")
-    private Date deadline;
+    // @JsonFormat(pattern = "dd-MM-yyyy", shape = Shape.STRING)
+    @Column(nullable = false)
+    private LocalDateTime deadline;
 
     @OneToMany(mappedBy = "task_id", cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
