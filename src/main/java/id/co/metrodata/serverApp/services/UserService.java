@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.metrodata.serverApp.models.Employee;
+import id.co.metrodata.serverApp.models.Role;
 import id.co.metrodata.serverApp.models.User;
 import id.co.metrodata.serverApp.models.dto.request.UserRequest;
 import id.co.metrodata.serverApp.repositories.UserRepository;
