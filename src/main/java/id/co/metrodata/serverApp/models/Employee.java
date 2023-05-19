@@ -20,8 +20,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -71,4 +69,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Evaluation> evaluations;
+
+    @ManyToOne
+    @JoinColumn(name = "classroom_id", nullable = true)
+    private Classroom classroom;
+
 }

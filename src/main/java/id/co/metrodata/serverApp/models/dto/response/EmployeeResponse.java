@@ -1,7 +1,9 @@
 package id.co.metrodata.serverApp.models.dto.response;
 
-import java.util.List;
-
+import id.co.metrodata.serverApp.models.Classroom;
+import id.co.metrodata.serverApp.models.Program;
+import id.co.metrodata.serverApp.models.Role;
+import id.co.metrodata.serverApp.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,5 +11,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class EmployeeResponse {
     private String name;
-
+    private String email;
+    private String phone;
+    private String address;
+    private Role role;
+    private User user;
+    private Classroom classroom;
 }

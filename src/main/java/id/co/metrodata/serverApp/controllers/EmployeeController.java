@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.metrodata.serverApp.models.Employee;
+import id.co.metrodata.serverApp.models.dto.response.EmployeeResponse;
 import id.co.metrodata.serverApp.services.EmployeeService;
 import lombok.AllArgsConstructor;
 
@@ -29,6 +30,11 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public Employee getById(@PathVariable Long id) {
         return employeeService.getById(id);
+    }
+
+    @GetMapping("/class/{id}")
+    public List<Employee> getByClass(@PathVariable Long id) {
+        return employeeService.getByClassId(id);
     }
 
     @GetMapping("/role/{id}")

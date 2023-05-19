@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import id.co.metrodata.serverApp.models.Classroom;
 import id.co.metrodata.serverApp.models.Employee;
 import id.co.metrodata.serverApp.models.Role;
 import id.co.metrodata.serverApp.models.User;
@@ -20,6 +21,8 @@ import lombok.AllArgsConstructor;
 public class UserService {
     private UserRepository userRepository;
     private RoleService roleService;
+    private ClassroomService classroomService;
+    private ProgramService programService;
     private ModelMapper modelMapper;
 
     public List<User> getAll() {
@@ -38,6 +41,9 @@ public class UserService {
     public User create(UserRequest userRequest) {
         User user = modelMapper.map(userRequest, User.class);
         Employee employee = modelMapper.map(userRequest, Employee.class);
+        // set classroom
+        employee.setClassroom(classroomService.getById(userRequest.getClassroomId()));
+        // set user
         employee.setUser(user);
         user.setEmployee(employee);
 
@@ -45,6 +51,7 @@ public class UserService {
         List<Role> roles = new ArrayList<>();
         roles.add(roleService.getById(userRequest.getRoleId()));
         user.setRoles(roles);
+
         return userRepository.save(user);
     }
 

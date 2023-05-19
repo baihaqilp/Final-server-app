@@ -34,8 +34,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private Boolean is_enabled = true;
-    private Boolean is_account_locked = true;
+    private Boolean isEnabled = true;
+    private Boolean isAccountNonLocked = true;
 
     @OneToOne
     @MapsId

@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.metrodata.serverApp.models.Classroom;
-import id.co.metrodata.serverApp.models.Segment;
 import id.co.metrodata.serverApp.models.dto.request.ClassroomRequest;
-import id.co.metrodata.serverApp.models.dto.request.SegmentRequest;
 import id.co.metrodata.serverApp.repositories.ClassroomRepository;
 import lombok.AllArgsConstructor;
 
@@ -20,9 +18,14 @@ import lombok.AllArgsConstructor;
 public class ClassroomService {
     private ClassroomRepository classroomRepository;
     private ProgramService programService;
+    private ModelMapper modelMapper;
 
     public List<Classroom> getAll() {
         return classroomRepository.findAll();
+    }
+
+    public List<Classroom> getByProgram(Long id) {
+        return classroomRepository.findAllByProgram_Id(id);
     }
 
     public Classroom getById(Long id) {
@@ -31,17 +34,15 @@ public class ClassroomService {
     }
 
     public Classroom create(ClassroomRequest classroomRequest) {
-        Classroom classroom = new Classroom();
-        classroom.setName(classroomRequest.getName());
+        Classroom classroom = modelMapper.map(classroomRequest, Classroom.class);
         classroom.setProgram(programService.getById(classroomRequest.getProgramId()));
         return classroomRepository.save(classroom);
     }
 
     public Classroom update(Long id, ClassroomRequest classroomRequest) {
         getById(id);
-        Classroom classroom = new Classroom();
+        Classroom classroom = modelMapper.map(classroomRequest, Classroom.class);
         classroom.setId(id);
-        classroom.setName(classroomRequest.getName());
         classroom.setProgram(programService.getById(classroomRequest.getProgramId()));
         return classroomRepository.save(classroom);
     }
