@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.metrodata.serverApp.models.Employee;
-import id.co.metrodata.serverApp.models.dto.response.EmployeeResponse;
 import id.co.metrodata.serverApp.services.EmployeeService;
 import lombok.AllArgsConstructor;
 

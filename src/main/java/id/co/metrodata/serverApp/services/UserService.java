@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import id.co.metrodata.serverApp.models.Classroom;
 import id.co.metrodata.serverApp.models.Employee;
 import id.co.metrodata.serverApp.models.Role;
 import id.co.metrodata.serverApp.models.User;
@@ -21,8 +20,6 @@ import lombok.AllArgsConstructor;
 public class UserService {
     private UserRepository userRepository;
     private RoleService roleService;
-    private ClassroomService classroomService;
-    private ProgramService programService;
     private ModelMapper modelMapper;
 
     public List<User> getAll() {
@@ -33,10 +30,6 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User id not found"));
     }
-
-    // public List<User> getByRole(Long id){
-    // return userRepository.findByRole_Id(id)
-    // }
 
     public User create(UserRequest userRequest) {
         User user = modelMapper.map(userRequest, User.class);
