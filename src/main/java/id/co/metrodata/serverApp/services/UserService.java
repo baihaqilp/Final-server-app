@@ -42,7 +42,7 @@ public class UserService {
         User user = modelMapper.map(userRequest, User.class);
         Employee employee = modelMapper.map(userRequest, Employee.class);
         // set classroom
-        employee.setClassroom(classroomService.getById(userRequest.getClassroomId()));
+        employee.setClassroom(null);
         // set user
         employee.setUser(user);
         user.setEmployee(employee);
