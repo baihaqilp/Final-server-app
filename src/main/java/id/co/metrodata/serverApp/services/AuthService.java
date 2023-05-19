@@ -19,9 +19,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthService {
     private ModelMapper modelMapper;
-    private AppUserDetailService appUserDetailService;
     private PasswordEncoder passwordEncoder;
-    private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
     private ClassroomService classroomService;
     private RoleService roleService;
