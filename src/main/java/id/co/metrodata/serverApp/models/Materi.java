@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -31,7 +32,11 @@ public class Materi {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Discussion> discussions;
 
-    @ManyToMany(mappedBy = "materis")
+//    @ManyToMany(mappedBy = "materis")
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private List<Segment> segments;
+
+    @OneToMany(mappedBy = "materi")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Segment> segments;
+    private Set<SegmentMateri> segmentMateris;
 }
