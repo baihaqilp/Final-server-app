@@ -33,7 +33,7 @@ public class Grade {
     @JoinColumn(name = "segment_id", nullable = false)
     private Segment segment;
 
-    @OneToMany(mappedBy = "grade")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Evaluation> evaluations;
+//    @OneToMany(mappedBy = "grade")
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private List<Evaluation> evaluations;
 }

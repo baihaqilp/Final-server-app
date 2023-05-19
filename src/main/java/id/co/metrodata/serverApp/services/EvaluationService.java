@@ -16,7 +16,7 @@ import java.util.List;
 public class EvaluationService {
     private EvaluationRepository evaluationRepository;
     private ModelMapper modelMapper;
-    private GradeService gradeService;
+    private EmployeeService employeeService;
     private SubmissionService submissionService;
 
     public List<Evaluation> getAll() {
@@ -31,7 +31,7 @@ public class EvaluationService {
 
     public Evaluation create(EvaluationRequest evaluationRequest) {
         Evaluation evaluation = modelMapper.map(evaluationRequest, Evaluation.class);
-        evaluation.setGrade(gradeService.getById(evaluationRequest.getGrade_id()));
+        evaluation.setEmployee(employeeService.getById(evaluationRequest.getTrainer_id()));
         evaluation.setSubmission(submissionService.getById(evaluationRequest.getSubmission_id()));
         return evaluationRepository.save(evaluation);
     }
@@ -39,7 +39,7 @@ public class EvaluationService {
     public Evaluation update(Long id, EvaluationRequest evaluationRequest) {
         getById(id);
         Evaluation evaluation = modelMapper.map(evaluationRequest, Evaluation.class);
-        evaluation.setGrade(gradeService.getById(evaluationRequest.getGrade_id()));
+        evaluation.setEmployee(employeeService.getById(evaluationRequest.getTrainer_id()));
         evaluation.setSubmission(submissionService.getById(evaluationRequest.getSubmission_id()));
         evaluation.setId(id);
         return evaluationRepository.save(evaluation);
