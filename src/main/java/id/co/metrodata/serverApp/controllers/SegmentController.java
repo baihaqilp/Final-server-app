@@ -2,7 +2,6 @@ package id.co.metrodata.serverApp.controllers;
 
 import java.util.List;
 
-import id.co.metrodata.serverApp.models.Materi;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,8 +52,8 @@ public class SegmentController {
         return segmentService.delete(id);
     }
 
-    @PostMapping("/{id}")
-    public Segment addMateri(@PathVariable Long id, @RequestBody Materi materi) {
-        return segmentService.addMateri(id, materi);
-    }
+//    @PostMapping("/{id}")
+//    public Segment changeTopic(@PathVariable Long id, @RequestBody ChangeMateriRequest changeMateriRequest) {
+//        return segmentService.changeTopic(id, changeMateriRequest);
+//    }
 }

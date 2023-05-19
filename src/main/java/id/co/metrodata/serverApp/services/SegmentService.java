@@ -2,8 +2,6 @@ package id.co.metrodata.serverApp.services;
 
 import java.util.List;
 
-import id.co.metrodata.serverApp.models.Materi;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,6 +20,7 @@ public class SegmentService {
     private EmployeeService employeeService;
     private RoleService roleService;
     private MateriService materiService;
+    private TopicService topicService;
     private ModelMapper modelMapper;
 
     public List<Segment> getAll() {
@@ -62,11 +61,34 @@ public class SegmentService {
         return segment;
     }
 
-    public Segment addMateri(Long id, Materi materi) {
-        Segment segment = getById(id);
-        List<Materi> materis = segment.getMateris();
-        materis.add(materiService.getById(materi.getId()));
-        segment.setMateris(materis);
-        return segmentRepository.save(segment);
-    }
+
+//    public Segment changeMateri(Long id, ChangeMateriRequest changeMateriRequest) {
+//        Segment segment = getById(id);
+//        List<Topic> topics = segment.get();
+//        if (changeMateriRequest.getTopics().length != 0) {
+//            for (Long topicId : changeMateriRequest.getTopics()) {
+//                topics.add(topicService.getById(topicId));
+//            }
+//        }
+//        segment.setTopics(topics);
+//        return segmentRepository.save(segment);
+//    }
+//    public Segment editMateri(Long id, Long[] materiList) {
+//        Segment segment = getById(id);
+//        List<Materi> materis = segment.getMateris();
+//        for (Long materi : materiList) {
+//            materis.add(materiService.getById(materi));
+//        }
+//        segment.setMateris(materis);
+//        return segmentRepository.save(segment);
+//    }
+//    public Segment deleteMateri(Long id, Long[] materiList) {
+//        Segment segment = getById(id);
+//        List<Materi> materis = segment.getMateris();
+//        for (Long materi : materiList) {
+//            materis.add(materiService.getById(materi));
+//        }
+//        segment.setMateris(materis);
+//        return segmentRepository.save(segment);
+//    }
 }

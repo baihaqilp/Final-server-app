@@ -2,6 +2,7 @@ package id.co.metrodata.serverApp.models;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -58,7 +59,7 @@ public class Segment {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Grade> grades;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "tb_segment_materi", joinColumns = @JoinColumn(name = "segment_id"), inverseJoinColumns = @JoinColumn(name = "materi_id"))
-    private List<Materi> materis;
+    @OneToMany(mappedBy = "segment")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Set<SegmentMateri> segmentMateris;
 }
