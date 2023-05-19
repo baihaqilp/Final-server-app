@@ -24,7 +24,7 @@ public class Evaluation {
     private Submission submission;
 
     @ManyToOne
-    @JoinColumn(name = "grade_id", nullable = false)
-    private Grade grade;
+    @JoinColumn(name = "trainer_id", nullable = false)
+    private Employee employee;
 
 }
