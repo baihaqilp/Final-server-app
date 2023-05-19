@@ -38,4 +38,9 @@ public class Classroom {
     @ManyToOne
     @JoinColumn(name = "program_id")
     private Program program;
+
+    @OneToMany(mappedBy = "classroom")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Employee> employees;
+
 }

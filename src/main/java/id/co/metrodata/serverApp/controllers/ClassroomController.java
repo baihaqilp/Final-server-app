@@ -27,6 +27,11 @@ public class ClassroomController {
         return classroomService.getAll();
     }
 
+    @GetMapping("/program/{id}")
+    public List<Classroom> getByProgram(@PathVariable Long id) {
+        return classroomService.getByProgram(id);
+    }
+
     @GetMapping("/{id}")
     public Classroom getById(@PathVariable Long id) {
         return classroomService.getById(id);
