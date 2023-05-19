@@ -12,5 +12,4 @@ public class UserRequest {
     private String address;
     private Long roleId;
     private Long classroomId;
-    private Long programId;
 }
