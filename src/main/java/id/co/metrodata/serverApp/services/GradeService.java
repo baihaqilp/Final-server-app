@@ -30,17 +30,37 @@ public class GradeService {
     }
 
     public Grade create(GradeRequest gradeRequest) {
+        if (
+            gradeRepository.existsBySegment_Id(gradeRequest.getSegmentId())
+            &&
+            gradeRepository.existsByTrainee_Id(gradeRequest.getTraineeId())
+        ) {
+            throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "Grade sudah ada untuk Trainee tersebut!"
+            );
+        }
         Grade grade = modelMapper.map(gradeRequest, Grade.class);
         grade.setSegment(segmentService.getById(gradeRequest.getSegmentId()));
-        grade.setEmployee(employeeService.getById(gradeRequest.getEmployeeId()));
+        grade.setTrainee(employeeService.getById(gradeRequest.getTraineeId()));
         return gradeRepository.save(grade);
     }
 
     public Grade update(Long id, GradeRequest gradeRequest) {
+        if (
+                gradeRepository.existsBySegment_Id(gradeRequest.getSegmentId())
+                        &&
+                        gradeRepository.existsByTrainee_Id(gradeRequest.getTraineeId())
+        ) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Grade sudah ada untuk Trainee tersebut!"
+            );
+        }
         getById(id);
         Grade grade = modelMapper.map(gradeRequest, Grade.class);
         grade.setSegment(segmentService.getById(gradeRequest.getSegmentId()));
-        grade.setEmployee(employeeService.getById(gradeRequest.getEmployeeId()));
+        grade.setTrainee(employeeService.getById(gradeRequest.getTraineeId()));
         grade.setId(id);
         return gradeRepository.save(grade);
     }

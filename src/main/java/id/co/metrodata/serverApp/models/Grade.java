@@ -26,8 +26,8 @@ public class Grade {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee;
+    @JoinColumn(name = "trainee_id", nullable = false)
+    private Employee trainee;
 
     @ManyToOne
     @JoinColumn(name = "segment_id", nullable = false)

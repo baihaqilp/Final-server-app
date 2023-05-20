@@ -1,5 +1,7 @@
 package id.co.metrodata.serverApp.controllers;
 
+import id.co.metrodata.serverApp.models.dto.request.LoginRequest;
+import id.co.metrodata.serverApp.models.dto.response.LoginResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,5 +23,9 @@ public class AuthController {
         {
             return authService.register(userRequest);
         }
+    }
+    @PostMapping("/login")
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+        return authService.login(loginRequest);
     }
 }
