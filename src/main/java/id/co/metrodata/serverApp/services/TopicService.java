@@ -29,12 +29,24 @@ public class TopicService {
     }
 
     public Topic create(TopicRequest topicRequest) {
+        if (topicRepository.existsByName(topicRequest.getName())) {
+            throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "Topic name is already exists!"
+            );
+        }
         Topic topic = modelMapper.map(topicRequest, Topic.class);
         topic.setProgram(programService.getById(topicRequest.getProgramId()));
         return topicRepository.save(topic);
     }
 
     public Topic update(TopicRequest topicRequest, Long id) {
+        if (topicRepository.existsByName(topicRequest.getName())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Topic name is already exists!"
+            );
+        }
         getById(id);
         Topic topic = modelMapper.map(topicRequest, Topic.class);
         topic.setProgram(programService.getById(topicRequest.getProgramId()));

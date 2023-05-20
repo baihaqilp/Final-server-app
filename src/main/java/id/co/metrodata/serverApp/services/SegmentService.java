@@ -38,6 +38,16 @@ public class SegmentService {
     }
 
     public Segment create(SegmentRequest segmentRequest) {
+        if (
+            segmentRepository.existsByTrainer_Id(segmentRequest.getTrainerId())
+            &&
+            segmentRepository.existsByClassroom_Id(segmentRequest.getClassroomId())
+        ) {
+            throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "Trainer sudah mengisi segment di kelas lain!"
+            );
+        }
         Segment segment = modelMapper.map(segmentRequest, Segment.class);
         // segmentRepository.findByEmployee_Id(segmentRequest.getTrainerId()).getTrainer();
 
@@ -47,6 +57,16 @@ public class SegmentService {
     }
 
     public Segment update(Long id, SegmentRequest segmentRequest) {
+        if (
+                segmentRepository.existsByTrainer_Id(segmentRequest.getTrainerId())
+                        &&
+                        segmentRepository.existsByClassroom_Id(segmentRequest.getClassroomId())
+        ) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Trainer sudah mengisi segment di kelas lain!"
+            );
+        }
         getById(id);
         Segment segment = modelMapper.map(segmentRequest, Segment.class);
         segment.setId(id);

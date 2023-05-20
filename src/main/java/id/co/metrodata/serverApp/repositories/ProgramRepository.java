@@ -7,5 +7,5 @@ import id.co.metrodata.serverApp.models.Program;
 
 @Repository
 public interface ProgramRepository extends JpaRepository<Program, Long> {
-
+    public Boolean existsByName(String name);
 }

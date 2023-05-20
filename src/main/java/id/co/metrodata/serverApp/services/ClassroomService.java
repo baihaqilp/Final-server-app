@@ -34,12 +34,24 @@ public class ClassroomService {
     }
 
     public Classroom create(ClassroomRequest classroomRequest) {
+        if (classroomRepository.existsByName(classroomRequest.getName())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Classroom name is already exists!"
+            );
+        }
         Classroom classroom = modelMapper.map(classroomRequest, Classroom.class);
         classroom.setProgram(programService.getById(classroomRequest.getProgramId()));
         return classroomRepository.save(classroom);
     }
 
     public Classroom update(Long id, ClassroomRequest classroomRequest) {
+        if (classroomRepository.existsByName(classroomRequest.getName())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Classroom name is already exists!"
+            );
+        }
         getById(id);
         Classroom classroom = modelMapper.map(classroomRequest, Classroom.class);
         classroom.setId(id);

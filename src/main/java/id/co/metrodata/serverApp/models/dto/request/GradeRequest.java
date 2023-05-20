@@ -7,6 +7,6 @@ public class GradeRequest {
     private String name;
     private String status;
     private float average;
-    private Long employeeId;
+    private Long traineeId;
     private Long segmentId;
 }

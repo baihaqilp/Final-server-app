@@ -38,6 +38,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .httpBasic();

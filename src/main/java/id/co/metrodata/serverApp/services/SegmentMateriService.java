@@ -29,6 +29,16 @@ public class SegmentMateriService {
     }
 
     public SegmentMateri create(SegmentMateriRequest segmentMateriRequest) {
+        if (
+            segmentMateriRepository.existsBySegment_Id(segmentMateriRequest.getSegmentId())
+            &&
+            segmentMateriRepository.existsByMateri_Id(segmentMateriRequest.getMateriId())
+        ) {
+            throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "Materi tersebut sudah ada di segment!"
+            );
+        }
         SegmentMateri segmentMateri = modelMapper.map(segmentMateriRequest, SegmentMateri.class);
         segmentMateri.setSegment(segmentService.getById(segmentMateriRequest.getSegmentId()));
         segmentMateri.setMateri(materiService.getById(segmentMateriRequest.getMateriId()));
@@ -36,6 +46,16 @@ public class SegmentMateriService {
     }
 
     public SegmentMateri update(Long id, SegmentMateriRequest segmentMateriRequest) {
+        if (
+                segmentMateriRepository.existsBySegment_Id(segmentMateriRequest.getSegmentId())
+                        &&
+                        segmentMateriRepository.existsByMateri_Id(segmentMateriRequest.getMateriId())
+        ) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Materi tersebut sudah ada di segment!"
+            );
+        }
         getById(id);
         SegmentMateri segmentMateri = modelMapper.map(segmentMateriRequest, SegmentMateri.class);
         segmentMateri.setSegment(segmentService.getById(segmentMateriRequest.getSegmentId()));

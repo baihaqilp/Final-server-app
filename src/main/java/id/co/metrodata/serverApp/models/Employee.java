@@ -62,7 +62,7 @@ public class Employee {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "trainee")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Grade> grades;
 

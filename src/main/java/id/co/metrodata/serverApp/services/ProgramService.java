@@ -25,10 +25,22 @@ public class ProgramService {
     }
 
     public Program create(Program program) {
+        if (programRepository.existsByName(program.getName())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Program name is already exists!"
+            );
+        }
         return programRepository.save(program);
     }
 
     public Program update(Long id, Program program) {
+        if (programRepository.existsByName(program.getName())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Program name is already exists!"
+            );
+        }
         getById(id);
         program.setId(id);
         return programRepository.save(program);

@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SegmentMateriRepository extends JpaRepository<SegmentMateri, Long> {
+    public Boolean existsBySegment_Id(Long id);
+    public Boolean existsByMateri_Id(Long id);
+
 }
