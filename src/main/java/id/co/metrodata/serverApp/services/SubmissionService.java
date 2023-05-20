@@ -35,7 +35,7 @@ public class SubmissionService {
 
     public Submission create(SubmissionRequest submissionRequest) {
         Submission submission = modelMapper.map(submissionRequest, Submission.class);
-        submission.setTask_id(taskService.getById(submissionRequest.getTaskId()));
+        submission.setTask(taskService.getById(submissionRequest.getTaskId()));
         submission.setEmployee(employeeService.getById(submissionRequest.getEmployeeId()));
         return submissionRepository.save(submission);
     }
@@ -44,7 +44,7 @@ public class SubmissionService {
         getById(id);
         Submission submission = modelMapper.map(submissionRequest, Submission.class);
         submission.setId(id);
-        submission.setTask_id(taskService.getById(submissionRequest.getTaskId()));
+        submission.setTask(taskService.getById(submissionRequest.getTaskId()));
         submission.setEmployee(employeeService.getById(submissionRequest.getEmployeeId()));
         return submissionRepository.save(submission);
     }
