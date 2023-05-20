@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -23,6 +25,10 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public List<Task> getBySegmentId(Long id) {
+        return taskRepository.findBySegment_Id(id);
+    }
+
     public Task getById(Long id) {
         return taskRepository
                 .findById(id)
@@ -31,6 +37,7 @@ public class TaskService {
 
     public Task create(TaskRequest taskRequest) {
         Task task = modelMapper.map(taskRequest, Task.class);
+
         task.setSegment(segmentService.getById(taskRequest.getSegmentId()));
         return taskRepository.save(task);
     }
