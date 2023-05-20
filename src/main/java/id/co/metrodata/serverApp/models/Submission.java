@@ -29,10 +29,9 @@ public class Submission {
     @Column(nullable = false)
     private Date submission_date;
 
-
     @ManyToOne
     @JoinColumn(name = "task_id")
-    private Task task_id;
+    private Task task;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")

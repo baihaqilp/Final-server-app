@@ -27,6 +27,11 @@ public class SubmissionController {
         return submissionService.getAll();
     }
 
+    @GetMapping("/task/{id}")
+    public List<Submission> getByTask(@PathVariable Long id) {
+        return submissionService.getByTask(id);
+    }
+
     @GetMapping("/{id}")
     public Submission getById(@PathVariable Long id) {
         return submissionService.getById(id);
