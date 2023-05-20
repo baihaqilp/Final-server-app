@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,6 +22,7 @@ public class UserService {
     private UserRepository userRepository;
     private RoleService roleService;
     private ModelMapper modelMapper;
+    private PasswordEncoder passwordEncoder;
 
     public List<User> getAll() {
         return userRepository.findAll();
@@ -44,7 +46,8 @@ public class UserService {
         List<Role> roles = new ArrayList<>();
         roles.add(roleService.getById(userRequest.getRoleId()));
         user.setRoles(roles);
-
+        // set password
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         return userRepository.save(user);
     }
 
