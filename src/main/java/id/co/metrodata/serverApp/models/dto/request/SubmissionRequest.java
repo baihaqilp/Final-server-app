@@ -1,6 +1,6 @@
 package id.co.metrodata.serverApp.models.dto.request;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -15,7 +15,7 @@ public class SubmissionRequest {
     private String submission_url;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = ISO.DATE_TIME)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
-    private Date submission_date;
+    private LocalDateTime submission_date;
     private Float nilai;
     private Long taskId;
     private Long employeeId;

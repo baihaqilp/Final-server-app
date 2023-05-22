@@ -1,6 +1,7 @@
 package id.co.metrodata.serverApp.models;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
@@ -34,7 +35,7 @@ public class Submission {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = ISO.DATE_TIME)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
     @Column(nullable = false)
-    private Date submission_date;
+    private LocalDateTime submission_date;
 
     @ManyToOne
     @JoinColumn(name = "task_id")
