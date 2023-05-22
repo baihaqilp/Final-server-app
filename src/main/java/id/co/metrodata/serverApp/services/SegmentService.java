@@ -30,21 +30,32 @@ public class SegmentService {
         return segmentRepository.findAllByClassroom_Id(id);
     }
 
+    public List<Segment> getSegmentTrainer(Long id) {
+        return segmentRepository.findAllBySegmentTrainerGroup(id);
+    }
+
+    public List<Segment> getSegmentClassTrainer(Long classroom_id, Long trainer_id) {
+        return segmentRepository.findAllBySegmentClassTrainer(classroom_id, trainer_id);
+    }
+
     public Segment getById(Long id) {
         return segmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id Not Found"));
     }
 
     public Segment create(SegmentRequest segmentRequest) {
-        if (segmentRepository.existsByClassroom_Id(segmentRequest.getClassroomId())) {
-            for (Segment segmentCheck : segmentRepository.findAllByClassroom_Id(segmentRequest.getClassroomId())) {
-                if (Objects.equals(segmentCheck.getTrainer().getId(), segmentRequest.getTrainerId())) {
-                    throw new ResponseStatusException(
-                            HttpStatus.CONFLICT,
-                            "The trainer has filled out the segment in another class!");
-                }
-            }
-        }
+        // if (segmentRepository.existsByClassroom_Id(segmentRequest.getClassroomId()))
+        // {
+        // for (Segment segmentCheck :
+        // segmentRepository.findAllByClassroom_Id(segmentRequest.getClassroomId())) {
+        // if (Objects.equals(segmentCheck.getTrainer().getId(),
+        // segmentRequest.getTrainerId())) {
+        // throw new ResponseStatusException(
+        // HttpStatus.CONFLICT,
+        // "The trainer has filled out the segment in another class!");
+        // }
+        // }
+        // }
         Segment segment = modelMapper.map(segmentRequest, Segment.class);
 
         segment.setClassroom(classroomService.getById(segmentRequest.getClassroomId()));

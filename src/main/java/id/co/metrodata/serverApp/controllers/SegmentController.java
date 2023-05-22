@@ -37,6 +37,18 @@ public class SegmentController {
         return segmentService.getSegmentClass(id);
     }
 
+    // Group by
+    @GetMapping("/trainer/{id}")
+    public List<Segment> getSegmentTrainer(@PathVariable Long id) {
+        return segmentService.getSegmentTrainer(id);
+    }
+
+    // list segment
+    @GetMapping("/class/{classroom_id}/trainer/{trainer_id}")
+    public List<Segment> getSegmentClassTrainer(@PathVariable Long classroom_id, @PathVariable Long trainer_id) {
+        return segmentService.getSegmentClassTrainer(classroom_id, trainer_id);
+    }
+
     @PutMapping("/{id}")
     public Segment update(@PathVariable Long id, @RequestBody SegmentRequest segmentRequest) {
         return segmentService.update(id, segmentRequest);
@@ -52,8 +64,9 @@ public class SegmentController {
         return segmentService.delete(id);
     }
 
-//    @PostMapping("/{id}")
-//    public Segment changeTopic(@PathVariable Long id, @RequestBody ChangeMateriRequest changeMateriRequest) {
-//        return segmentService.changeTopic(id, changeMateriRequest);
-//    }
+    // @PostMapping("/{id}")
+    // public Segment changeTopic(@PathVariable Long id, @RequestBody
+    // ChangeMateriRequest changeMateriRequest) {
+    // return segmentService.changeTopic(id, changeMateriRequest);
+    // }
 }
