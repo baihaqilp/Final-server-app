@@ -1,6 +1,7 @@
 package id.co.metrodata.serverApp.services;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -38,15 +39,15 @@ public class SegmentService {
     }
 
     public Segment create(SegmentRequest segmentRequest) {
-        if (
-            segmentRepository.existsByTrainer_Id(segmentRequest.getTrainerId())
-            &&
-            segmentRepository.existsByClassroom_Id(segmentRequest.getClassroomId())
-        ) {
-            throw new ResponseStatusException(
-                HttpStatus.CONFLICT,
-                "Trainer sudah mengisi segment di kelas lain!"
-            );
+        if (segmentRepository.existsByClassroom_Id(segmentRequest.getClassroomId())) {
+            for (Segment segmentCheck : segmentRepository.findAllByClassroom_Id(segmentRequest.getClassroomId())) {
+                if (Objects.equals(segmentCheck.getTrainer().getId(), segmentRequest.getTrainerId())) {
+                    throw new ResponseStatusException(
+                            HttpStatus.CONFLICT,
+                            "The trainer has filled out the segment in another class!"
+                    );
+                }
+            }
         }
         Segment segment = modelMapper.map(segmentRequest, Segment.class);
         // segmentRepository.findByEmployee_Id(segmentRequest.getTrainerId()).getTrainer();
@@ -57,17 +58,19 @@ public class SegmentService {
     }
 
     public Segment update(Long id, SegmentRequest segmentRequest) {
-        if (
-                segmentRepository.existsByTrainer_Id(segmentRequest.getTrainerId())
-                        &&
-                        segmentRepository.existsByClassroom_Id(segmentRequest.getClassroomId())
-        ) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Trainer sudah mengisi segment di kelas lain!"
-            );
+        Segment segmentOld = getById(id);
+        if (!Objects.equals(segmentOld.getClassroom().getId(), segmentRequest.getClassroomId()) && !Objects.equals(segmentOld.getTrainer().getId(), segmentRequest.getTrainerId())) {
+            if (segmentRepository.existsByClassroom_Id(segmentRequest.getClassroomId())) {
+                for (Segment segmentCheck : segmentRepository.findAllByClassroom_Id(segmentRequest.getClassroomId())) {
+                    if (Objects.equals(segmentCheck.getTrainer().getId(), segmentRequest.getTrainerId())) {
+                        throw new ResponseStatusException(
+                                HttpStatus.CONFLICT,
+                                "The trainer has filled out the segment in another class!"
+                        );
+                    }
+                }
+            }
         }
-        getById(id);
         Segment segment = modelMapper.map(segmentRequest, Segment.class);
         segment.setId(id);
         segment.setClassroom(classroomService.getById(segmentRequest.getClassroomId()));

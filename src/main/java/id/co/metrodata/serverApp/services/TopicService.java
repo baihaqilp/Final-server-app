@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -29,11 +30,15 @@ public class TopicService {
     }
 
     public Topic create(TopicRequest topicRequest) {
-        if (topicRepository.existsByName(topicRequest.getName())) {
-            throw new ResponseStatusException(
-                HttpStatus.CONFLICT,
-                "Topic name is already exists!"
-            );
+        if (topicRepository.existsByProgram_Id(topicRequest.getProgramId())) {
+            for (Topic topicCheck : topicRepository.findAllByProgram_Id(topicRequest.getProgramId())) {
+                if (Objects.equals(topicCheck.getName(), topicRequest.getName())) {
+                    throw new ResponseStatusException(
+                            HttpStatus.CONFLICT,
+                            "Topic name in the same program is already exists!"
+                    );
+                }
+            }
         }
         Topic topic = modelMapper.map(topicRequest, Topic.class);
         topic.setProgram(programService.getById(topicRequest.getProgramId()));
@@ -41,11 +46,15 @@ public class TopicService {
     }
 
     public Topic update(TopicRequest topicRequest, Long id) {
-        if (topicRepository.existsByName(topicRequest.getName())) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Topic name is already exists!"
-            );
+        if (topicRepository.existsByProgram_Id(topicRequest.getProgramId())) {
+            for (Topic topicCheck : topicRepository.findAllByProgram_Id(topicRequest.getProgramId())) {
+                if (Objects.equals(topicCheck.getName(), topicRequest.getName())) {
+                    throw new ResponseStatusException(
+                            HttpStatus.CONFLICT,
+                            "Topic name in the same program is already exists!"
+                    );
+                }
+            }
         }
         getById(id);
         Topic topic = modelMapper.map(topicRequest, Topic.class);

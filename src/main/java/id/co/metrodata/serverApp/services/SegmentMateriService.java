@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -29,15 +30,15 @@ public class SegmentMateriService {
     }
 
     public SegmentMateri create(SegmentMateriRequest segmentMateriRequest) {
-        if (
-            segmentMateriRepository.existsBySegment_Id(segmentMateriRequest.getSegmentId())
-            &&
-            segmentMateriRepository.existsByMateri_Id(segmentMateriRequest.getMateriId())
-        ) {
-            throw new ResponseStatusException(
-                HttpStatus.CONFLICT,
-                "Materi tersebut sudah ada di segment!"
-            );
+        if (segmentMateriRepository.existsBySegment_Id(segmentMateriRequest.getSegmentId())) {
+            for (SegmentMateri segmentMateriCheck : segmentMateriRepository.findAllBySegment_Id(segmentMateriRequest.getSegmentId())) {
+                if (Objects.equals(segmentMateriCheck.getMateri().getId(), segmentMateriRequest.getMateriId())) {
+                    throw new ResponseStatusException(
+                            HttpStatus.CONFLICT,
+                            "The materi has been added to the segment!"
+                    );
+                }
+            }
         }
         SegmentMateri segmentMateri = modelMapper.map(segmentMateriRequest, SegmentMateri.class);
         segmentMateri.setSegment(segmentService.getById(segmentMateriRequest.getSegmentId()));
@@ -46,17 +47,19 @@ public class SegmentMateriService {
     }
 
     public SegmentMateri update(Long id, SegmentMateriRequest segmentMateriRequest) {
-        if (
-                segmentMateriRepository.existsBySegment_Id(segmentMateriRequest.getSegmentId())
-                        &&
-                        segmentMateriRepository.existsByMateri_Id(segmentMateriRequest.getMateriId())
-        ) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Materi tersebut sudah ada di segment!"
-            );
+        SegmentMateri segmentMateriOld = getById(id);
+        if (!Objects.equals(segmentMateriOld.getSegment().getId(), segmentMateriRequest.getSegmentId()) && !Objects.equals(segmentMateriOld.getMateri().getId(), segmentMateriRequest.getMateriId())) {
+            if (segmentMateriRepository.existsBySegment_Id(segmentMateriRequest.getSegmentId())) {
+                for (SegmentMateri segmentMateriCheck : segmentMateriRepository.findAllBySegment_Id(segmentMateriRequest.getSegmentId())) {
+                    if (Objects.equals(segmentMateriCheck.getMateri().getId(), segmentMateriRequest.getMateriId())) {
+                        throw new ResponseStatusException(
+                                HttpStatus.CONFLICT,
+                                "The materi has been added to the segment!"
+                        );
+                    }
+                }
+            }
         }
-        getById(id);
         SegmentMateri segmentMateri = modelMapper.map(segmentMateriRequest, SegmentMateri.class);
         segmentMateri.setSegment(segmentService.getById(segmentMateriRequest.getSegmentId()));
         segmentMateri.setMateri(materiService.getById(segmentMateriRequest.getMateriId()));
