@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.AllArgsConstructor;
 
 @Configuration
-@EnableWebSecurity
+// @EnableWebSecurity
 @AllArgsConstructor
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
@@ -41,6 +41,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/program").permitAll()
+                .antMatchers(HttpMethod.GET, "/class").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

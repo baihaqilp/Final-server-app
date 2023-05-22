@@ -32,11 +32,7 @@ public class Materi {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Discussion> discussions;
 
-    // @ManyToMany(mappedBy = "materis")
-    // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    // private List<Segment> segments;
-
-    @OneToMany(mappedBy = "materi")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<SegmentMateri> segmentMateris;
+    @ManyToOne
+    @JoinColumn(name = "trainer_id", nullable = false)
+    private Employee employee;
 }

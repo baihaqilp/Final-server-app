@@ -12,8 +12,8 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_segment_materi")
-public class SegmentMateri {
+@Table(name = "tb_segment_topic")
+public class SegmentTopic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +28,7 @@ public class SegmentMateri {
     @JoinColumn(name = "segment_id")
     private Segment segment;
     @ManyToOne
-    @JoinColumn(name = "materi_id")
-    private Materi materi;
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
+
 }
