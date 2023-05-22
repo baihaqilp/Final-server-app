@@ -11,4 +11,5 @@ import id.co.metrodata.serverApp.models.Classroom;
 public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
     List<Classroom> findAllByProgram_Id(Long id);
     public Boolean existsByName(String name);
+    public Boolean existsByProgram_Id(Long id);
 }

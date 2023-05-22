@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -30,16 +31,36 @@ public class EvaluationService {
     }
 
     public Evaluation create(EvaluationRequest evaluationRequest) {
+        if (evaluationRepository.existsByTrainer_Id(evaluationRequest.getTrainer_id())) {
+            for (Evaluation evaluationCheck : evaluationRepository.findAllByTrainer_Id(evaluationRequest.getTrainer_id())) {
+                if (Objects.equals(evaluationCheck.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
+                    throw new ResponseStatusException(
+                            HttpStatus.CONFLICT,
+                            "The trainer has evaluated the submission!"
+                    );
+                }
+            }
+        }
         Evaluation evaluation = modelMapper.map(evaluationRequest, Evaluation.class);
-        evaluation.setEmployee(employeeService.getById(evaluationRequest.getTrainer_id()));
+        evaluation.setTrainer(employeeService.getById(evaluationRequest.getTrainer_id()));
         evaluation.setSubmission(submissionService.getById(evaluationRequest.getSubmission_id()));
         return evaluationRepository.save(evaluation);
     }
 
     public Evaluation update(Long id, EvaluationRequest evaluationRequest) {
+        if (evaluationRepository.existsByTrainer_Id(evaluationRequest.getTrainer_id())) {
+            for (Evaluation evaluationCheck : evaluationRepository.findAllByTrainer_Id(evaluationRequest.getTrainer_id())) {
+                if (Objects.equals(evaluationCheck.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
+                    throw new ResponseStatusException(
+                            HttpStatus.CONFLICT,
+                            "The trainer has evaluated the submission!"
+                    );
+                }
+            }
+        }
         getById(id);
         Evaluation evaluation = modelMapper.map(evaluationRequest, Evaluation.class);
-        evaluation.setEmployee(employeeService.getById(evaluationRequest.getTrainer_id()));
+        evaluation.setTrainer(employeeService.getById(evaluationRequest.getTrainer_id()));
         evaluation.setSubmission(submissionService.getById(evaluationRequest.getSubmission_id()));
         evaluation.setId(id);
         return evaluationRepository.save(evaluation);

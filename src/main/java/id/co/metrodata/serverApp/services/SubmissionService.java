@@ -1,6 +1,7 @@
 package id.co.metrodata.serverApp.services;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class SubmissionService {
     public List<Submission> getByTask(Long id) {
         return submissionRepository.findByTask_Id(id);
     }
+    public List<Submission> getByTraineeId(Long id) {
+        return submissionRepository.findAllByEmployee_Id(id);
+    }
 
     public Submission getById(Long id) {
         return submissionRepository.findById(id)
@@ -34,6 +38,16 @@ public class SubmissionService {
     }
 
     public Submission create(SubmissionRequest submissionRequest) {
+        if (submissionRepository.existsByTask_Id(submissionRequest.getTaskId())) {
+            for (Submission submissionCheck : submissionRepository.findAllByTask_Id(submissionRequest.getTaskId())) {
+                if (Objects.equals(submissionCheck.getEmployee().getId(), submissionRequest.getEmployeeId())) {
+                    throw new ResponseStatusException(
+                            HttpStatus.CONFLICT,
+                            "Trainee have submitted submissions on the task!"
+                    );
+                }
+            }
+        }
         Submission submission = modelMapper.map(submissionRequest, Submission.class);
         submission.setTask(taskService.getById(submissionRequest.getTaskId()));
         submission.setEmployee(employeeService.getById(submissionRequest.getEmployeeId()));
@@ -41,7 +55,19 @@ public class SubmissionService {
     }
 
     public Submission update(Long id, SubmissionRequest submissionRequest) {
-        getById(id);
+        Submission submissionOld = getById(id);
+        if (!Objects.equals(submissionOld.getTask().getId(), submissionRequest.getTaskId()) && !Objects.equals(submissionOld.getEmployee().getId(), submissionRequest.getEmployeeId())) {
+            if (submissionRepository.existsByTask_Id(submissionRequest.getTaskId())) {
+                for (Submission submissionCheck : submissionRepository.findAllByTask_Id(submissionRequest.getTaskId())) {
+                    if (Objects.equals(submissionCheck.getEmployee().getId(), submissionRequest.getEmployeeId())) {
+                        throw new ResponseStatusException(
+                                HttpStatus.CONFLICT,
+                                "Trainee have submitted submissions on the task!"
+                        );
+                    }
+                }
+            }
+        }
         Submission submission = modelMapper.map(submissionRequest, Submission.class);
         submission.setId(id);
         submission.setTask(taskService.getById(submissionRequest.getTaskId()));

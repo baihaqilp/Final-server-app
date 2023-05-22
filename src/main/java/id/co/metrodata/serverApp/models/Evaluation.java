@@ -25,6 +25,6 @@ public class Evaluation {
 
     @ManyToOne
     @JoinColumn(name = "trainer_id", nullable = false)
-    private Employee employee;
+    private Employee trainer;
 
 }

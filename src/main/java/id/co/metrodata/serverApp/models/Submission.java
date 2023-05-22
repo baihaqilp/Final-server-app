@@ -24,6 +24,8 @@ public class Submission {
 
     @Column(nullable = false)
     private String submission_file;
+    @Column
+    private Float nilai;
 
     @JsonFormat(pattern = "dd-MM-yyyy", shape = Shape.STRING)
     @Column(nullable = false)
