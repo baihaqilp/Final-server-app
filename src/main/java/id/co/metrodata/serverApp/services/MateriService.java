@@ -17,9 +17,14 @@ public class MateriService {
     private MateriRepository materiRepository;
     private ModelMapper modelMapper;
     private TopicService topicService;
+    private EmployeeService employeeService;
 
     public List<Materi> getAll() {
         return materiRepository.findAll();
+    }
+
+    public List<Materi> getByTopicId(Long id) {
+        return materiRepository.findAllByTopic_Id(id);
     }
 
     public Materi getById(Long id) {
@@ -31,14 +36,16 @@ public class MateriService {
     public Materi create(MateriRequest materiRequest) {
         Materi materi = modelMapper.map(materiRequest, Materi.class);
         materi.setTopic(topicService.getById(materiRequest.getTopicId()));
+        materi.setEmployee(employeeService.getById(materiRequest.getTrainerId()));
         return materiRepository.save(materi);
     }
 
     public Materi update(Long id, MateriRequest materiRequest) {
         getById(id);
         Materi materi = modelMapper.map(materiRequest, Materi.class);
-        materi.setTopic(topicService.getById(materiRequest.getTopicId()));
         materi.setId(id);
+        materi.setTopic(topicService.getById(materiRequest.getTopicId()));
+        materi.setEmployee(employeeService.getById(materiRequest.getTrainerId()));
         return materiRepository.save(materi);
     }
 

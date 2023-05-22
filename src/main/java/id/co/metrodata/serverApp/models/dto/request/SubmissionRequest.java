@@ -2,8 +2,10 @@ package id.co.metrodata.serverApp.models.dto.request;
 
 import java.sql.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import lombok.Data;
 
@@ -11,7 +13,8 @@ import lombok.Data;
 public class SubmissionRequest {
     private String submission_file;
     private String submission_url;
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = Shape.STRING)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = ISO.DATE_TIME)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
     private Date submission_date;
     private Float nilai;
     private Long taskId;

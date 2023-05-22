@@ -75,6 +75,7 @@ public class Employee {
     private Classroom classroom;
 
     @OneToMany(mappedBy = "employee")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Materi> materies;
 
 }

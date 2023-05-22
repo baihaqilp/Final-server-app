@@ -6,5 +6,6 @@ import lombok.Data;
 public class MateriRequest {
     private String name;
     private String desc;
+    private Long trainerId;
     private Long topicId;
 }

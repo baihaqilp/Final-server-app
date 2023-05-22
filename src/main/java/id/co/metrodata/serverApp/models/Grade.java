@@ -1,12 +1,10 @@
 package id.co.metrodata.serverApp.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -33,7 +31,7 @@ public class Grade {
     @JoinColumn(name = "segment_id", nullable = false)
     private Segment segment;
 
-//    @OneToMany(mappedBy = "grade")
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-//    private List<Evaluation> evaluations;
+    // @OneToMany(mappedBy = "grade")
+    // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    // private List<Evaluation> evaluations;
 }
