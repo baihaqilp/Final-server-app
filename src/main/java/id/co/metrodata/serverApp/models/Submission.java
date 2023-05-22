@@ -32,7 +32,6 @@ public class Submission {
     @Column
     private Float nilai;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = ISO.DATE_TIME)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
     @Column(nullable = false)
     private LocalDateTime submission_date;

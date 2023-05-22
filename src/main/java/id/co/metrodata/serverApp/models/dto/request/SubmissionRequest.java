@@ -13,7 +13,6 @@ import lombok.Data;
 public class SubmissionRequest {
     private String submission_file;
     private String submission_url;
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = ISO.DATE_TIME)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime submission_date;
     private Float nilai;
