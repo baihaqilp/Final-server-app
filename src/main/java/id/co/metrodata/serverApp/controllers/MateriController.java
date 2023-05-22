@@ -24,6 +24,11 @@ public class MateriController {
         return materiService.getById(id);
     }
 
+    @GetMapping("/topic/{id}")
+    public List<Materi> getByTopicId(@PathVariable Long id) {
+        return materiService.getByTopicId(id);
+    }
+
     @PostMapping
     public Materi create(@RequestBody MateriRequest materiRequest) {
         return materiService.create(materiRequest);
