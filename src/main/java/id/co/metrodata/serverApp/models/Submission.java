@@ -24,6 +24,8 @@ public class Submission {
 
     @Column(nullable = false)
     private String submission_file;
+    @Column(nullable = false)
+    private String submission_url;
     @Column
     private Float nilai;
 
