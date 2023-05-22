@@ -61,5 +61,5 @@ public class Segment {
 
     @OneToMany(mappedBy = "segment")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<SegmentMateri> segmentMateris;
+    private List<SegmentTopic> segmentMateris;
 }

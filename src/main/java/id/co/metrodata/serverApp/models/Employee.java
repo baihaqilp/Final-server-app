@@ -74,4 +74,7 @@ public class Employee {
     @JoinColumn(name = "classroom_id", nullable = true)
     private Classroom classroom;
 
+    @OneToMany(mappedBy = "employee")
+    private List<Materi> materies;
+
 }

@@ -1,15 +1,17 @@
 package id.co.metrodata.serverApp.repositories;
 
-import id.co.metrodata.serverApp.models.SegmentMateri;
+import id.co.metrodata.serverApp.models.SegmentTopic;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface SegmentMateriRepository extends JpaRepository<SegmentMateri, Long> {
+public interface SegmentTopicRepository extends JpaRepository<SegmentTopic, Long> {
     public Boolean existsBySegment_Id(Long id);
-    public Boolean existsByMateri_Id(Long id);
-    List<SegmentMateri> findAllBySegment_Id(Long id);
+
+    public Boolean existsByTopic_Id(Long id);
+
+    List<SegmentTopic> findAllBySegment_Id(Long id);
 
 }

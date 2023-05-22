@@ -28,4 +28,8 @@ public class Topic {
     @ManyToOne
     @JoinColumn(name = "program_id", nullable = false)
     private Program program;
+
+    @OneToMany(mappedBy = "topic")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<SegmentTopic> segmentMateris;
 }
