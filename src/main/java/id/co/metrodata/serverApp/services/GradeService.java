@@ -1,8 +1,7 @@
 package id.co.metrodata.serverApp.services;
 
-import id.co.metrodata.serverApp.models.Grade;
-import id.co.metrodata.serverApp.models.Evaluation;
-import id.co.metrodata.serverApp.models.Submission;
+import id.co.metrodata.serverApp.models.*;
+import id.co.metrodata.serverApp.models.dto.request.EmailRequest;
 import id.co.metrodata.serverApp.models.dto.request.GradeRequest;
 import id.co.metrodata.serverApp.repositories.GradeRepository;
 import lombok.AllArgsConstructor;
@@ -23,6 +22,9 @@ public class GradeService {
     private SegmentService segmentService;
     private EmployeeService employeeService;
     private SubmissionService submissionService;
+    private EvaluationService evaluationService;
+    private UserService userService;
+    private EmailService emailService;
 
     public List<Grade> getAll() {
         return gradeRepository.findAll();
@@ -32,6 +34,18 @@ public class GradeService {
         return gradeRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Grade not Found!"));
+    }
+
+    public List<Grade> getGradeTrainee(GradeRequest gradeRequest) {
+        List<Grade> gradeTrainee = new ArrayList<>();
+        if (gradeRepository.existsBySegment_Id(gradeRequest.getSegmentId())) {
+            for (Grade gradeCheck : gradeRepository.findAllBySegment_Id(gradeRequest.getSegmentId())) {
+                if (Objects.equals(gradeCheck.getStatus(), "Lulus")) {
+                    gradeTrainee.add(gradeCheck);
+                }
+            }
+        }
+        return gradeTrainee;
     }
 
     public Grade create(GradeRequest gradeRequest) {
@@ -51,33 +65,52 @@ public class GradeService {
         grade.setTrainee(employeeService.getById(gradeRequest.getTraineeId()));
 
 //        set Average
-        List<Submission> submissionsBySegment = new ArrayList<>();
+        List<Evaluation> evaluationsBySubmission = new ArrayList<>();
         float result = 0f;
         for (Submission submission : submissionService.getByTraineeId(gradeRequest.getTraineeId())) {
             if (Objects.equals(submission.getTask().getSegment().getId(), gradeRequest.getSegmentId())) {
-                submissionsBySegment.add(submission);
-                result += submission.getNilai();
+                for (Evaluation evaluation : evaluationService.getBySubmission(submission.getId())) {
+                    evaluationsBySubmission.add(evaluation);
+                    result += evaluation.getNilai();
+                }
             }
         }
-        float average = result/submissionsBySegment.size();
+        if (evaluationsBySubmission.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Trainee haven't submitted any submissions yet!"
+            );
+        }
+        float average = result/evaluationsBySubmission.size();
         grade.setAverage(average);
 
 //        set Name and Status
-        if (average >= 80) {
-            grade.setName("A");
+        if (average >=70) {
             grade.setStatus("Lulus");
+            if (average >= 90)
+                grade.setName("A");
+            else if (average >= 80)
+                grade.setName("B");
+            else
+                grade.setName("C");
         }
-        else if (average >= 60){
-            grade.setName("B");
-            grade.setStatus("Lulus");
-        }
-        else if (average >= 40){
-            grade.setName("C");
+        else {
             grade.setStatus("Tidak Lulus");
-        }
-        else{
-            grade.setName("D");
-            grade.setStatus("Tidak Lulus");
+            if (average >= 60)
+                grade.setName("D");
+            else
+                grade.setName("E");
+
+//            set user isEnabled
+            User user = userService.getById(gradeRequest.getTraineeId());
+            user.setIsEnabled(false);
+
+//            send email to user fail
+            EmailRequest emailRequest = new EmailRequest();
+            emailRequest.setTo(user.getEmployee().getEmail());
+            emailRequest.setSubject("Graduation Announcement");
+            emailRequest.setName(user.getEmployee().getName());
+            emailService.sendMailGrade(emailRequest);
         }
         return gradeRepository.save(grade);
     }
@@ -101,33 +134,43 @@ public class GradeService {
         grade.setTrainee(employeeService.getById(gradeRequest.getTraineeId()));
 
 //        set Average
-        List<Submission> submissionsBySegment = new ArrayList<>();
+        List<Evaluation> evaluationsBySubmission = new ArrayList<>();
         float result = 0f;
         for (Submission submission : submissionService.getByTraineeId(gradeRequest.getTraineeId())) {
             if (Objects.equals(submission.getTask().getSegment().getId(), gradeRequest.getSegmentId())) {
-                submissionsBySegment.add(submission);
-                result += submission.getNilai();
+                for (Evaluation evaluation : evaluationService.getBySubmission(submission.getId())) {
+                    evaluationsBySubmission.add(evaluation);
+                    result += evaluation.getNilai();
+                }
             }
         }
-        float average = result/submissionsBySegment.size();
+        if (evaluationsBySubmission.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Trainee haven't submitted any submissions yet!"
+            );
+        }
+        float average = result/evaluationsBySubmission.size();
         grade.setAverage(average);
 
 //        set Name and Status
-        if (average >= 80) {
-            grade.setName("A");
+        if (average >=70) {
             grade.setStatus("Lulus");
+            if (average >= 90)
+                grade.setName("A");
+            else if (average >= 80)
+                grade.setName("B");
+            else
+                grade.setName("C");
         }
-        else if (average >= 60){
-            grade.setName("B");
-            grade.setStatus("Lulus");
-        }
-        else if (average >= 40){
-            grade.setName("C");
+        else {
             grade.setStatus("Tidak Lulus");
-        }
-        else{
-            grade.setName("D");
-            grade.setStatus("Tidak Lulus");
+            if (average >= 60)
+                grade.setName("D");
+            else
+                grade.setName("E");
+            User user = userService.getById(gradeRequest.getTraineeId());
+            user.setIsEnabled(false);
         }
         grade.setId(id);
         return gradeRepository.save(grade);

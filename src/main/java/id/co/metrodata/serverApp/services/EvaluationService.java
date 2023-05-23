@@ -23,6 +23,9 @@ public class EvaluationService {
     public List<Evaluation> getAll() {
         return evaluationRepository.findAll();
     }
+    public List<Evaluation> getBySubmission(Long id) {
+        return evaluationRepository.findAllBySubmission_Id(id);
+    }
 
     public Evaluation getById(Long id) {
         return evaluationRepository

@@ -24,6 +24,10 @@ public class GradeController {
         return gradeService.getById(id);
     }
 
+    @PostMapping("/getgradetrainee")
+    public List<Grade> getGradeTrainee(@RequestBody GradeRequest gradeRequest) {
+        return gradeService.getGradeTrainee(gradeRequest);
+    }
     @PostMapping
     public Grade create(@RequestBody GradeRequest gradeRequest) {
         return gradeService.create(gradeRequest);
