@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import id.co.metrodata.serverApp.models.dto.request.EmailRequest;
 import id.co.metrodata.serverApp.models.dto.request.LoginRequest;
 import id.co.metrodata.serverApp.models.dto.response.LoginResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +34,7 @@ public class AuthService {
     private RoleService roleService;
     private AuthenticationManager authenticationManager;
     private AppUserDetailService appUserDetailService;
+    private EmailService emailService;
 
     public User register(UserRequest userRequest) {
         User user = modelMapper.map(userRequest, User.class);
@@ -47,6 +50,13 @@ public class AuthService {
         user.setRoles(roles);
         // set password
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+
+//            send email
+        EmailRequest emailRequest = new EmailRequest();
+        emailRequest.setTo(userRequest.getEmail());
+        emailRequest.setSubject("Register Successfully");
+        emailRequest.setName(user.getUsername());
+        emailService.sendMailRegister(emailRequest);
         return userRepository.save(user);
 
     }
@@ -73,7 +83,7 @@ public class AuthService {
         List<String> authorities = userDetails
                 .getAuthorities()
                 .stream()
-                .map(authority -> authority.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
         return new LoginResponse(
