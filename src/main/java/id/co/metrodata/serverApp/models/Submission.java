@@ -29,8 +29,6 @@ public class Submission {
     private String submission_file;
     @Column(nullable = false)
     private String submission_url;
-    @Column
-    private Float nilai;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
     @Column(nullable = false)

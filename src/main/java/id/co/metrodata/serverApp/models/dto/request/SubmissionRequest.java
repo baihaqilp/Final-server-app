@@ -15,8 +15,6 @@ public class SubmissionRequest {
     private String submission_url;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime submission_date;
-    private Float nilai;
     private Long taskId;
-    private Long employeeId;
 
 }

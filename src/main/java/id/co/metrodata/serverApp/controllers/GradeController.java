@@ -18,15 +18,19 @@ public class GradeController {
     public List<Grade> getAll() {
         return gradeService.getAll();
     }
+    @GetMapping("/segment/{id}")
+    public List<Grade> getBySegment(@PathVariable Long id) {
+        return gradeService.getBySegment(id);
+    }
 
     @GetMapping("/{id}")
     public Grade getById(@PathVariable Long id) {
         return gradeService.getById(id);
     }
 
-    @PostMapping("/getgradetrainee")
-    public List<Grade> getGradeTrainee(@RequestBody GradeRequest gradeRequest) {
-        return gradeService.getGradeTrainee(gradeRequest);
+    @GetMapping("/trainee-passed/{id}")
+    public List<Grade> getTraineePassedBySegment(@PathVariable Long id) {
+        return gradeService.getGradeTraineePassedBySegment(id);
     }
     @PostMapping
     public Grade create(@RequestBody GradeRequest gradeRequest) {
