@@ -46,17 +46,19 @@ public class TopicService {
     }
 
     public Topic update(TopicRequest topicRequest, Long id) {
+        Topic topicOld = getById(id);
         if (topicRepository.existsByProgram_Id(topicRequest.getProgramId())) {
             for (Topic topicCheck : topicRepository.findAllByProgram_Id(topicRequest.getProgramId())) {
-                if (Objects.equals(topicCheck.getName(), topicRequest.getName())) {
-                    throw new ResponseStatusException(
+                if (!Objects.equals(topicOld.getName(), topicCheck.getName())) {
+                    if (Objects.equals(topicCheck.getName(), topicRequest.getName())) {
+                        throw new ResponseStatusException(
                             HttpStatus.CONFLICT,
                             "Topic name in the same program is already exists!"
-                    );
+                        );
+                    }
                 }
             }
         }
-        getById(id);
         Topic topic = modelMapper.map(topicRequest, Topic.class);
         topic.setProgram(programService.getById(topicRequest.getProgramId()));
         topic.setId(id);

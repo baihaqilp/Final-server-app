@@ -1,8 +1,10 @@
 package id.co.metrodata.serverApp.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import id.co.metrodata.serverApp.models.Task;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,19 @@ public class SubmissionService {
     }
 
     public Submission create(SubmissionRequest submissionRequest) {
+        Task findTask = taskService.getById(submissionRequest.getTaskId());
+        if (findTask.getDeadline().isBefore(submissionRequest.getSubmission_date())) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_ACCEPTABLE,
+                "Submission has passed the specified time limit!"
+            );
+        }
+        if (!submissionRequest.getSubmission_file().endsWith(".pdf")) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_ACCEPTABLE,
+                    "Make sure the submission file is a PDF!"
+            );
+        }
         if (submissionRepository.existsByTask_Id(submissionRequest.getTaskId())) {
             for (Submission submissionCheck : submissionRepository.findAllByTask_Id(submissionRequest.getTaskId())) {
                 if (Objects.equals(submissionCheck.getEmployee().getId(), submissionRequest.getEmployeeId())) {
@@ -55,6 +70,12 @@ public class SubmissionService {
     }
 
     public Submission update(Long id, SubmissionRequest submissionRequest) {
+        if (!submissionRequest.getSubmission_file().endsWith(".pdf")) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_ACCEPTABLE,
+                    "Make sure the submission file is a PDF!"
+            );
+        }
         Submission submissionOld = getById(id);
         if (!Objects.equals(submissionOld.getTask().getId(), submissionRequest.getTaskId()) && !Objects.equals(submissionOld.getEmployee().getId(), submissionRequest.getEmployeeId())) {
             if (submissionRepository.existsByTask_Id(submissionRequest.getTaskId())) {

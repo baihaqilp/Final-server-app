@@ -59,16 +59,18 @@ public class ClassroomService {
     }
 
     public Classroom update(Long id, ClassroomRequest classroomRequest) {
+        Classroom classroomOld = getById(id);
         if (classroomRepository.existsByProgram_Id(classroomRequest.getProgramId())) {
             for (Classroom classroomCheck : classroomRepository.findAllByProgram_Id(classroomRequest.getProgramId())) {
-                if (Objects.equals(classroomCheck.getName(), classroomRequest.getName())) {
-                    throw new ResponseStatusException(
+                if (!Objects.equals(classroomOld.getName(), classroomCheck.getName())) {
+                    if (Objects.equals(classroomCheck.getName(), classroomRequest.getName())) {
+                        throw new ResponseStatusException(
                             HttpStatus.CONFLICT,
                             "Classroom name in the same program is already exists!");
+                    }
                 }
             }
         }
-        getById(id);
         Classroom classroom = modelMapper.map(classroomRequest, Classroom.class);
         classroom.setId(id);
         classroom.setProgram(programService.getById(classroomRequest.getProgramId()));
