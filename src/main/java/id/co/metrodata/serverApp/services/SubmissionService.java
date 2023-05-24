@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import id.co.metrodata.serverApp.models.Employee;
 import id.co.metrodata.serverApp.models.Task;
+import id.co.metrodata.serverApp.models.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class SubmissionService {
     private SubmissionRepository submissionRepository;
     private TaskService taskService;
     private EmployeeService employeeService;
+    private UserService userService;
     private ModelMapper modelMapper;
 
     public List<Submission> getAll() {
@@ -53,9 +56,11 @@ public class SubmissionService {
                     "Make sure the submission file is a PDF!"
             );
         }
+        User user = userService.getByUsername();
+        Employee employee = employeeService.getById(user.getId());
         if (submissionRepository.existsByTask_Id(submissionRequest.getTaskId())) {
             for (Submission submissionCheck : submissionRepository.findAllByTask_Id(submissionRequest.getTaskId())) {
-                if (Objects.equals(submissionCheck.getEmployee().getId(), submissionRequest.getEmployeeId())) {
+                if (Objects.equals(submissionCheck.getEmployee().getId(), employee.getId())) {
                     throw new ResponseStatusException(
                             HttpStatus.CONFLICT,
                             "Trainee have submitted submissions on the task!"
@@ -65,7 +70,7 @@ public class SubmissionService {
         }
         Submission submission = modelMapper.map(submissionRequest, Submission.class);
         submission.setTask(taskService.getById(submissionRequest.getTaskId()));
-        submission.setEmployee(employeeService.getById(submissionRequest.getEmployeeId()));
+        submission.setEmployee(employee);
         return submissionRepository.save(submission);
     }
 
@@ -76,11 +81,13 @@ public class SubmissionService {
                     "Make sure the submission file is a PDF!"
             );
         }
+        User user = userService.getByUsername();
+        Employee employee = employeeService.getById(user.getId());
         Submission submissionOld = getById(id);
-        if (!Objects.equals(submissionOld.getTask().getId(), submissionRequest.getTaskId()) && !Objects.equals(submissionOld.getEmployee().getId(), submissionRequest.getEmployeeId())) {
+        if (!Objects.equals(submissionOld.getTask().getId(), submissionRequest.getTaskId()) && !Objects.equals(submissionOld.getEmployee().getId(), employee.getId())) {
             if (submissionRepository.existsByTask_Id(submissionRequest.getTaskId())) {
                 for (Submission submissionCheck : submissionRepository.findAllByTask_Id(submissionRequest.getTaskId())) {
-                    if (Objects.equals(submissionCheck.getEmployee().getId(), submissionRequest.getEmployeeId())) {
+                    if (Objects.equals(submissionCheck.getEmployee().getId(), employee.getId())) {
                         throw new ResponseStatusException(
                                 HttpStatus.CONFLICT,
                                 "Trainee have submitted submissions on the task!"
@@ -92,7 +99,7 @@ public class SubmissionService {
         Submission submission = modelMapper.map(submissionRequest, Submission.class);
         submission.setId(id);
         submission.setTask(taskService.getById(submissionRequest.getTaskId()));
-        submission.setEmployee(employeeService.getById(submissionRequest.getEmployeeId()));
+        submission.setEmployee(employee);
         return submissionRepository.save(submission);
     }
 

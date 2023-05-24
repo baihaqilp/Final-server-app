@@ -29,6 +29,9 @@ public class GradeService {
     public List<Grade> getAll() {
         return gradeRepository.findAll();
     }
+    public List<Grade> getBySegment(Long id) {
+        return gradeRepository.findAllBySegment_Id(id);
+    }
 
     public Grade getById(Long id) {
         return gradeRepository
@@ -36,10 +39,10 @@ public class GradeService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Grade not Found!"));
     }
 
-    public List<Grade> getGradeTrainee(GradeRequest gradeRequest) {
+    public List<Grade> getGradeTraineePassedBySegment(Long id) {
         List<Grade> gradeTrainee = new ArrayList<>();
-        if (gradeRepository.existsBySegment_Id(gradeRequest.getSegmentId())) {
-            for (Grade gradeCheck : gradeRepository.findAllBySegment_Id(gradeRequest.getSegmentId())) {
+        if (gradeRepository.existsBySegment_Id(id)) {
+            for (Grade gradeCheck : gradeRepository.findAllBySegment_Id(id)) {
                 if (Objects.equals(gradeCheck.getStatus(), "Lulus")) {
                     gradeTrainee.add(gradeCheck);
                 }
