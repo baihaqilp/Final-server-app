@@ -1,6 +1,7 @@
 package id.co.metrodata.serverApp.services;
 
 import id.co.metrodata.serverApp.models.Task;
+import id.co.metrodata.serverApp.models.User;
 import id.co.metrodata.serverApp.models.dto.request.TaskRequest;
 import id.co.metrodata.serverApp.repositories.TaskRepository;
 import lombok.AllArgsConstructor;
@@ -20,9 +21,18 @@ public class TaskService {
     private TaskRepository taskRepository;
     private ModelMapper modelMapper;
     private SegmentService segmentService;
+    private UserService userService;
 
     public List<Task> getAll() {
         return taskRepository.findAll();
+    }
+    public List<Task> getByTrainer() {
+        User user = userService.getByUsername();
+        return taskRepository.findByTrainerTask(user.getUsername());
+    }
+    public List<Task> getByTrainee() {
+        User user = userService.getByUsername();
+        return taskRepository.findByTraineeTask(user.getUsername());
     }
 
     public List<Task> getBySegmentId(Long id) {
