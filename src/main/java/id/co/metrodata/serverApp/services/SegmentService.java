@@ -5,13 +5,18 @@ import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.metrodata.serverApp.models.Segment;
+import id.co.metrodata.serverApp.models.User;
 import id.co.metrodata.serverApp.models.dto.request.SegmentRequest;
 import id.co.metrodata.serverApp.repositories.SegmentRepository;
+import id.co.metrodata.serverApp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.experimental.var;
 
 @Service
 @AllArgsConstructor
@@ -19,6 +24,7 @@ public class SegmentService {
     private SegmentRepository segmentRepository;
     private ClassroomService classroomService;
     private EmployeeService employeeService;
+    private UserService userService;
     private ModelMapper modelMapper;
 
     public List<Segment> getAll() {
@@ -30,12 +36,16 @@ public class SegmentService {
         return segmentRepository.findAllByClassroom_Id(id);
     }
 
-    public List<Segment> getSegmentTrainer(Long id) {
-        return segmentRepository.findAllBySegmentTrainerGroup(id);
+    public List<Segment> getSegmentTrainer() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getByUsername(auth.getName());
+        return segmentRepository.findAllBySegmentTrainerGroup(user.getId());
     }
 
-    public List<Segment> getSegmentClassTrainer(Long classroom_id, Long trainer_id) {
-        return segmentRepository.findAllBySegmentClassTrainer(classroom_id, trainer_id);
+    public List<Segment> getSegmentClassTrainer(Long classroom_id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getByUsername(auth.getName());
+        return segmentRepository.findAllBySegmentClassTrainer(classroom_id, user.getId());
     }
 
     public Segment getById(Long id) {

@@ -27,69 +27,64 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class AuthService {
-    private ModelMapper modelMapper;
-    private PasswordEncoder passwordEncoder;
-    private UserRepository userRepository;
-    private ClassroomService classroomService;
-    private RoleService roleService;
-    private AuthenticationManager authenticationManager;
-    private AppUserDetailService appUserDetailService;
-    private EmailService emailService;
+        private ModelMapper modelMapper;
+        private PasswordEncoder passwordEncoder;
+        private UserRepository userRepository;
+        private ClassroomService classroomService;
+        private RoleService roleService;
+        private AuthenticationManager authenticationManager;
+        private AppUserDetailService appUserDetailService;
+        private EmailService emailService;
 
-    public User register(UserRequest userRequest) {
-        User user = modelMapper.map(userRequest, User.class);
-        Employee employee = modelMapper.map(userRequest, Employee.class);
-        // set classroom
-        employee.setClassroom(classroomService.getById(userRequest.getClassroomId()));
-        // set user
-        employee.setUser(user);
-        user.setEmployee(employee);
-        // set role
-        List<Role> roles = new ArrayList<>();
-        roles.add(roleService.getById(userRequest.getRoleId()));
-        user.setRoles(roles);
-        // set password
-        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        public User register(UserRequest userRequest) {
+                User user = modelMapper.map(userRequest, User.class);
+                Employee employee = modelMapper.map(userRequest, Employee.class);
+                // set classroom
+                employee.setClassroom(classroomService.getById(userRequest.getClassroomId()));
+                // set user
+                employee.setUser(user);
+                user.setEmployee(employee);
+                // set role
+                List<Role> roles = new ArrayList<>();
+                roles.add(roleService.getById(userRequest.getRoleId()));
+                user.setRoles(roles);
+                // set password
+                user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
-//            send email
-        EmailRequest emailRequest = new EmailRequest();
-        emailRequest.setTo(userRequest.getEmail());
-        emailRequest.setSubject("Register Successfully");
-        emailRequest.setName(user.getUsername());
-        emailService.sendMailRegister(emailRequest);
-        return userRepository.save(user);
+                // send email
+                EmailRequest emailRequest = new EmailRequest();
+                emailRequest.setTo(userRequest.getEmail());
+                emailRequest.setSubject("Register Successfully");
+                emailRequest.setName(user.getUsername());
+                emailService.sendMailRegister(emailRequest);
+                return userRepository.save(user);
 
-    }
-    public LoginResponse login(LoginRequest loginRequest) {
-        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(),
-                loginRequest.getPassword()
-        );
+        }
 
-        Authentication auth = authenticationManager.authenticate(authReq);
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        public LoginResponse login(LoginRequest loginRequest) {
+                UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(
+                                loginRequest.getUsername(),
+                                loginRequest.getPassword());
 
-        User user = userRepository
-                .findByUsernameOrEmployee_Email(
-                        loginRequest.getUsername(),
-                        loginRequest.getUsername()
-                )
-                .get();
+                Authentication auth = authenticationManager.authenticate(authReq);
+                SecurityContextHolder.getContext().setAuthentication(auth);
 
-        UserDetails userDetails = appUserDetailService.loadUserByUsername(
-                loginRequest.getUsername()
-        );
+                User user = userRepository
+                                .findByUsername(
+                                                loginRequest.getUsername())
+                                .get();
 
-        List<String> authorities = userDetails
-                .getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                UserDetails userDetails = appUserDetailService.loadUserByUsername(
+                                loginRequest.getUsername());
 
-        return new LoginResponse(
-                user.getUsername(),
-                user.getEmployee().getEmail(),
-                authorities
-        );
-    }
+                List<String> authorities = userDetails
+                                .getAuthorities()
+                                .stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.toList());
+
+                return new LoginResponse(
+                                user.getUsername(),
+                                authorities);
+        }
 }
