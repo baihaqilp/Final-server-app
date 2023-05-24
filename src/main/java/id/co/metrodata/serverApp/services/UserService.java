@@ -62,4 +62,9 @@ public class UserService {
         userRepository.delete(user);
         return user;
     }
+
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Username not found"));
+    }
 }

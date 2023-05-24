@@ -6,10 +6,13 @@ import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.metrodata.serverApp.models.Classroom;
+import id.co.metrodata.serverApp.models.User;
 import id.co.metrodata.serverApp.models.dto.request.ClassroomRequest;
 import id.co.metrodata.serverApp.repositories.ClassroomRepository;
 import lombok.AllArgsConstructor;
@@ -20,9 +23,16 @@ public class ClassroomService {
     private ClassroomRepository classroomRepository;
     private ProgramService programService;
     private ModelMapper modelMapper;
+    private UserService userService;
 
     public List<Classroom> getAll() {
         return classroomRepository.findAll();
+    }
+
+    public Classroom getByTraine() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getByUsername(auth.getName());
+        return classroomRepository.findByTraineeClass(user.getUsername());
     }
 
     public List<Classroom> getByProgram(Long id) {
@@ -40,8 +50,7 @@ public class ClassroomService {
                 if (Objects.equals(classroomCheck.getName(), classroomRequest.getName())) {
                     throw new ResponseStatusException(
                             HttpStatus.CONFLICT,
-                            "Classroom name in the same program is already exists!"
-                    );
+                            "Classroom name in the same program is already exists!");
                 }
             }
         }
@@ -56,8 +65,7 @@ public class ClassroomService {
                 if (Objects.equals(classroomCheck.getName(), classroomRequest.getName())) {
                     throw new ResponseStatusException(
                             HttpStatus.CONFLICT,
-                            "Classroom name in the same program is already exists!"
-                    );
+                            "Classroom name in the same program is already exists!");
                 }
             }
         }

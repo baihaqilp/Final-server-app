@@ -37,6 +37,11 @@ public class ClassroomController {
         return classroomService.getById(id);
     }
 
+    @GetMapping("/trainee")
+    public Classroom getByTrainee() {
+        return classroomService.getByTraine();
+    }
+
     @PostMapping
     public Classroom create(@RequestBody ClassroomRequest classroomRequest) {
         return classroomService.create(classroomRequest);

@@ -21,7 +21,7 @@ public interface SegmentRepository extends JpaRepository<Segment, Long> {
     @Query(value = "SELECT * FROM tb_segment a join tb_segment_topic b on a.id = b.segment_id join tb_topic c on c.id = b.topic_id join tb_materi d on c.id = d.topic_id WHERE b.segment_id = ?", nativeQuery = true)
     public List<Segment> findAllBySegmentTopic_Id(Long id);
 
-    @Query(value = "SELECT * FROM tb_segment a join tb_employee b on a.trainer_id = b.id WHERE a.trainer_id = ? GROUP BY a.classroom_id", nativeQuery = true)
+    @Query(value = "SELECT * FROM tb_segment a join tb_employee b on a.trainer_id = b.id WHERE b.id = ? GROUP BY a.classroom_id", nativeQuery = true)
     List<Segment> findAllBySegmentTrainerGroup(Long id);
 
     @Query(value = "SELECT * FROM tb_segment a join tb_employee b on a.trainer_id = b.id join tb_class c on c.id = a.classroom_id WHERE a.classroom_id = ? and  a.trainer_id = ?", nativeQuery = true)
