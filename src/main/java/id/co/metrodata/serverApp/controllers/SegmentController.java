@@ -38,15 +38,15 @@ public class SegmentController {
     }
 
     // Group by
-    @GetMapping("/trainer/{id}")
-    public List<Segment> getSegmentTrainer(@PathVariable Long id) {
-        return segmentService.getSegmentTrainer(id);
+    @GetMapping("/trainer")
+    public List<Segment> getSegmentTrainer() {
+        return segmentService.getSegmentTrainer();
     }
 
     // list segment
-    @GetMapping("/class/{classroom_id}/trainer/{trainer_id}")
-    public List<Segment> getSegmentClassTrainer(@PathVariable Long classroom_id, @PathVariable Long trainer_id) {
-        return segmentService.getSegmentClassTrainer(classroom_id, trainer_id);
+    @GetMapping("/class/{classroom_id}/trainer")
+    public List<Segment> getSegmentClassTrainer(@PathVariable Long classroom_id) {
+        return segmentService.getSegmentClassTrainer(classroom_id);
     }
 
     @PutMapping("/{id}")

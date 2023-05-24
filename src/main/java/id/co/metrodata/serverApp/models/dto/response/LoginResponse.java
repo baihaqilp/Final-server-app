@@ -9,6 +9,5 @@ import java.util.List;
 @AllArgsConstructor
 public class LoginResponse {
     private String username;
-    private String email;
     private List<String> authorities;
 }
