@@ -23,6 +23,14 @@ public class TaskController {
     public List<Task> getBySegment(@PathVariable Long id) {
         return taskService.getBySegmentId(id);
     }
+    @GetMapping("/trainer")
+    public List<Task> getByTrainer() {
+        return taskService.getByTrainer();
+    }
+    @GetMapping("/trainee")
+    public List<Task> getByTrainee() {
+        return taskService.getByTrainee();
+    }
 
     @GetMapping("/{id}")
     public Task getById(@PathVariable Long id) {
