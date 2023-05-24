@@ -32,19 +32,14 @@ public class UserController {
         return userService.getById(id);
     }
 
-    @GetMapping("/profile")
-    public User getProfileByUsername() {
-        return userService.getByUsername();
-    }
-
     @PostMapping
     public User create(@RequestBody UserRequest userRequest) {
         return userService.create(userRequest);
     }
 
     @PutMapping("/{id}")
-    public User update(@PathVariable Long id, @RequestBody User user) {
-        return userService.update(id, user);
+    public User update(@PathVariable Long id, @RequestBody UserRequest userRequest) {
+        return userService.update(id, userRequest);
     }
 
     @DeleteMapping("/{id}")

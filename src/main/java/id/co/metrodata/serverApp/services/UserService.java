@@ -43,7 +43,6 @@ public class UserService {
         // set user
         employee.setUser(user);
         user.setEmployee(employee);
-
         // set role
         List<Role> roles = new ArrayList<>();
         roles.add(roleService.getById(userRequest.getRoleId()));
@@ -53,9 +52,25 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User update(Long id, User user) {
+    public User update(Long id, UserRequest userRequest) {
         getById(id);
+        User user = modelMapper.map(userRequest, User.class);
+        Employee employee = modelMapper.map(userRequest, Employee.class);
         user.setId(id);
+        // set user
+        employee.setUser(user);
+        user.setEmployee(employee);
+
+        // set role
+        List<Role> roles = new ArrayList<>();
+        roles.add(roleService.getById(userRequest.getRoleId()));
+        user.setRoles(roles);
+        // set password
+        if (user.getPassword() != userRequest.getPassword()) {
+            user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        } else {
+            user.getPassword();
+        }
         return userRepository.save(user);
     }
 

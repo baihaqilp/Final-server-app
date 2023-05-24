@@ -1,13 +1,21 @@
 package id.co.metrodata.serverApp.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.metrodata.serverApp.models.Employee;
+import id.co.metrodata.serverApp.models.Role;
+import id.co.metrodata.serverApp.models.User;
+import id.co.metrodata.serverApp.models.dto.request.UserRequest;
 import id.co.metrodata.serverApp.repositories.EmployeeRepository;
 import lombok.AllArgsConstructor;
 
@@ -16,6 +24,10 @@ import lombok.AllArgsConstructor;
 public class EmployeeService {
     private EmployeeRepository employeeRepository;
     private RoleService roleService;
+    private UserService userService;
+    private ModelMapper modelMapper;
+    private PasswordEncoder passwordEncoder;
+    private ClassroomService classroomService;
 
     public List<Employee> getAll() {
         return employeeRepository.findAll();
@@ -33,6 +45,10 @@ public class EmployeeService {
 
     public List<Employee> getByClassId(Long id) {
         return employeeRepository.findByClassroom_Id(id);
+    }
+
+    public Employee getProfile() {
+        return employeeRepository.findByUsername(userService.getByUsername().getId());
     }
 
     public Employee create(Employee employee) {
@@ -61,10 +77,29 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee update(Long id, Employee employee) {
+    public Employee update(Long id, UserRequest userRequest) {
         getById(id);
+        User user = modelMapper.map(userRequest, User.class);
+        Employee employee = modelMapper.map(userRequest, Employee.class);
         employee.setId(id);
-        return employeeRepository.save(employee);
+        user.setId(id);
+        // set classroom
+        if (userRequest.getRoleId() == 1) {
+            employee.setClassroom(null);
+        } else {
+            employee.setClassroom(classroomService.getById(userRequest.getClassroomId()));
+        }
+        // set user
+        employee.setUser(user);
+        user.setEmployee(employee);
+
+        // set role
+        List<Role> roles = new ArrayList<>();
+        roles.add(roleService.getById(userRequest.getRoleId()));
+        user.setRoles(roles);
+        // set password
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        return employeeRepository.saveAndFlush(employee);
     }
 
     public Employee delete(Long id) {
