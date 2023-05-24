@@ -2,6 +2,7 @@ package id.co.metrodata.serverApp.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,12 @@ public class RoleService {
     }
 
     public Role create(RoleRequest roleRequest) {
+        if (roleRepository.existsByName(roleRequest.getName())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Role name is already exists!"
+            );
+        }
         Role role = modelMapper.map(roleRequest, Role.class);
         // set privilege
         List<Privilege> privileges = new ArrayList<>();
@@ -41,7 +48,17 @@ public class RoleService {
     }
 
     public Role update(Long id, RoleRequest roleRequest) {
-        getById(id);
+        Role roleOld = getById(id);
+        for (Role roleCheck : getAll()) {
+            if (!Objects.equals(roleCheck.getId(), roleOld.getId())) {
+                if (Objects.equals(roleCheck.getName(), roleRequest.getName())) {
+                    throw new ResponseStatusException(
+                        HttpStatus.CONFLICT,
+                        "Role name is already exists!"
+                    );
+                }
+            }
+        }
         Role role = modelMapper.map(roleRequest, Role.class);
         role.setId(id);
         // set privilege

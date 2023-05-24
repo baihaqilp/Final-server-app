@@ -7,5 +7,5 @@ import id.co.metrodata.serverApp.models.Privilege;
 
 @Repository
 public interface PrivilegeRepository extends JpaRepository<Privilege, Long> {
-
+    public Boolean existsByName(String name);
 }

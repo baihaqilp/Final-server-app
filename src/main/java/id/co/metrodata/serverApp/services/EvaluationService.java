@@ -56,17 +56,20 @@ public class EvaluationService {
     }
 
     public Evaluation update(Long id, EvaluationRequest evaluationRequest) {
-        if (evaluationRepository.existsByTrainer_Id(evaluationRequest.getTrainer_id())) {
-            for (Evaluation evaluationCheck : evaluationRepository
-                    .findAllByTrainer_Id(evaluationRequest.getTrainer_id())) {
-                if (Objects.equals(evaluationCheck.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
-                    throw new ResponseStatusException(
-                            HttpStatus.CONFLICT,
-                            "The trainer has evaluated the submission!");
+        Evaluation evaluationOld = getById(id);
+        if (!Objects.equals(evaluationOld.getTrainer().getId(), evaluationRequest.getTrainer_id())
+                && !Objects.equals(evaluationOld.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
+            if (evaluationRepository.existsByTrainer_Id(evaluationRequest.getTrainer_id())) {
+                for (Evaluation evaluationCheck : evaluationRepository
+                        .findAllByTrainer_Id(evaluationRequest.getTrainer_id())) {
+                    if (Objects.equals(evaluationCheck.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
+                        throw new ResponseStatusException(
+                                HttpStatus.CONFLICT,
+                                "The trainer has evaluated the submission!");
+                    }
                 }
             }
         }
-        getById(id);
         Evaluation evaluation = modelMapper.map(evaluationRequest, Evaluation.class);
         evaluation.setTrainer(employeeService.getById(evaluationRequest.getTrainer_id()));
         evaluation.setSubmission(submissionService.getById(evaluationRequest.getSubmission_id()));
