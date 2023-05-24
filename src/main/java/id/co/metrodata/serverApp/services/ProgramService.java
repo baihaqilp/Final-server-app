@@ -1,6 +1,7 @@
 package id.co.metrodata.serverApp.services;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -35,13 +36,17 @@ public class ProgramService {
     }
 
     public Program update(Long id, Program program) {
-        if (programRepository.existsByName(program.getName())) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Program name is already exists!"
-            );
+        Program programOld = getById(id);
+        for (Program programCheck : getAll()) {
+            if (!Objects.equals(programCheck.getId(), programOld.getId())) {
+                if (Objects.equals(programCheck.getName(), program.getName())) {
+                    throw new ResponseStatusException(
+                        HttpStatus.CONFLICT,
+                        "Program name is already exists!"
+                    );
+                }
+            }
         }
-        getById(id);
         program.setId(id);
         return programRepository.save(program);
     }

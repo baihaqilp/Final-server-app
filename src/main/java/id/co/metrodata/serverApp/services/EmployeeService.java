@@ -1,6 +1,7 @@
 package id.co.metrodata.serverApp.services;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,28 @@ public class EmployeeService {
     }
 
     public Employee create(Employee employee) {
+        if (!(employee.getPhone().length() >= 11 && employee.getPhone().length() <= 13)) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Phone number minimum 11 character and maximum 13!"
+            );
+        }
+        for (Employee employeeCheck : getAll()) {
+            if (Objects.equals(employeeCheck.getPhone(), employee.getPhone())) {
+                throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Phone number is already registered!"
+                );
+            }
+        }
+        try {
+            Integer.parseInt(employee.getPhone());
+        } catch (ResponseStatusException responseStatusException) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Phone number not a number!"
+            );
+        }
         return employeeRepository.save(employee);
     }
 
