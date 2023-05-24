@@ -43,6 +43,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/program").permitAll()
                 .antMatchers(HttpMethod.GET, "/class").permitAll()
+                .antMatchers("/grade").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .httpBasic();
