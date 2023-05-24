@@ -23,6 +23,11 @@ public class GradeController {
         return gradeService.getBySegment(id);
     }
 
+    @GetMapping("/tes")
+    public void testScheduler() {
+        gradeService.testScheduler();
+    }
+
     @GetMapping("/{id}")
     public Grade getById(@PathVariable Long id) {
         return gradeService.getById(id);
@@ -32,6 +37,7 @@ public class GradeController {
     public List<Grade> getTraineePassedBySegment(@PathVariable Long id) {
         return gradeService.getGradeTraineePassedBySegment(id);
     }
+
     @PostMapping
     public Grade create(@RequestBody GradeRequest gradeRequest) {
         return gradeService.create(gradeRequest);
