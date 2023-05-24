@@ -23,8 +23,13 @@ public class EvaluationService {
     public List<Evaluation> getAll() {
         return evaluationRepository.findAll();
     }
+
     public List<Evaluation> getBySubmission(Long id) {
         return evaluationRepository.findAllBySubmission_Id(id);
+    }
+
+    public List<Evaluation> getByTask(Long id) {
+        return evaluationRepository.findAllBySubmission_Task_Id(id);
     }
 
     public Evaluation getById(Long id) {
@@ -35,12 +40,12 @@ public class EvaluationService {
 
     public Evaluation create(EvaluationRequest evaluationRequest) {
         if (evaluationRepository.existsByTrainer_Id(evaluationRequest.getTrainer_id())) {
-            for (Evaluation evaluationCheck : evaluationRepository.findAllByTrainer_Id(evaluationRequest.getTrainer_id())) {
+            for (Evaluation evaluationCheck : evaluationRepository
+                    .findAllByTrainer_Id(evaluationRequest.getTrainer_id())) {
                 if (Objects.equals(evaluationCheck.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
                     throw new ResponseStatusException(
                             HttpStatus.CONFLICT,
-                            "The trainer has evaluated the submission!"
-                    );
+                            "The trainer has evaluated the submission!");
                 }
             }
         }
@@ -52,14 +57,15 @@ public class EvaluationService {
 
     public Evaluation update(Long id, EvaluationRequest evaluationRequest) {
         Evaluation evaluationOld = getById(id);
-        if (!Objects.equals(evaluationOld.getTrainer().getId(), evaluationRequest.getTrainer_id()) && !Objects.equals(evaluationOld.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
+        if (!Objects.equals(evaluationOld.getTrainer().getId(), evaluationRequest.getTrainer_id())
+                && !Objects.equals(evaluationOld.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
             if (evaluationRepository.existsByTrainer_Id(evaluationRequest.getTrainer_id())) {
-                for (Evaluation evaluationCheck : evaluationRepository.findAllByTrainer_Id(evaluationRequest.getTrainer_id())) {
+                for (Evaluation evaluationCheck : evaluationRepository
+                        .findAllByTrainer_Id(evaluationRequest.getTrainer_id())) {
                     if (Objects.equals(evaluationCheck.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
                         throw new ResponseStatusException(
-                            HttpStatus.CONFLICT,
-                            "The trainer has evaluated the submission!"
-                        );
+                                HttpStatus.CONFLICT,
+                                "The trainer has evaluated the submission!");
                     }
                 }
             }

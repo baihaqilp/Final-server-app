@@ -9,6 +9,10 @@ import java.util.List;
 @Repository
 public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
     List<Evaluation> findAllByTrainer_Id(Long id);
+
     List<Evaluation> findAllBySubmission_Id(Long id);
+
+    List<Evaluation> findAllBySubmission_Task_Id(Long id);
+
     public Boolean existsByTrainer_Id(Long id);
 }

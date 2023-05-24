@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping("/evaluation")
 public class EvaluationController {
     private EvaluationService evaluationService;
+
     @GetMapping
     public List<Evaluation> getAll() {
         return evaluationService.getAll();
@@ -21,6 +22,11 @@ public class EvaluationController {
     @GetMapping("/{id}")
     public Evaluation getById(@PathVariable Long id) {
         return evaluationService.getById(id);
+    }
+
+    @GetMapping("/task/{id}")
+    public List<Evaluation> getByTask(@PathVariable Long id) {
+        return evaluationService.getByTask(id);
     }
 
     @PostMapping
