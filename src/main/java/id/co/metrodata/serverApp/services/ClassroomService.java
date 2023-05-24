@@ -30,8 +30,7 @@ public class ClassroomService {
     }
 
     public Classroom getByTraine() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.getByUsername(auth.getName());
+        User user = userService.getByUsername();
         return classroomRepository.findByTraineeClass(user.getUsername());
     }
 
