@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,14 +38,12 @@ public class SegmentService {
     }
 
     public List<Segment> getSegmentTrainer() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.getByUsername(auth.getName());
+        User user = userService.getByUsername();
         return segmentRepository.findAllBySegmentTrainerGroup(user.getId());
     }
 
     public List<Segment> getSegmentClassTrainer(Long classroom_id) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.getByUsername(auth.getName());
+        User user = userService.getByUsername();
         return segmentRepository.findAllBySegmentClassTrainer(classroom_id, user.getId());
     }
 

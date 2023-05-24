@@ -32,6 +32,11 @@ public class UserController {
         return userService.getById(id);
     }
 
+    @GetMapping("/profile")
+    public User getProfileByUsername() {
+        return userService.getByUsername();
+    }
+
     @PostMapping
     public User create(@RequestBody UserRequest userRequest) {
         return userService.create(userRequest);
