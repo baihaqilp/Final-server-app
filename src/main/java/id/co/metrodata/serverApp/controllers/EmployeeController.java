@@ -2,6 +2,7 @@ package id.co.metrodata.serverApp.controllers;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.metrodata.serverApp.models.Employee;
+import id.co.metrodata.serverApp.models.dto.request.UserRequest;
 import id.co.metrodata.serverApp.services.EmployeeService;
 import lombok.AllArgsConstructor;
 
@@ -31,6 +33,11 @@ public class EmployeeController {
         return employeeService.getById(id);
     }
 
+    @GetMapping("/profile")
+    public Employee getProile() {
+        return employeeService.getProfile();
+    }
+
     @GetMapping("/class/{id}")
     public List<Employee> getByClass(@PathVariable Long id) {
         return employeeService.getByClassId(id);
@@ -47,8 +54,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public Employee update(@PathVariable Long id, @RequestBody Employee employee) {
-        return employeeService.update(id, employee);
+    public Employee update(@PathVariable Long id, @RequestBody UserRequest userRequest) {
+        return employeeService.update(id, userRequest);
     }
 
     @DeleteMapping("/{id}")
