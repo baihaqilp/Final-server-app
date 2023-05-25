@@ -14,36 +14,31 @@ import java.util.Objects;
 @AllArgsConstructor
 public class CategoryService {
     private CategoryRepository categoryRepository;
+
     public List<Category> getAll() {
         return categoryRepository.findAll();
     }
+
     public Category getById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category id not found!"));
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category id not found!"));
     }
+
     public Category create(Category category) {
         if (categoryRepository.existsByName(category.getName())) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "Category name is already exists!"
-            );
+                    "Category name is already exists!");
         }
         return categoryRepository.save(category);
     }
+
     public Category update(Long id, Category category) {
-        Category categoryOld = getById(id);
-        for (Category categoryCheck : getAll()) {
-            if (!Objects.equals(categoryCheck.getId(), categoryOld.getId())) {
-                if (Objects.equals(categoryCheck.getName(), category.getName())) {
-                    throw new ResponseStatusException(
-                            HttpStatus.CONFLICT,
-                            "Category name is already exists!"
-                    );
-                }
-            }
-        }
+        getById(id);
         category.setId(id);
         return categoryRepository.save(category);
     }
+
     public Category delete(Long id) {
         Category category = getById(id);
         categoryRepository.delete(category);

@@ -2,7 +2,6 @@ package id.co.metrodata.serverApp.controllers;
 
 import java.util.List;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

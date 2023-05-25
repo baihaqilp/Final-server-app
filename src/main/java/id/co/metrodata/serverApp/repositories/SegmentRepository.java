@@ -30,4 +30,14 @@ public interface SegmentRepository extends JpaRepository<Segment, Long> {
 
     @Query(value = "SELECT * FROM tb_segment WHERE end_date >= ?", nativeQuery = true)
     List<Segment> findByEnddate(Date end_date);
+
+    @Query(value = "SELECT * FROM tb_segment WHERE category_id = ? and classroom_id = ?", nativeQuery = true)
+    Boolean findByCategory_Id(Long categoryId, Long classroomId);
+
+    List<Segment> findAllByTrainer_Id(Long id);
+
+    Boolean existsByClassroom_IdAndCategory_Id(Long class_id, Long category_id);
+
+    @Query(value = "SELECT * FROM tb_segment WHERE classroom_id = ? order by category_id desc limit 1", nativeQuery = true)
+    Segment findByClass(Long id);
 }

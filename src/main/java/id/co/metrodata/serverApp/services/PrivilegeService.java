@@ -1,7 +1,6 @@
 package id.co.metrodata.serverApp.services;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,24 +28,13 @@ public class PrivilegeService {
         if (privilegeRepository.existsByName(privilege.getName())) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "Privilege name is already exists!"
-            );
+                    "Privilege name is already exists!");
         }
         return privilegeRepository.save(privilege);
     }
 
     public Privilege update(Long id, Privilege privilege) {
-        Privilege privilegeOld = getById(id);
-        for (Privilege privilegeCheck : getAll()) {
-            if (!Objects.equals(privilegeCheck.getId(), privilegeOld.getId())) {
-                if (Objects.equals(privilegeCheck.getName(), privilege.getName())) {
-                    throw new ResponseStatusException(
-                            HttpStatus.CONFLICT,
-                            "Privilege name is already exists!"
-                    );
-                }
-            }
-        }
+        getById(id);
         privilege.setId(id);
         return privilegeRepository.save(privilege);
     }

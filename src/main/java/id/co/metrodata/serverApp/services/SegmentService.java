@@ -2,19 +2,16 @@ package id.co.metrodata.serverApp.services;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.metrodata.serverApp.models.Segment;
 import id.co.metrodata.serverApp.models.User;
 import id.co.metrodata.serverApp.models.dto.request.SegmentRequest;
+import id.co.metrodata.serverApp.models.dto.request.UserRequest;
 import id.co.metrodata.serverApp.repositories.SegmentRepository;
 import lombok.AllArgsConstructor;
 
@@ -24,6 +21,7 @@ public class SegmentService {
     private SegmentRepository segmentRepository;
     private ClassroomService classroomService;
     private EmployeeService employeeService;
+    private CategoryService categoryService;
     private UserService userService;
     private ModelMapper modelMapper;
 
@@ -54,9 +52,22 @@ public class SegmentService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id Not Found"));
     }
 
-    public Segment create(SegmentRequest segmentRequest) {
-        Segment segment = modelMapper.map(segmentRequest, Segment.class);
+    public Segment findByClass(Long id) {
+        return segmentRepository.findByClass(id);
+    }
 
+    public List<Segment> getSegmentByTrainer() {
+        User user = userService.getByUsername();
+        return segmentRepository.findAllByTrainer_Id(user.getId());
+    }
+
+    public Segment create(SegmentRequest segmentRequest) {
+        if (segmentRepository.existsByClassroom_IdAndCategory_Id(segmentRequest.getClassroomId(),
+                segmentRequest.getCategoryId())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Classroom and category can't duplicate");
+        }
+        Segment segment = modelMapper.map(segmentRequest, Segment.class);
+        segment.setCategory(categoryService.getById(segmentRequest.getCategoryId()));
         segment.setClassroom(classroomService.getById(segmentRequest.getClassroomId()));
         segment.setTrainer(employeeService.getById(segmentRequest.getTrainerId()));
         return segmentRepository.save(segment);

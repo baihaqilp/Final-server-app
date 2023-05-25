@@ -49,20 +49,7 @@ public class SegmentTopicService {
     }
 
     public SegmentTopic update(Long id, SegmentTopicRequest segmentTopicRequest) {
-        SegmentTopic segmentTopic = getById(id);
-        if (!Objects.equals(segmentTopic.getSegment().getId(), segmentTopicRequest.getSegmentId())
-                && !Objects.equals(segmentTopic.getTopic().getId(), segmentTopicRequest.getTopicId())) {
-            if (segmentTopicRepository.existsBySegment_Id(segmentTopicRequest.getSegmentId())) {
-                for (SegmentTopic segmentTopicCheck : segmentTopicRepository
-                        .findAllBySegment_Id(segmentTopicRequest.getSegmentId())) {
-                    if (Objects.equals(segmentTopicCheck.getTopic().getId(), segmentTopicRequest.getTopicId())) {
-                        throw new ResponseStatusException(
-                                HttpStatus.CONFLICT,
-                                "The materi has been added to the segment!");
-                    }
-                }
-            }
-        }
+        getById(id);
         SegmentTopic segmentTopic2 = modelMapper.map(segmentTopicRequest, SegmentTopic.class);
         segmentTopic2.setSegment(segmentService.getById(segmentTopicRequest.getSegmentId()));
         segmentTopic2.setTopic(topicService.getById(segmentTopicRequest.getTopicId()));

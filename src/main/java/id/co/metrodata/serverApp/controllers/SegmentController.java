@@ -37,6 +37,11 @@ public class SegmentController {
         return segmentService.getSegmentClass(id);
     }
 
+    @GetMapping("/all")
+    public List<Segment> getSegmentByTrainer() {
+        return segmentService.getSegmentByTrainer();
+    }
+
     // Group by
     @GetMapping("/trainer")
     public List<Segment> getSegmentTrainer() {
@@ -63,10 +68,4 @@ public class SegmentController {
     public Segment delete(@PathVariable Long id) {
         return segmentService.delete(id);
     }
-
-    // @PostMapping("/{id}")
-    // public Segment changeTopic(@PathVariable Long id, @RequestBody
-    // ChangeMateriRequest changeMateriRequest) {
-    // return segmentService.changeTopic(id, changeMateriRequest);
-    // }
 }

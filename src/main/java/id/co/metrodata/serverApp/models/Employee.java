@@ -54,14 +54,6 @@ public class Employee {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Submission> submissions;
 
-    @OneToMany(mappedBy = "employee")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Discussion> discussions;
-
-    @OneToMany(mappedBy = "employee")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Comment> comments;
-
     @OneToMany(mappedBy = "trainee")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Grade> grades;

@@ -1,9 +1,7 @@
 package id.co.metrodata.serverApp.services;
 
 import id.co.metrodata.serverApp.models.dto.request.EmailRequest;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -19,6 +17,7 @@ public class EmailService {
     JavaMailSender javaMailSender;
     @Autowired
     ThymeleafService thymeleafService;
+
     public EmailRequest sendMailGrade(EmailRequest emailRequest) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
@@ -44,6 +43,7 @@ public class EmailService {
         }
         return emailRequest;
     }
+
     public EmailRequest sendMailRegister(EmailRequest emailRequest) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();

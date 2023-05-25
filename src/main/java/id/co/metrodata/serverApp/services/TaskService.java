@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -26,10 +24,12 @@ public class TaskService {
     public List<Task> getAll() {
         return taskRepository.findAll();
     }
+
     public List<Task> getByTrainer() {
         User user = userService.getByUsername();
         return taskRepository.findByTrainerTask(user.getUsername());
     }
+
     public List<Task> getByTrainee() {
         User user = userService.getByUsername();
         return taskRepository.findByTraineeTask(user.getUsername());
@@ -47,7 +47,6 @@ public class TaskService {
 
     public Task create(TaskRequest taskRequest) {
         Task task = modelMapper.map(taskRequest, Task.class);
-
         task.setSegment(segmentService.getById(taskRequest.getSegmentId()));
         return taskRepository.save(task);
     }

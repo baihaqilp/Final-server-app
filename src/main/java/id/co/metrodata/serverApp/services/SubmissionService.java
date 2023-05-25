@@ -1,6 +1,5 @@
 package id.co.metrodata.serverApp.services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,6 +32,7 @@ public class SubmissionService {
     public List<Submission> getByTask(Long id) {
         return submissionRepository.findByTask_Id(id);
     }
+
     public List<Submission> getByTraineeId(Long id) {
         return submissionRepository.findAllByEmployee_Id(id);
     }
@@ -46,15 +46,13 @@ public class SubmissionService {
         Task findTask = taskService.getById(submissionRequest.getTaskId());
         if (findTask.getDeadline().isBefore(submissionRequest.getSubmission_date())) {
             throw new ResponseStatusException(
-                HttpStatus.NOT_ACCEPTABLE,
-                "Submission has passed the specified time limit!"
-            );
+                    HttpStatus.NOT_ACCEPTABLE,
+                    "Submission has passed the specified time limit!");
         }
         if (!submissionRequest.getSubmission_file().endsWith(".pdf")) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE,
-                    "Make sure the submission file is a PDF!"
-            );
+                    "Make sure the submission file is a PDF!");
         }
         User user = userService.getByUsername();
         Employee employee = employeeService.getById(user.getId());
@@ -63,8 +61,7 @@ public class SubmissionService {
                 if (Objects.equals(submissionCheck.getEmployee().getId(), employee.getId())) {
                     throw new ResponseStatusException(
                             HttpStatus.CONFLICT,
-                            "Trainee have submitted submissions on the task!"
-                    );
+                            "Trainee have submitted submissions on the task!");
                 }
             }
         }
@@ -78,20 +75,20 @@ public class SubmissionService {
         if (!submissionRequest.getSubmission_file().endsWith(".pdf")) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE,
-                    "Make sure the submission file is a PDF!"
-            );
+                    "Make sure the submission file is a PDF!");
         }
         User user = userService.getByUsername();
         Employee employee = employeeService.getById(user.getId());
         Submission submissionOld = getById(id);
-        if (!Objects.equals(submissionOld.getTask().getId(), submissionRequest.getTaskId()) && !Objects.equals(submissionOld.getEmployee().getId(), employee.getId())) {
+        if (!Objects.equals(submissionOld.getTask().getId(), submissionRequest.getTaskId())
+                && !Objects.equals(submissionOld.getEmployee().getId(), employee.getId())) {
             if (submissionRepository.existsByTask_Id(submissionRequest.getTaskId())) {
-                for (Submission submissionCheck : submissionRepository.findAllByTask_Id(submissionRequest.getTaskId())) {
+                for (Submission submissionCheck : submissionRepository
+                        .findAllByTask_Id(submissionRequest.getTaskId())) {
                     if (Objects.equals(submissionCheck.getEmployee().getId(), employee.getId())) {
                         throw new ResponseStatusException(
                                 HttpStatus.CONFLICT,
-                                "Trainee have submitted submissions on the task!"
-                        );
+                                "Trainee have submitted submissions on the task!");
                     }
                 }
             }
