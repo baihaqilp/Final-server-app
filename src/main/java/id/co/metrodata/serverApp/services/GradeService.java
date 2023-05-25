@@ -33,7 +33,7 @@ public class GradeService {
     private ClassroomService classroomService;
 
     // setiap jam 6 pagi akan di jalankan
-    @Scheduled(cron = "0 */2 * * * *", zone = "Asia/Jakarta")
+    @Scheduled(cron = "0 0 6 * * *", zone = "Asia/Jakarta")
     public void testScheduler() {
         Date local = Date.valueOf(LocalDate.now().minusMonths(2));
         Date localDate = Date.valueOf(LocalDate.now().plusDays(2));
@@ -144,48 +144,6 @@ public class GradeService {
             emailRequest.setName(user.getEmployee().getName());
             emailService.sendMailGrade(emailRequest);
         }
-        return gradeRepository.save(grade);
-    }
-
-    public Grade update(Long id, GradeRequest gradeRequest) {
-        getById(id);
-        Grade grade = modelMapper.map(gradeRequest, Grade.class);
-        grade.setSegment(segmentService.getById(gradeRequest.getSegmentId()));
-        grade.setTrainee(employeeService.getById(gradeRequest.getTraineeId()));
-
-        // set Average
-        List<Evaluation> evaluationsBySubmission = new ArrayList<>();
-        float result = 0f;
-        for (Submission submission : submissionService.getByTraineeId(gradeRequest.getTraineeId())) {
-            if (Objects.equals(submission.getTask().getSegment().getId(), gradeRequest.getSegmentId())) {
-                for (Evaluation evaluation : evaluationService.getBySubmission(submission.getId())) {
-                    evaluationsBySubmission.add(evaluation);
-                    result += evaluation.getNilai();
-                }
-            }
-        }
-        float average = result / evaluationsBySubmission.size();
-        grade.setAverage(average);
-
-        // set Name and Status
-        if (average >= 70) {
-            grade.setStatus("Lulus");
-            if (average >= 90)
-                grade.setName("A");
-            else if (average >= 80)
-                grade.setName("B");
-            else
-                grade.setName("C");
-        } else {
-            grade.setStatus("Tidak Lulus");
-            if (average >= 60)
-                grade.setName("D");
-            else
-                grade.setName("E");
-            User user = userService.getById(gradeRequest.getTraineeId());
-            user.setIsEnabled(false);
-        }
-        grade.setId(id);
         return gradeRepository.save(grade);
     }
 

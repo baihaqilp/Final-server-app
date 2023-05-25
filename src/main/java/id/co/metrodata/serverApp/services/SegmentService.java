@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 import id.co.metrodata.serverApp.models.Segment;
 import id.co.metrodata.serverApp.models.User;
 import id.co.metrodata.serverApp.models.dto.request.SegmentRequest;
-import id.co.metrodata.serverApp.models.dto.request.UserRequest;
 import id.co.metrodata.serverApp.repositories.SegmentRepository;
 import lombok.AllArgsConstructor;
 
