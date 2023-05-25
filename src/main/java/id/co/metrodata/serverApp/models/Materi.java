@@ -20,7 +20,7 @@ public class Materi {
     private Long id;
     @Column(nullable = false, name = "materi_name")
     private String name;
-    @Column(nullable = false, name = "materi_desc", columnDefinition = "TEXT")
+    @Column(nullable = false, name = "materi_desc", columnDefinition = "MEDIUMTEXT")
     private String desc;
 
     @ManyToOne

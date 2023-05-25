@@ -4,7 +4,6 @@ import id.co.metrodata.serverApp.models.*;
 import id.co.metrodata.serverApp.models.dto.request.EmailRequest;
 import id.co.metrodata.serverApp.models.dto.request.GradeRequest;
 import id.co.metrodata.serverApp.repositories.GradeRepository;
-import id.co.metrodata.serverApp.repositories.SegmentRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -33,17 +32,16 @@ public class GradeService {
 
     @Scheduled(cron = "0 0 6 * * *", zone = "Asia/Jakarta")
     public void testScheduler() {
-        Date localDate = Date.valueOf(LocalDate.now().plusDays(1));
-        segmentService.getAll().forEach(segment -> {
+        Date local = Date.valueOf(LocalDate.now().minusMonths(2));
+        Date localDate = Date.valueOf(LocalDate.now().plusDays(2));
+        segmentService.getSegmentByEnddate(local).forEach(segment -> {
             if ((segment.getEnd_date().compareTo(localDate)) == 0) {
                 taskService.getBySegmentId(segment.getId()).forEach(task -> {
                     employeeService.getByClassId(task.getSegment().getClassroom().getId()).forEach(employee -> {
-                        if (!gradeRepository.existsBySegment_Id(segment.getId())) {
-                            GradeRequest gradeRequest = new GradeRequest();
-                            gradeRequest.setSegmentId(segment.getId());
-                            gradeRequest.setTraineeId(employee.getId());
-                            create(gradeRequest);
-                        }
+                        GradeRequest gradeRequest = new GradeRequest();
+                        gradeRequest.setSegmentId(segment.getId());
+                        gradeRequest.setTraineeId(employee.getId());
+                        create(gradeRequest);
                     });
                 });
             }
@@ -77,14 +75,9 @@ public class GradeService {
     }
 
     public Grade create(GradeRequest gradeRequest) {
-        if (gradeRepository.existsBySegment_Id(gradeRequest.getSegmentId())) {
-            for (Grade gradeCheck : gradeRepository.findAllBySegment_Id(gradeRequest.getSegmentId())) {
-                if (Objects.equals(gradeCheck.getTrainee().getId(), gradeRequest.getTraineeId())) {
-                    throw new ResponseStatusException(
-                            HttpStatus.CONFLICT,
-                            "The grade in the segment already exists for that trainee!");
-                }
-            }
+        if (gradeRepository.existsBySegment_Id(gradeRequest.getSegmentId())
+                && gradeRepository.existsByTrainee_Id(gradeRequest.getTraineeId())) {
+            return null;
         }
         Grade grade = new Grade();
         grade = modelMapper.map(gradeRequest, Grade.class);
@@ -102,11 +95,6 @@ public class GradeService {
                 }
             }
         }
-        // if (evaluationsBySubmission.isEmpty()) {
-        // throw new ResponseStatusException(
-        // HttpStatus.NOT_FOUND,
-        // "Trainee haven't submitted any submissions yet!");
-        // }
         float average = 0;
         if (result != 0) {
             average = result / evaluationsBySubmission.size();
