@@ -14,4 +14,5 @@ public interface SegmentTopicRepository extends JpaRepository<SegmentTopic, Long
 
     List<SegmentTopic> findAllBySegment_Id(Long id);
 
+    Boolean existsByTopic_IdAndSegment_Id(Long topic_id, Long segment_id);
 }
