@@ -27,6 +27,7 @@
             max-width: 100%;
             height: auto;
             margin: 0 auto;
+            border-radius: 5%;
         }
         /* Style the headline */
         .header h1 {
@@ -100,36 +101,28 @@
 </head>
 <body>
 <div class="header">
-    <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Logo">
-    <h1></h1>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTveRIEJLyV0G95U5S5xQorQxPAa6Wf-qZwhmYhdyEBapd4uMKYyqMXlvD5_qgwzgFvhnM&usqp=CAU" alt="DTS">
+    <h1>Graduation Announcement</h1>
 </div>
 <div class="container">
     <h2 class="headline">Hai, <span th:text="${name}"></span></h2>
-    <p class="description">Terimakasih telah bergabung di platform kami, namun sayangnya anda tidak dapat melanjutkan pembelajaran ke segment selanjutnya</p>
-    <!--    <table class="table">-->
-    <!--        <tbody>-->
-    <!--        <tr>-->
-    <!--            <td>Nama</td>-->
-    <!--            <td>:</td>-->
-    <!--            <td><span th:text="${name}"></span></td>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--            <td>Email</td>-->
-    <!--            <td>:</td>-->
-    <!--            <td><span th:text="${email}"></span></td>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--            <td>Status</td>-->
-    <!--            <td>:</td>-->
-    <!--            <td>Member</td>-->
-    <!--        </tr>-->
-    <!--        </tbody>-->
-    <!--    </table>-->
-    <p class="description">Tetap semangat dan mencoba lagi pada event-event kami selanjutnya.</p>
+    <p class="description">Terimakasih telah bergabung di platform kami, Anda dinyatakan <b>Tidak Lulus</b> pada segment terakhir kali anda ikuti. Maka dari itu akun dengan data sebagai berikut kami nonaktifkan.</p>
+        <table class="table">
+            <tbody>
+            <tr>
+                <td>Username</td>
+                <td>:</td>
+                <td><span th:text="${username}"></span></td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>:</td>
+                <td><b>Nonactive</b></td>
+            </tr>
+            </tbody>
+        </table>
+    <p class="description">Tetap semangat jangan berkecil hati dan mencoba lagi pada event-event kami selanjutnya.</p>
     <p class="description"><i>Terimakasih.</i></p>
-    <!--    <div class="button-container">-->
-    <!--        <a href="https://accounts.google.com/login?hl=id" class="button">Login</a>-->
-    <!--    </div>-->
 </div>
 <footer style="background-color: #2596be; padding: 20px;">
     <div style="text-align: center;">

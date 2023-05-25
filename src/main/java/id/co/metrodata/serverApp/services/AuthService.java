@@ -56,7 +56,7 @@ public class AuthService {
                 emailRequest.setTo(userRequest.getEmail());
                 emailRequest.setSubject("Register Successfully");
                 emailRequest.setName(user.getUsername());
-                emailService.sendMailRegister(emailRequest);
+                emailService.sendMailRegister(emailRequest, user.getUsername(), userRequest.getPassword());
                 return userRepository.save(user);
 
         }
