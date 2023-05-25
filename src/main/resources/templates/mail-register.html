@@ -27,6 +27,7 @@
             max-width: 100%;
             height: auto;
             margin: 0 auto;
+            border-radius: 5%;
         }
         /* Style the headline */
         .header h1 {
@@ -100,33 +101,36 @@
 </head>
 <body>
 <div class="header">
-    <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Logo">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTveRIEJLyV0G95U5S5xQorQxPAa6Wf-qZwhmYhdyEBapd4uMKYyqMXlvD5_qgwzgFvhnM&usqp=CAU" alt="DTS">
     <h1>Welcome to Our Community !</h1>
 </div>
 <div class="container">
     <h2 class="headline">Hai, <span th:text="${name}"></span></h2>
-    <p class="description">Selamat anda telah terdaftar di platform kami dengan data sebagai berikut :</p>
+    <p class="description"><b>Selamat</b>, anda telah terdaftar di platform kami dengan data sebagai berikut :</p>
     <table class="table">
         <tbody>
         <tr>
-            <td>Nama</td>
+            <td>Username</td>
             <td>:</td>
-            <td><span th:text="${name}"></span></td>
+            <td><b><span th:text="${username}"></span></b></td>
         </tr>
         <tr>
-            <td>Email</td>
+            <td>Password</td>
             <td>:</td>
-            <td><span th:text="${email}"></span></td>
+            <td><b><span th:text="${password}"></span></b></td>
         </tr>
         <tr>
             <td>Status</td>
             <td>:</td>
-            <td>Member</td>
+            <td>Active</td>
         </tr>
         </tbody>
     </table>
-    <p class="description">Harap lengkapi identitas anda dan login pada platform kami.</p>
+    <p class="description">Silahkan login pada platform kami menggunakan tautan dibawah ini dan selamat belajar.</p>
     <p class="description"><i>Terimakasih.</i></p>
+        <div class="button-container">
+            <a href="http://localhost:9001/login" class="button" style="color: white">Login</a>
+        </div>
 </div>
 <footer style="background-color: #2596be; padding: 20px;">
     <div style="text-align: center;">

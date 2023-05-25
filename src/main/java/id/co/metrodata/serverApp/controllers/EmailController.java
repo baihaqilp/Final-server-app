@@ -16,11 +16,11 @@ public class EmailController {
 
     @PostMapping("/grade")
     public EmailRequest sendEmailGrade(@RequestBody EmailRequest emailRequest) {
-        return emailService.sendMailGrade(emailRequest);
+        return emailService.sendMailGrade(emailRequest, "");
     }
 
     @PostMapping("/register")
     public EmailRequest sendEmailRegister(@RequestBody EmailRequest emailRequest) {
-        return emailService.sendMailRegister(emailRequest);
+        return emailService.sendMailRegister(emailRequest, "", "");
     }
 }
