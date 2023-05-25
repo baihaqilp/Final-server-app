@@ -25,4 +25,13 @@ public interface GradeRepository extends JpaRepository<Grade, Long> {
     // "WHERE u.username = ?",
     // nativeQuery = true)
     // public List<Grade> findBySegment(String username);
+    @Query(value =
+            "SELECT * FROM tb_grade g " +
+                    "join tb_segment s " +
+                    "on g.segment_id = s.id " +
+                    "join tb_class c " +
+                    "on c.id = s.classroom_id " +
+                    "WHERE c.id = ?",
+            nativeQuery = true)
+    public List<Grade> findByClassroom(Long id);
 }

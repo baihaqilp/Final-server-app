@@ -15,5 +15,6 @@ public class SegmentRequest {
     private Date end_date;
     private Long trainerId;
     private Long classroomId;
+    private Long categoryId;
 
 }

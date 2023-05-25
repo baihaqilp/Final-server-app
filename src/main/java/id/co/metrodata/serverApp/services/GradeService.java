@@ -57,6 +57,9 @@ public class GradeService {
     public List<Grade> getBySegment(Long id) {
         return gradeRepository.findAllBySegment_Id(id);
     }
+    public List<Grade> getByClassroom(Long id) {
+        return gradeRepository.findByClassroom(id);
+    }
 
     public Grade getById(Long id) {
         return gradeRepository

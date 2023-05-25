@@ -38,6 +38,16 @@ public class ClassroomService {
     public List<Classroom> getByProgram(Long id) {
         return classroomRepository.findAllByProgram_Id(id);
     }
+    public List<Classroom> getByStatus(String status) {
+        if (Objects.equals(status, "active")) {
+            return classroomRepository.findAllByIsStatus(true);
+        } else if (Objects.equals(status, "nonactive")) {
+            return classroomRepository.findAllByIsStatus(false);
+        } else
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "Status does not exist!");
+    }
 
     public Classroom getById(Long id) {
         return classroomRepository.findById(id)

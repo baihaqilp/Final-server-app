@@ -9,6 +9,7 @@ import id.co.metrodata.serverApp.models.Classroom;
 
 public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
     List<Classroom> findAllByProgram_Id(Long id);
+    List<Classroom> findAllByIsStatus(Boolean status);
 
     public Boolean existsByName(String name);
 

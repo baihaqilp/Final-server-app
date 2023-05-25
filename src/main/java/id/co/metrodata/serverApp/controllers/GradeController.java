@@ -22,6 +22,10 @@ public class GradeController {
     public List<Grade> getBySegment(@PathVariable Long id) {
         return gradeService.getBySegment(id);
     }
+    @GetMapping("/classroom/{id}")
+    public List<Grade> getByClassroom(@PathVariable Long id) {
+        return gradeService.getByClassroom(id);
+    }
 
     @GetMapping("/tes")
     public void testScheduler() {

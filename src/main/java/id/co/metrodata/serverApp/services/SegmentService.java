@@ -17,7 +17,6 @@ import id.co.metrodata.serverApp.models.dto.request.SegmentRequest;
 import id.co.metrodata.serverApp.repositories.SegmentRepository;
 import id.co.metrodata.serverApp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.experimental.var;
 
 @Service
 @AllArgsConstructor

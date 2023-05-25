@@ -1,6 +1,8 @@
 package id.co.metrodata.serverApp.services;
 
+import id.co.metrodata.serverApp.models.Employee;
 import id.co.metrodata.serverApp.models.Evaluation;
+import id.co.metrodata.serverApp.models.User;
 import id.co.metrodata.serverApp.models.dto.request.EvaluationRequest;
 import id.co.metrodata.serverApp.repositories.EvaluationRepository;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ public class EvaluationService {
     private ModelMapper modelMapper;
     private EmployeeService employeeService;
     private SubmissionService submissionService;
+    private UserService userService;
 
     public List<Evaluation> getAll() {
         return evaluationRepository.findAll();
@@ -39,9 +42,10 @@ public class EvaluationService {
     }
 
     public Evaluation create(EvaluationRequest evaluationRequest) {
-        if (evaluationRepository.existsByTrainer_Id(evaluationRequest.getTrainer_id())) {
+        User trainer = userService.getByUsername();
+        if (evaluationRepository.existsByTrainer_Id(trainer.getId())) {
             for (Evaluation evaluationCheck : evaluationRepository
-                    .findAllByTrainer_Id(evaluationRequest.getTrainer_id())) {
+                    .findAllByTrainer_Id(trainer.getId())) {
                 if (Objects.equals(evaluationCheck.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
                     throw new ResponseStatusException(
                             HttpStatus.CONFLICT,
@@ -50,18 +54,19 @@ public class EvaluationService {
             }
         }
         Evaluation evaluation = modelMapper.map(evaluationRequest, Evaluation.class);
-        evaluation.setTrainer(employeeService.getById(evaluationRequest.getTrainer_id()));
+        evaluation.setTrainer(employeeService.getById(trainer.getId()));
         evaluation.setSubmission(submissionService.getById(evaluationRequest.getSubmission_id()));
         return evaluationRepository.save(evaluation);
     }
 
     public Evaluation update(Long id, EvaluationRequest evaluationRequest) {
         Evaluation evaluationOld = getById(id);
-        if (!Objects.equals(evaluationOld.getTrainer().getId(), evaluationRequest.getTrainer_id())
+        User trainer = userService.getByUsername();
+        if (!Objects.equals(evaluationOld.getTrainer().getId(), trainer.getId())
                 && !Objects.equals(evaluationOld.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
-            if (evaluationRepository.existsByTrainer_Id(evaluationRequest.getTrainer_id())) {
+            if (evaluationRepository.existsByTrainer_Id(trainer.getId())) {
                 for (Evaluation evaluationCheck : evaluationRepository
-                        .findAllByTrainer_Id(evaluationRequest.getTrainer_id())) {
+                        .findAllByTrainer_Id(trainer.getId())) {
                     if (Objects.equals(evaluationCheck.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
                         throw new ResponseStatusException(
                                 HttpStatus.CONFLICT,
@@ -71,7 +76,7 @@ public class EvaluationService {
             }
         }
         Evaluation evaluation = modelMapper.map(evaluationRequest, Evaluation.class);
-        evaluation.setTrainer(employeeService.getById(evaluationRequest.getTrainer_id()));
+        evaluation.setTrainer(employeeService.getById(trainer.getId()));
         evaluation.setSubmission(submissionService.getById(evaluationRequest.getSubmission_id()));
         evaluation.setId(id);
         return evaluationRepository.save(evaluation);
