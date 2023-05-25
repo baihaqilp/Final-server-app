@@ -65,7 +65,16 @@ public class GradeService {
     }
 
     public List<Grade> getBySegment(Long id) {
+        if (!gradeRepository.existsBySegment_Id(id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Segment not found!");
+        }
         return gradeRepository.findAllBySegment_Id(id);
+    }
+
+    public List<Grade> getByClassroomTrainer(Long id) {
+        return gradeRepository.findByClassroomTraineer(id);
     }
 
     public List<Grade> getByClassroom(Long id) {
@@ -76,6 +85,14 @@ public class GradeService {
         return gradeRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Grade not Found!"));
+    }
+    public List<Grade> getByTraineeId(Long id) {
+        if (!gradeRepository.existsByTrainee_Id(id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Trainee not found!");
+        }
+        return gradeRepository.findByTrainee_Id(id);
     }
 
     public List<Grade> getGradeTraineePassedBySegment(Long id) {
