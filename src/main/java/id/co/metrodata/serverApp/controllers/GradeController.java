@@ -26,6 +26,14 @@ public class GradeController {
     public List<Grade> getByClassroom(@PathVariable Long id) {
         return gradeService.getByClassroom(id);
     }
+    @GetMapping("/classroom-trainer/{id}")
+    public List<Grade> getByClassroomTrainer(@PathVariable Long id) {
+        return gradeService.getByClassroomTrainer(id);
+    }
+    @GetMapping("/trainee/{id}")
+    public List<Grade> getByTraineeId(@PathVariable Long id) {
+        return gradeService.getByTraineeId(id);
+    }
 
     @GetMapping("/tes")
     public void testScheduler() {
