@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -31,16 +30,9 @@ public class SegmentTopicService {
     }
 
     public SegmentTopic create(SegmentTopicRequest segmentTopicRequest) {
-        if (segmentTopicRepository.existsBySegment_Id(segmentTopicRequest.getSegmentId())) {
-            for (SegmentTopic segmentTopicCheck : segmentTopicRepository
-                    .findAllBySegment_Id(segmentTopicRequest.getSegmentId())) {
-                if (Objects.equals(segmentTopicCheck.getTopic().getMateris().get(0).getId(),
-                        segmentTopicRequest.getTopicId())) {
-                    throw new ResponseStatusException(
-                            HttpStatus.CONFLICT,
-                            "The materi has been added to the segment!");
-                }
-            }
+        if (segmentTopicRepository.existsByTopic_IdAndSegment_Id(segmentTopicRequest.getTopicId(),
+                segmentTopicRequest.getSegmentId())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Topic has been added to the segment!");
         }
         SegmentTopic segmentTopic = modelMapper.map(segmentTopicRequest, SegmentTopic.class);
         segmentTopic.setSegment(segmentService.getById(segmentTopicRequest.getSegmentId()));
