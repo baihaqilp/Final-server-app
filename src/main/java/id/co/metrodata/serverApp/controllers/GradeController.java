@@ -18,10 +18,12 @@ public class GradeController {
     public List<Grade> getAll() {
         return gradeService.getAll();
     }
+
     @GetMapping("/segment/{id}")
     public List<Grade> getBySegment(@PathVariable Long id) {
         return gradeService.getBySegment(id);
     }
+
     @GetMapping("/classroom/{id}")
     public List<Grade> getByClassroom(@PathVariable Long id) {
         return gradeService.getByClassroom(id);
@@ -45,11 +47,6 @@ public class GradeController {
     @PostMapping
     public Grade create(@RequestBody GradeRequest gradeRequest) {
         return gradeService.create(gradeRequest);
-    }
-
-    @PutMapping("/{id}")
-    public Grade update(@RequestBody GradeRequest gradeRequest, @PathVariable Long id) {
-        return gradeService.update(id, gradeRequest);
     }
 
     @DeleteMapping("/{id}")
