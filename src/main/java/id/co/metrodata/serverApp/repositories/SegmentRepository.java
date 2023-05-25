@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import id.co.metrodata.serverApp.models.Segment;
+import java.sql.Date;
 
 @Repository
 public interface SegmentRepository extends JpaRepository<Segment, Long> {
@@ -26,4 +27,7 @@ public interface SegmentRepository extends JpaRepository<Segment, Long> {
 
     @Query(value = "SELECT * FROM tb_segment a join tb_employee b on a.trainer_id = b.id join tb_class c on c.id = a.classroom_id WHERE a.classroom_id = ? and  a.trainer_id = ?", nativeQuery = true)
     List<Segment> findAllBySegmentClassTrainer(Long classroom_id, Long trainer_id);
+
+    @Query(value = "SELECT * FROM tb_segment WHERE end_date >= ?", nativeQuery = true)
+    List<Segment> findByEnddate(Date end_date);
 }
