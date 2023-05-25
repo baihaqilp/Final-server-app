@@ -39,6 +39,9 @@ public class Segment {
     @ManyToOne
     @JoinColumn(name = "classroom_id")
     Classroom classroom;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    Category category;
 
     @JsonFormat(pattern = "dd-MM-yyyy", shape = Shape.STRING)
     @Column(nullable = false)

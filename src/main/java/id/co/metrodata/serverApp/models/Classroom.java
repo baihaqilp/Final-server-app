@@ -30,6 +30,8 @@ public class Classroom {
 
     @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
+    private Boolean isStatus;
 
     @OneToMany(mappedBy = "classroom")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

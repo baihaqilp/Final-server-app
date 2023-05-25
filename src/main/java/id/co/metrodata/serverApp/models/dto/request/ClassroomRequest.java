@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class ClassroomRequest {
     private String name;
+    private Boolean isStatus;
     private Long programId;
 }
