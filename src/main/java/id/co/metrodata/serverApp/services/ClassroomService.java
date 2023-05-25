@@ -1,14 +1,10 @@
 package id.co.metrodata.serverApp.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -38,6 +34,7 @@ public class ClassroomService {
     public List<Classroom> getByProgram(Long id) {
         return classroomRepository.findAllByProgram_Id(id);
     }
+
     public List<Classroom> getByStatus(String status) {
         if (Objects.equals(status, "active")) {
             return classroomRepository.findAllByIsStatus(true);
@@ -45,8 +42,8 @@ public class ClassroomService {
             return classroomRepository.findAllByIsStatus(false);
         } else
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND,
-                "Status does not exist!");
+                    HttpStatus.NOT_FOUND,
+                    "Status does not exist!");
     }
 
     public Classroom getById(Long id) {
@@ -70,18 +67,7 @@ public class ClassroomService {
     }
 
     public Classroom update(Long id, ClassroomRequest classroomRequest) {
-        Classroom classroomOld = getById(id);
-        if (classroomRepository.existsByProgram_Id(classroomRequest.getProgramId())) {
-            for (Classroom classroomCheck : classroomRepository.findAllByProgram_Id(classroomRequest.getProgramId())) {
-                if (!Objects.equals(classroomOld.getName(), classroomCheck.getName())) {
-                    if (Objects.equals(classroomCheck.getName(), classroomRequest.getName())) {
-                        throw new ResponseStatusException(
-                            HttpStatus.CONFLICT,
-                            "Classroom name in the same program is already exists!");
-                    }
-                }
-            }
-        }
+        getById(id);
         Classroom classroom = modelMapper.map(classroomRequest, Classroom.class);
         classroom.setId(id);
         classroom.setProgram(programService.getById(classroomRequest.getProgramId()));

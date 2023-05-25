@@ -1,7 +1,6 @@
 package id.co.metrodata.serverApp.models.dto.response;
 
 import id.co.metrodata.serverApp.models.Classroom;
-import id.co.metrodata.serverApp.models.Program;
 import id.co.metrodata.serverApp.models.Role;
 import id.co.metrodata.serverApp.models.User;
 import lombok.AllArgsConstructor;

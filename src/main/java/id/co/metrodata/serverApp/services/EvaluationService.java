@@ -1,6 +1,5 @@
 package id.co.metrodata.serverApp.services;
 
-import id.co.metrodata.serverApp.models.Employee;
 import id.co.metrodata.serverApp.models.Evaluation;
 import id.co.metrodata.serverApp.models.User;
 import id.co.metrodata.serverApp.models.dto.request.EvaluationRequest;
@@ -60,21 +59,8 @@ public class EvaluationService {
     }
 
     public Evaluation update(Long id, EvaluationRequest evaluationRequest) {
-        Evaluation evaluationOld = getById(id);
+        getById(id);
         User trainer = userService.getByUsername();
-        if (!Objects.equals(evaluationOld.getTrainer().getId(), trainer.getId())
-                && !Objects.equals(evaluationOld.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
-            if (evaluationRepository.existsByTrainer_Id(trainer.getId())) {
-                for (Evaluation evaluationCheck : evaluationRepository
-                        .findAllByTrainer_Id(trainer.getId())) {
-                    if (Objects.equals(evaluationCheck.getSubmission().getId(), evaluationRequest.getSubmission_id())) {
-                        throw new ResponseStatusException(
-                                HttpStatus.CONFLICT,
-                                "The trainer has evaluated the submission!");
-                    }
-                }
-            }
-        }
         Evaluation evaluation = modelMapper.map(evaluationRequest, Evaluation.class);
         evaluation.setTrainer(employeeService.getById(trainer.getId()));
         evaluation.setSubmission(submissionService.getById(evaluationRequest.getSubmission_id()));

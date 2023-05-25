@@ -27,10 +27,6 @@ public class Materi {
     @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;
 
-    @OneToMany(mappedBy = "materi")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Discussion> discussions;
-
     @ManyToOne
     @JoinColumn(name = "trainer_id", nullable = false)
     private Employee employee;

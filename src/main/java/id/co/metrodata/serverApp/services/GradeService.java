@@ -1,6 +1,7 @@
 package id.co.metrodata.serverApp.services;
 
 import id.co.metrodata.serverApp.models.*;
+import id.co.metrodata.serverApp.models.dto.request.ClassroomRequest;
 import id.co.metrodata.serverApp.models.dto.request.EmailRequest;
 import id.co.metrodata.serverApp.models.dto.request.GradeRequest;
 import id.co.metrodata.serverApp.repositories.GradeRepository;
@@ -29,11 +30,14 @@ public class GradeService {
     private UserService userService;
     private EmailService emailService;
     private TaskService taskService;
+    private ClassroomService classroomService;
 
-    @Scheduled(cron = "0 0 6 * * *", zone = "Asia/Jakarta")
+    // setiap jam 6 pagi akan di jalankan
+    @Scheduled(cron = "0 */2 * * * *", zone = "Asia/Jakarta")
     public void testScheduler() {
         Date local = Date.valueOf(LocalDate.now().minusMonths(2));
         Date localDate = Date.valueOf(LocalDate.now().plusDays(2));
+        Date localNow = Date.valueOf(LocalDate.now());
         segmentService.getSegmentByEnddate(local).forEach(segment -> {
             if ((segment.getEnd_date().compareTo(localDate)) == 0) {
                 taskService.getBySegmentId(segment.getId()).forEach(task -> {
@@ -45,6 +49,14 @@ public class GradeService {
                     });
                 });
             }
+            Segment segmentEnd = segmentService.findByClass(segment.getClassroom().getId());
+            if ((segmentEnd.getEnd_date().compareTo(localNow)) == 0) {
+                ClassroomRequest classroomRequest = new ClassroomRequest();
+                classroomRequest.setName(segment.getClassroom().getName());
+                classroomRequest.setProgramId(segment.getClassroom().getProgram().getId());
+                classroomRequest.setIsStatus(false);
+                classroomService.update(segment.getClassroom().getId(), classroomRequest);
+            }
         });
     }
 
@@ -55,6 +67,7 @@ public class GradeService {
     public List<Grade> getBySegment(Long id) {
         return gradeRepository.findAllBySegment_Id(id);
     }
+
     public List<Grade> getByClassroom(Long id) {
         return gradeRepository.findByClassroom(id);
     }
@@ -135,19 +148,7 @@ public class GradeService {
     }
 
     public Grade update(Long id, GradeRequest gradeRequest) {
-        Grade gradeOld = getById(id);
-        if (!Objects.equals(gradeOld.getSegment().getId(), gradeRequest.getSegmentId())
-                && !Objects.equals(gradeOld.getTrainee().getId(), gradeRequest.getTraineeId())) {
-            if (gradeRepository.existsBySegment_Id(gradeRequest.getSegmentId())) {
-                for (Grade gradeCheck : gradeRepository.findAllBySegment_Id(gradeRequest.getSegmentId())) {
-                    if (Objects.equals(gradeCheck.getTrainee().getId(), gradeRequest.getTraineeId())) {
-                        throw new ResponseStatusException(
-                                HttpStatus.CONFLICT,
-                                "The grade in the segment already exists for that trainee!");
-                    }
-                }
-            }
-        }
+        getById(id);
         Grade grade = modelMapper.map(gradeRequest, Grade.class);
         grade.setSegment(segmentService.getById(gradeRequest.getSegmentId()));
         grade.setTrainee(employeeService.getById(gradeRequest.getTraineeId()));
@@ -162,11 +163,6 @@ public class GradeService {
                     result += evaluation.getNilai();
                 }
             }
-        }
-        if (evaluationsBySubmission.isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Trainee haven't submitted any submissions yet!");
         }
         float average = result / evaluationsBySubmission.size();
         grade.setAverage(average);
