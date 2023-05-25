@@ -10,29 +10,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    List<Task> findBySegment_Id(Long id);
-    @Query(value =
-            "SELECT * FROM tb_task t " +
-                    "join tb_segment s " +
-                    "on t.segment_id = s.id " + //cari task berdasarkan segment
-                    "join tb_employee e " +
-                    "on e.id = s.trainer_id " + //cari employee-trainer yg ada di segment
-                    "join tb_user u " +
-                    "on u.id = e.id " + //cari employee yg sama dengan user
-                    "WHERE u.username = ?",
-            nativeQuery = true)
-    public List<Task> findByTrainerTask(String username);
-    @Query(value =
-            "SELECT * FROM tb_task t " +
-                    "join tb_segment s " +
-                    "on t.segment_id = s.id " +
-                    "join tb_class c " +
-                    "on c.id = s.classroom_id " +
-                    "join tb_employee e " +
-                    "on e.classroom_id = c.id " +
-                    "join tb_user u " +
-                    "on u.id = e.id " +
-                    "WHERE u.username = ?",
-            nativeQuery = true)
-    public List<Task> findByTraineeTask(String username);
+        List<Task> findBySegment_Id(Long id);
+
+        @Query(value = "SELECT * FROM tb_task t join tb_segment s on t.segment_id = s.id join tb_employee e on e.id = s.trainer_id join tb_user u on u.id = e.id WHERE u.username = ?", nativeQuery = true)
+        public List<Task> findByTrainerTask(String username);
+
+        @Query(value = "SELECT * FROM tb_task t join tb_segment son t.segment_id = s.id join tb_class c on c.id = s.classroom_id join tb_employee e on e.classroom_id = c.id join tb_user u on u.id = e.id WHERE u.username = ?", nativeQuery = true)
+        public List<Task> findByTraineeTask(String username);
 }

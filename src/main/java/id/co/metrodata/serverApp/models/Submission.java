@@ -1,12 +1,8 @@
 package id.co.metrodata.serverApp.models;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

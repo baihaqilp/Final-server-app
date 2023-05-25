@@ -1,12 +1,10 @@
 package id.co.metrodata.serverApp.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,10 +24,6 @@ public class Materi {
     @ManyToOne
     @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;
-
-    @OneToMany(mappedBy = "materi")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Discussion> discussions;
 
     @ManyToOne
     @JoinColumn(name = "trainer_id", nullable = false)
