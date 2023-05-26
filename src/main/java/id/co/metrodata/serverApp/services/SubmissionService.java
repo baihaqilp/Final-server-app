@@ -3,15 +3,12 @@ package id.co.metrodata.serverApp.services;
 import java.util.List;
 import java.util.Objects;
 
-import id.co.metrodata.serverApp.models.Employee;
-import id.co.metrodata.serverApp.models.Task;
-import id.co.metrodata.serverApp.models.User;
+import id.co.metrodata.serverApp.models.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import id.co.metrodata.serverApp.models.Submission;
 import id.co.metrodata.serverApp.models.dto.request.SubmissionRequest;
 import id.co.metrodata.serverApp.repositories.SubmissionRepository;
 import lombok.AllArgsConstructor;
@@ -65,9 +62,21 @@ public class SubmissionService {
                 }
             }
         }
+//        find trainer
+        Task findTrainer = taskService.getById(submissionRequest.getTaskId());
+
         Submission submission = modelMapper.map(submissionRequest, Submission.class);
+        Evaluation evaluation = new Evaluation();
+
+//        set evaluation
+        evaluation.setNilai(0);
+        evaluation.setTrainer(findTrainer.getSegment().getTrainer());
+        evaluation.setSubmission(submission);
+
+//        set submission
         submission.setTask(taskService.getById(submissionRequest.getTaskId()));
         submission.setEmployee(employee);
+        submission.setEvaluation(evaluation);
         return submissionRepository.save(submission);
     }
 
@@ -93,10 +102,26 @@ public class SubmissionService {
                 }
             }
         }
+//        Submission submission = modelMapper.map(submissionRequest, Submission.class);
+//        submission.setTask(taskService.getById(submissionRequest.getTaskId()));
+//        submission.setEmployee(employee);
+
+//        find trainer
+        Task findTrainer = taskService.getById(submissionRequest.getTaskId());
+
         Submission submission = modelMapper.map(submissionRequest, Submission.class);
         submission.setId(id);
+//        Evaluation evaluation = new Evaluation();
+
+//        set evaluation
+//        evaluation.setNilai(submissionOld.getEvaluation().getNilai());
+//        evaluation.setTrainer(findTrainer.getSegment().getTrainer());
+//        evaluation.setSubmission(submission);
+
+//        set submission
         submission.setTask(taskService.getById(submissionRequest.getTaskId()));
         submission.setEmployee(employee);
+        submission.setEvaluation(submissionOld.getEvaluation());
         return submissionRepository.save(submission);
     }
 

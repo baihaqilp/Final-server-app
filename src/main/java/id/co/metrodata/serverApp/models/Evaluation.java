@@ -1,5 +1,6 @@
 package id.co.metrodata.serverApp.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,10 @@ public class Evaluation {
 
     private float nilai;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "submission_id", referencedColumnName = "id")
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Submission submission;
 
     @ManyToOne

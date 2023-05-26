@@ -38,7 +38,7 @@ public class Submission {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @OneToOne(mappedBy = "submission")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToOne(mappedBy = "submission",cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Evaluation evaluation;
 }
