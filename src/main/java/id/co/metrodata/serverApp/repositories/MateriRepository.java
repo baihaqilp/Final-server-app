@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MateriRepository extends JpaRepository<Materi, Long> {
     List<Materi> findAllByTopic_Id(Long id);
+
+    List<Materi> findAllByEmployee_Id(Long id);
+
 }
