@@ -24,6 +24,11 @@ public class MateriController {
         return materiService.getById(id);
     }
 
+    @GetMapping("/trainer")
+    public List<Materi> getByTrainer() {
+        return materiService.getByTrainer();
+    }
+
     @GetMapping("/topic/{id}")
     public List<Materi> getByTopicId(@PathVariable Long id) {
         return materiService.getByTopicId(id);
