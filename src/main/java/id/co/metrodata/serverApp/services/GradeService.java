@@ -86,6 +86,7 @@ public class GradeService {
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Grade not Found!"));
     }
+
     public List<Grade> getByTraineeId(Long id) {
         if (!gradeRepository.existsByTrainee_Id(id)) {
             throw new ResponseStatusException(
