@@ -42,6 +42,12 @@ public class SegmentController {
         return segmentService.getSegmentClass(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('READ_TRAINEE')")
+    @GetMapping("/class/trainee")
+    public List<Segment> getSegmentClassTrainee() {
+        return segmentService.getSegmentClassTrainee();
+    }
+
     @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER')")
     @GetMapping("/all")
     public List<Segment> getSegmentByTrainer() {

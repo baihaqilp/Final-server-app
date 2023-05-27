@@ -41,6 +41,11 @@ public class SegmentService {
         return segmentRepository.findAllBySegmentTrainerGroup(user.getId());
     }
 
+    public List<Segment> getSegmentClassTrainee() {
+        User user = userService.getByUsername();
+        return segmentRepository.findAllByClassroom_Id(user.getEmployee().getClassroom().getId());
+    }
+
     public List<Segment> getSegmentClassTrainer(Long classroom_id) {
         User user = userService.getByUsername();
         return segmentRepository.findAllBySegmentClassTrainer(classroom_id, user.getId());
