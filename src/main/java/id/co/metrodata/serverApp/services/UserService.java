@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 import id.co.metrodata.serverApp.models.dto.request.ChangePasswordRequest;
+import id.co.metrodata.serverApp.models.dto.request.ChangeRoleRequest;
+import id.co.metrodata.serverApp.models.dto.request.ChangeStatusRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -98,6 +100,20 @@ public class UserService {
                     "Old Password is wrong!");
         }
         user.setPassword(passwordEncoder.encode(changePasswordRequest.getPasswordNew()));
+        return userRepository.save(user);
+    }
+    public User changeStatus(ChangeStatusRequest changeStatusRequest) {
+        User user = getById(changeStatusRequest.getId());
+        user.setIsEnabled(changeStatusRequest.getStatus());
+        user.setId(changeStatusRequest.getId());
+        return userRepository.save(user);
+    }
+    public User changeRole(ChangeRoleRequest changeRoleRequest) {
+        User user = getById(changeRoleRequest.getId());
+        List<Role> roles = new ArrayList<>();
+        roles.add(roleService.getById(changeRoleRequest.getRoleId()));
+        user.setRoles(roles);
+        user.setId(changeRoleRequest.getId());
         return userRepository.save(user);
     }
 }

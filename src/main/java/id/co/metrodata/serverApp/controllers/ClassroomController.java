@@ -60,6 +60,12 @@ public class ClassroomController {
         return classroomService.getByTraine();
     }
 
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER')")
+    @GetMapping("/trainer-active")
+    public List<Classroom> getByTrainer() {
+        return classroomService.getActiveByTrainer();
+    }
+
     @PreAuthorize("hasAuthority('CREATE_ADMIN')")
     @PostMapping
     public Classroom create(@RequestBody ClassroomRequest classroomRequest) {

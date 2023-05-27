@@ -25,6 +25,10 @@ public class ClassroomService {
     public List<Classroom> getActive() {
         return classroomRepository.findByActive();
     }
+    public List<Classroom> getActiveByTrainer() {
+        User user = userService.getByUsername();
+        return classroomRepository.findByTrainerClassActive(user.getUsername());
+    }
 
     public List<Classroom> getNonACtive() {
         return classroomRepository.findByNonActive();
