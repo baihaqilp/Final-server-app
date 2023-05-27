@@ -22,8 +22,12 @@ public class ClassroomService {
     private ModelMapper modelMapper;
     private UserService userService;
 
-    public List<Classroom> getAll() {
-        return classroomRepository.findAll();
+    public List<Classroom> getActive() {
+        return classroomRepository.findByActive();
+    }
+
+    public List<Classroom> getNonACtive() {
+        return classroomRepository.findByNonActive();
     }
 
     public Classroom getByTraine() {

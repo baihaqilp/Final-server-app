@@ -26,8 +26,14 @@ public class ClassroomController {
 
     @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER')")
     @GetMapping
-    public List<Classroom> getAll() {
-        return classroomService.getAll();
+    public List<Classroom> getActive() {
+        return classroomService.getActive();
+    }
+
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER')")
+    @GetMapping("/noactive")
+    public List<Classroom> getNonActive() {
+        return classroomService.getNonACtive();
     }
 
     @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER')")
@@ -35,6 +41,7 @@ public class ClassroomController {
     public List<Classroom> getByProgram(@PathVariable Long id) {
         return classroomService.getByProgram(id);
     }
+
     @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER')")
     @GetMapping("/status/{status}")
     public List<Classroom> getByStatus(@PathVariable String status) {
