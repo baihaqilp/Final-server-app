@@ -2,7 +2,9 @@ package id.co.metrodata.serverApp.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import id.co.metrodata.serverApp.models.dto.request.ChangePasswordRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -86,5 +88,21 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Login terlebih dahulu..."));
         return user;
 
+    }
+
+    public User changePassword(ChangePasswordRequest changePasswordRequest) {
+        User user = getByUsername();
+        if (!passwordEncoder.matches(changePasswordRequest.getPasswordOld(), user.getPassword())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Old Password is wrong!");
+        }
+        if (!Objects.equals(changePasswordRequest.getPasswordNew(), changePasswordRequest.getPasswordNewConfirm())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Confirmation password not same!");
+        }
+        user.setPassword(passwordEncoder.encode(changePasswordRequest.getPasswordNew()));
+        return userRepository.save(user);
     }
 }

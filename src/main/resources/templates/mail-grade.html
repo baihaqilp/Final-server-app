@@ -24,8 +24,8 @@
         }
         /* Style the logo */
         .header img {
-            max-width: 100%;
-            height: auto;
+            max-width: 200px;
+            height: 200px;
             margin: 0 auto;
             border-radius: 5%;
         }
@@ -102,22 +102,28 @@
 <body>
 <div class="header">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTveRIEJLyV0G95U5S5xQorQxPAa6Wf-qZwhmYhdyEBapd4uMKYyqMXlvD5_qgwzgFvhnM&usqp=CAU" alt="DTS">
+    <img src="https://media.licdn.com/dms/image/C560BAQGYh8ssPHfnmA/company-logo_200_200/0/1597027607104?e=2147483647&v=beta&t=OsM_pLNpknTcJ-omuCX6utjb9FjIV9IdYphbqjhN8v4" alt="MCC">
     <h1>Graduation Announcement</h1>
 </div>
 <div class="container">
     <h2 class="headline">Hai, <span th:text="${name}"></span></h2>
-    <p class="description">Terimakasih telah bergabung di platform kami, Anda dinyatakan <b>Tidak Lulus</b> pada segment terakhir kali anda ikuti. Maka dari itu akun dengan data sebagai berikut kami nonaktifkan.</p>
+    <p class="description">Terimakasih telah bergabung di platform kami, Akun anda dengan username "<b><span th:text="${username}"></span></b>" dinyatakan <b>Tidak Lulus</b> pada :</p>
         <table class="table">
             <tbody>
             <tr>
-                <td>Username</td>
+                <td>Program</td>
                 <td>:</td>
-                <td><span th:text="${username}"></span></td>
+                <td><span th:text="${program}"></span></td>
             </tr>
             <tr>
-                <td>Status</td>
+                <td>Kelas</td>
                 <td>:</td>
-                <td><b>Nonactive</b></td>
+                <td><span th:text="${kelas}"></span></td>
+            </tr>
+            <tr>
+                <td>Segment</td>
+                <td>:</td>
+                <td><span th:text="${segment}"></span></td>
             </tr>
             </tbody>
         </table>
