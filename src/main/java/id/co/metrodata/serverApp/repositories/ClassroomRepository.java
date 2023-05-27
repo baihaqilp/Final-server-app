@@ -20,6 +20,16 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
 
     @Query(value = "SELECT * FROM tb_class a join tb_employee b on a.id = b.classroom_id join tb_user c on c.id = b.id WHERE c.username = ?", nativeQuery = true)
     public Classroom findByTraineeClass(String username);
+    @Query(value =
+            "SELECT DISTINCT c.*, u.* FROM tb_class c " +
+                    "join tb_segment s " +
+                    "on c.id = s.classroom_id " +
+                    "join tb_user u " +
+                    "on u.id = s.trainer_id " +
+                    "WHERE c.is_status = 1 " +
+                    "AND u.username = ?",
+            nativeQuery = true)
+    public List<Classroom> findByTrainerClassActive(String username);
 
     @Query(value = "SELECT * FROM tb_class WHERE is_status = 1", nativeQuery = true)
     public List<Classroom> findByActive();
