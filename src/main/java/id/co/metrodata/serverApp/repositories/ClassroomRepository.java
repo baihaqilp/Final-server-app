@@ -20,4 +20,10 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Long> {
 
     @Query(value = "SELECT * FROM tb_class a join tb_employee b on a.id = b.classroom_id join tb_user c on c.id = b.id WHERE c.username = ?", nativeQuery = true)
     public Classroom findByTraineeClass(String username);
+
+    @Query(value = "SELECT * FROM tb_class WHERE is_status = 1", nativeQuery = true)
+    public List<Classroom> findByActive();
+
+    @Query(value = "SELECT * FROM tb_class WHERE is_status = 0", nativeQuery = true)
+    public List<Classroom> findByNonActive();
 }
