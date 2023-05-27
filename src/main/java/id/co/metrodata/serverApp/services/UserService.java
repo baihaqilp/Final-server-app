@@ -97,11 +97,6 @@ public class UserService {
                     HttpStatus.CONFLICT,
                     "Old Password is wrong!");
         }
-        if (!Objects.equals(changePasswordRequest.getPasswordNew(), changePasswordRequest.getPasswordNewConfirm())) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Confirmation password not same!");
-        }
         user.setPassword(passwordEncoder.encode(changePasswordRequest.getPasswordNew()));
         return userRepository.save(user);
     }
