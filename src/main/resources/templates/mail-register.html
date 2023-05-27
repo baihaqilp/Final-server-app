@@ -24,8 +24,8 @@
         }
         /* Style the logo */
         .header img {
-            max-width: 100%;
-            height: auto;
+            max-width: 200px;
+            height: 200px;
             margin: 0 auto;
             border-radius: 5%;
         }
@@ -102,6 +102,7 @@
 <body>
 <div class="header">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTveRIEJLyV0G95U5S5xQorQxPAa6Wf-qZwhmYhdyEBapd4uMKYyqMXlvD5_qgwzgFvhnM&usqp=CAU" alt="DTS">
+    <img src="https://media.licdn.com/dms/image/C560BAQGYh8ssPHfnmA/company-logo_200_200/0/1597027607104?e=2147483647&v=beta&t=OsM_pLNpknTcJ-omuCX6utjb9FjIV9IdYphbqjhN8v4" alt="MCC">
     <h1>Welcome to Our Community !</h1>
 </div>
 <div class="container">
@@ -120,9 +121,9 @@
             <td><b><span th:text="${password}"></span></b></td>
         </tr>
         <tr>
-            <td>Status</td>
+            <td>Program</td>
             <td>:</td>
-            <td>Active</td>
+            <td><b><span th:text="${program}"></span></b></td>
         </tr>
         </tbody>
     </table>

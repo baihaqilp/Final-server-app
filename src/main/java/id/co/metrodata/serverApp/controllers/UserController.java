@@ -2,6 +2,8 @@ package id.co.metrodata.serverApp.controllers;
 
 import java.util.List;
 
+import id.co.metrodata.serverApp.models.dto.request.ChangePasswordRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,29 +21,39 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
+@PreAuthorize("hasAnyRole('ADMIN', 'TRAINER', 'TRAINEE')")
 public class UserController {
     private UserService userService;
 
+    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping
     public List<User> getAll() {
         return userService.getAll();
     }
 
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER', 'READ_TRAINEE')")
     @GetMapping("/{id}")
     public User getById(@PathVariable Long id) {
         return userService.getById(id);
     }
 
+    @PreAuthorize("hasAuthority('CREATE_ADMIN')")
     @PostMapping
     public User create(@RequestBody UserRequest userRequest) {
         return userService.create(userRequest);
     }
-
+    @PreAuthorize("hasAnyAuthority('UPDATE_ADMIN', 'UPDATE_TRAINER', 'UPDATE_TRAINEE')")
+    @PostMapping("/change-password")
+    public User changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        return userService.changePassword(changePasswordRequest);
+    }
+    @PreAuthorize("hasAuthority('UPDATE_ADMIN')")
     @PutMapping("/{id}")
     public User update(@PathVariable Long id, @RequestBody UserRequest userRequest) {
         return userService.update(id, userRequest);
     }
 
+    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     @DeleteMapping("/{id}")
     public User delete(@PathVariable Long id) {
         return userService.delete(id);

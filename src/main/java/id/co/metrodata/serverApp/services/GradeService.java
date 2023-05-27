@@ -160,7 +160,7 @@ public class GradeService {
             emailRequest.setTo(user.getEmployee().getEmail());
             emailRequest.setSubject("Graduation Announcement");
             emailRequest.setName(user.getEmployee().getName());
-            emailService.sendMailGrade(emailRequest, user.getUsername());
+            emailService.sendMailGrade(emailRequest, user.getUsername(), grade.getSegment().getCategory().getName(), user.getEmployee().getClassroom().getName(), user.getEmployee().getClassroom().getProgram().getName());
         }
         return gradeRepository.save(grade);
     }

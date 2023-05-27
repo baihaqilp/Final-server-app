@@ -93,7 +93,7 @@ public class EmployeeService {
         roles.add(roleService.getById(userRequest.getRoleId()));
         user.setRoles(roles);
         // set password
-        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+//        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         return employeeRepository.saveAndFlush(employee);
     }
 

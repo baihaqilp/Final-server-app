@@ -2,6 +2,7 @@ package id.co.metrodata.serverApp.controllers;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,34 +20,41 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/submission")
 @AllArgsConstructor
+@PreAuthorize("hasAnyRole('ADMIN', 'TRAINER', 'TRAINEE')")
 public class SubmissionController {
     private SubmissionService submissionService;
 
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER', 'READ_TRAINEE')")
     @GetMapping
     public List<Submission> getAll() {
         return submissionService.getAll();
     }
 
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER', 'READ_TRAINEE')")
     @GetMapping("/task/{id}")
     public List<Submission> getByTask(@PathVariable Long id) {
         return submissionService.getByTask(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER', 'READ_TRAINEE')")
     @GetMapping("/{id}")
     public Submission getById(@PathVariable Long id) {
         return submissionService.getById(id);
     }
 
+    @PreAuthorize("hasAuthority('CREATE_TRAINEE')")
     @PostMapping
     public Submission create(@RequestBody SubmissionRequest submissionRequest) {
         return submissionService.create(submissionRequest);
     }
 
+    @PreAuthorize("hasAuthority('UPDATE_TRAINEE')")
     @PutMapping("/{id}")
     public Submission update(@PathVariable Long id, @RequestBody SubmissionRequest submissionRequest) {
         return submissionService.update(id, submissionRequest);
     }
 
+    @PreAuthorize("hasAuthority('DELETE_TRAINEE')")
     @DeleteMapping("/{id}")
     public Submission delete(@PathVariable Long id) {
         return submissionService.delete(id);

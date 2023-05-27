@@ -18,7 +18,7 @@ public class EmailService {
     @Autowired
     ThymeleafService thymeleafService;
 
-    public EmailRequest sendMailGrade(EmailRequest emailRequest, String username) {
+    public EmailRequest sendMailGrade(EmailRequest emailRequest, String username, String segment, String kelas, String program) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(
@@ -29,6 +29,9 @@ public class EmailService {
             Map<String, Object> variables = new HashMap<>();
             variables.put("name", emailRequest.getName());
             variables.put("username", username);
+            variables.put("segment", segment);
+            variables.put("kelas", kelas);
+            variables.put("program", program);
             helper.setText(thymeleafService.createContent("mail-grade.html", variables), true);
             helper.setTo(emailRequest.getTo());
             helper.setSubject(emailRequest.getSubject());
@@ -44,7 +47,7 @@ public class EmailService {
         return emailRequest;
     }
 
-    public EmailRequest sendMailRegister(EmailRequest emailRequest, String username, String password) {
+    public EmailRequest sendMailRegister(EmailRequest emailRequest, String username, String password, String program) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(
@@ -56,6 +59,7 @@ public class EmailService {
             variables.put("name", emailRequest.getName());
             variables.put("username", username);
             variables.put("password", password);
+            variables.put("program", program);
             helper.setText(thymeleafService.createContent("mail-register.html", variables), true);
             helper.setTo(emailRequest.getTo());
             helper.setSubject(emailRequest.getSubject());
