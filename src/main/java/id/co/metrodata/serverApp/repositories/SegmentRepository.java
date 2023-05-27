@@ -11,6 +11,7 @@ import java.sql.Date;
 
 @Repository
 public interface SegmentRepository extends JpaRepository<Segment, Long> {
+    @Query(value = "SELECT * FROM tb_segment WHERE classroom_id = ? order by category_id asc", nativeQuery = true)
     List<Segment> findAllByClassroom_Id(Long id);
 
     public Boolean existsByTrainer_Id(Long id);
