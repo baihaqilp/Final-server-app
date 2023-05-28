@@ -1,6 +1,8 @@
 package id.co.metrodata.serverApp.services;
 
+import id.co.metrodata.serverApp.models.Segment;
 import id.co.metrodata.serverApp.models.SegmentTopic;
+import id.co.metrodata.serverApp.models.User;
 import id.co.metrodata.serverApp.models.dto.request.SegmentTopicRequest;
 import id.co.metrodata.serverApp.repositories.SegmentTopicRepository;
 import lombok.AllArgsConstructor;
@@ -18,9 +20,16 @@ public class SegmentTopicService {
     private ModelMapper modelMapper;
     private SegmentService segmentService;
     private TopicService topicService;
+    private UserService userService;
 
     public List<SegmentTopic> getAll() {
         return segmentTopicRepository.findAll();
+    }
+
+    public List<SegmentTopic> getBySegment() {
+        User user = userService.getByUsername();
+        Segment segment = segmentService.findByClass(user.getEmployee().getClassroom().getId());
+        return segmentTopicRepository.findAllBySegmentOrderCategory(segment.getId());
     }
 
     public SegmentTopic getById(Long id) {

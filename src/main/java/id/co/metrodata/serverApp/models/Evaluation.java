@@ -14,7 +14,6 @@ import javax.persistence.*;
 @Table(name = "tb_evaluation")
 public class Evaluation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private float nilai;
