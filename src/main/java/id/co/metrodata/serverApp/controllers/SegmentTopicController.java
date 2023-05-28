@@ -22,6 +22,12 @@ public class SegmentTopicController {
         return segmentTopicService.getAll();
     }
 
+    @PreAuthorize("hasAnyAuthority('READ_TRAINEE')")
+    @GetMapping("/bysegment")
+    public List<SegmentTopic> getBySegment() {
+        return segmentTopicService.getBySegment();
+    }
+
     @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER')")
     @GetMapping("/{id}")
     public SegmentTopic getById(@PathVariable Long id) {

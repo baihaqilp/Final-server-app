@@ -62,18 +62,18 @@ public class SubmissionService {
                 }
             }
         }
-//        find trainer
+        // find trainer
         Task findTrainer = taskService.getById(submissionRequest.getTaskId());
 
         Submission submission = modelMapper.map(submissionRequest, Submission.class);
-        Evaluation evaluation = new Evaluation();
+        Evaluation evaluation = modelMapper.map(submissionRequest, Evaluation.class);
 
-//        set evaluation
+        // set evaluation
         evaluation.setNilai(0);
         evaluation.setTrainer(findTrainer.getSegment().getTrainer());
         evaluation.setSubmission(submission);
 
-//        set submission
+        // set submission
         submission.setTask(taskService.getById(submissionRequest.getTaskId()));
         submission.setEmployee(employee);
         submission.setEvaluation(evaluation);
@@ -102,23 +102,23 @@ public class SubmissionService {
                 }
             }
         }
-//        Submission submission = modelMapper.map(submissionRequest, Submission.class);
-//        submission.setTask(taskService.getById(submissionRequest.getTaskId()));
-//        submission.setEmployee(employee);
+        // Submission submission = modelMapper.map(submissionRequest, Submission.class);
+        // submission.setTask(taskService.getById(submissionRequest.getTaskId()));
+        // submission.setEmployee(employee);
 
-//        find trainer
+        // find trainer
         Task findTrainer = taskService.getById(submissionRequest.getTaskId());
 
         Submission submission = modelMapper.map(submissionRequest, Submission.class);
         submission.setId(id);
-//        Evaluation evaluation = new Evaluation();
+        // Evaluation evaluation = new Evaluation();
 
-//        set evaluation
-//        evaluation.setNilai(submissionOld.getEvaluation().getNilai());
-//        evaluation.setTrainer(findTrainer.getSegment().getTrainer());
-//        evaluation.setSubmission(submission);
+        // set evaluation
+        // evaluation.setNilai(submissionOld.getEvaluation().getNilai());
+        // evaluation.setTrainer(findTrainer.getSegment().getTrainer());
+        // evaluation.setSubmission(submission);
 
-//        set submission
+        // set submission
         submission.setTask(taskService.getById(submissionRequest.getTaskId()));
         submission.setEmployee(employee);
         submission.setEvaluation(submissionOld.getEvaluation());
