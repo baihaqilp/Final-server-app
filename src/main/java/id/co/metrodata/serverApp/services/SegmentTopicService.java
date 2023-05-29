@@ -26,10 +26,11 @@ public class SegmentTopicService {
         return segmentTopicRepository.findAll();
     }
 
-    public List<SegmentTopic> getBySegment() {
+    public List<SegmentTopic> getBySegment(Long id) {
         User user = userService.getByUsername();
-        Segment segment = segmentService.findByClass(user.getEmployee().getClassroom().getId());
-        return segmentTopicRepository.findAllBySegmentOrderCategory(segment.getId());
+        // Segment segment =
+        // segmentService.findByClass(user.getEmployee().getClassroom().getId());
+        return segmentTopicRepository.findAllBySegmentOrderCategory(id, user.getEmployee().getClassroom().getId());
     }
 
     public SegmentTopic getById(Long id) {

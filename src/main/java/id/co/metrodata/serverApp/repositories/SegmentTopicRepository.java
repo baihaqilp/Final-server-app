@@ -13,8 +13,8 @@ public interface SegmentTopicRepository extends JpaRepository<SegmentTopic, Long
 
     public Boolean existsByTopic_Id(Long id);
 
-    @Query(value = "SELECT * FROM tb_segment_topic a join tb_segment b on a.segment_id = b.id WHERE a.segment_id = ? order by b.category_id asc", nativeQuery = true)
-    List<SegmentTopic> findAllBySegmentOrderCategory(Long id);
+    @Query(value = "SELECT * FROM tb_segment_topic a join tb_segment b on a.segment_id = b.id WHERE a.segment_id = ? and b.classroom_id = ? order by b.category_id asc", nativeQuery = true)
+    List<SegmentTopic> findAllBySegmentOrderCategory(Long id, Long classroom_id);
 
     List<SegmentTopic> findAllBySegment_Id(Long id);
 
