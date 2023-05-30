@@ -34,6 +34,11 @@ public class SubmissionService {
         return submissionRepository.findAllByEmployee_Id(id);
     }
 
+    public Submission getByTaskTrainee(Long id) {
+        User user = userService.getByUsername();
+        return submissionRepository.findAllByTaskTrainee(id, user.getId());
+    }
+
     public Submission getById(Long id) {
         return submissionRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Submission id not found"));
