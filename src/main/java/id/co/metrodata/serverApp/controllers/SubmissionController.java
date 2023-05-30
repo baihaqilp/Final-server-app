@@ -42,6 +42,12 @@ public class SubmissionController {
         return submissionService.getById(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_TRAINER', 'READ_TRAINEE')")
+    @GetMapping("/task/{id}/trainee")
+    public Submission getByTaskTrainee(@PathVariable Long id) {
+        return submissionService.getByTaskTrainee(id);
+    }
+
     @PreAuthorize("hasAuthority('CREATE_TRAINEE')")
     @PostMapping
     public Submission create(@RequestBody SubmissionRequest submissionRequest) {
