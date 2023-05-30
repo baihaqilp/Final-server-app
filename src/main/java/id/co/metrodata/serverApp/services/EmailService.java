@@ -2,12 +2,16 @@ package id.co.metrodata.serverApp.services;
 
 import id.co.metrodata.serverApp.models.dto.request.EmailRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 
 import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +51,7 @@ public class EmailService {
         return emailRequest;
     }
 
-    public EmailRequest sendMailRegister(EmailRequest emailRequest, String username, String password, String program) {
+    public EmailRequest sendMailRegister(EmailRequest emailRequest, String username, String password, String program, String kelas) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(
@@ -60,6 +64,12 @@ public class EmailService {
             variables.put("username", username);
             variables.put("password", password);
             variables.put("program", program);
+            variables.put("kelas", kelas);
+
+            ClassPathResource image = new ClassPathResource("static/images/logolms.png");
+            byte[] imageBytes = StreamUtils.copyToByteArray(image.getInputStream());
+            String imageBase = Base64.getEncoder().encodeToString(imageBytes);
+            variables.put("logo", imageBase);
             helper.setText(thymeleafService.createContent("mail-register.html", variables), true);
             helper.setTo(emailRequest.getTo());
             helper.setSubject(emailRequest.getSubject());

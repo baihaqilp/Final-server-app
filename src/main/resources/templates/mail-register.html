@@ -1,6 +1,5 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,23 +17,26 @@
         }
         /* Style the header container */
         .header {
-            background-color: #2596be;
+            background-color: #2596be42;
             padding: 20px 20px 0 20px;
             text-align: center;
         }
         /* Style the logo */
-        .header img {
-            max-width: 200px;
-            height: 200px;
+        .img {
+            max-width: 300px;
+            height: 100px;
             margin: 0 auto;
             border-radius: 5%;
+            background-image: url("../static/images/logolms.png");
+            background-size: 100%;
+            background-repeat: no-repeat;
         }
         /* Style the headline */
         .header h1 {
             margin: 20px 0;
             font-size: 24px;
             font-weight: bold;
-            color: white;
+            color: #2596be;
         }
 		body {
             margin: 0;
@@ -101,8 +103,7 @@
 </head>
 <body>
 <div class="header">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTveRIEJLyV0G95U5S5xQorQxPAa6Wf-qZwhmYhdyEBapd4uMKYyqMXlvD5_qgwzgFvhnM&usqp=CAU" alt="DTS">
-    <img src="https://media.licdn.com/dms/image/C560BAQGYh8ssPHfnmA/company-logo_200_200/0/1597027607104?e=2147483647&v=beta&t=OsM_pLNpknTcJ-omuCX6utjb9FjIV9IdYphbqjhN8v4" alt="MCC">
+    <div class="img"></div>
     <h1>Welcome to Our Community !</h1>
 </div>
 <div class="container">
@@ -123,7 +124,7 @@
         <tr>
             <td>Program</td>
             <td>:</td>
-            <td><b><span th:text="${program}"></span></b></td>
+            <td><b><span th:text="${program}"></span> <span th:text="${kelas}"></span></b></td>
         </tr>
         </tbody>
     </table>
@@ -133,7 +134,7 @@
             <a href="http://localhost:9001/login" class="button" style="color: white">Login</a>
         </div>
 </div>
-<footer style="background-color: #2596be; padding: 20px;">
+<footer style="background-color: #2596be42; padding: 20px;">
     <div style="text-align: center;">
         <p style="margin: 0; color: white;">© 2023 Our Community. All rights reserved.</p>
     </div>
