@@ -22,7 +22,7 @@ public class MateriService {
     private UserService userService;
 
     public List<Materi> getAll() {
-        return materiRepository.findAll();
+        return materiRepository.findAllByOrder();
     }
 
     public List<Materi> getByTopicId(Long id) {
