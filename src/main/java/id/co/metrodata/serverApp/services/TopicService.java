@@ -20,7 +20,7 @@ public class TopicService {
     private ProgramService programService;
 
     public List<Topic> getAll() {
-        return topicRepository.findAll();
+        return topicRepository.findAllByOrderByIdDesc();
     }
 
     public Topic getById(Long id) {

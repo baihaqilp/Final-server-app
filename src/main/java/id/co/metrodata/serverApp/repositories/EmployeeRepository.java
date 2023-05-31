@@ -10,7 +10,7 @@ import id.co.metrodata.serverApp.models.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    @Query(value = "SELECT * FROM tb_user_role a join tb_employee b on a.user_id = b.id WHERE a.role_id = ?", nativeQuery = true)
+    @Query(value = "SELECT * FROM tb_user_role a join tb_employee b on a.user_id = b.id WHERE a.role_id = ? order by b.id desc", nativeQuery = true)
     List<Employee> findByUserRole(Long id);
 
     List<Employee> findByClassroom_Id(Long id);
