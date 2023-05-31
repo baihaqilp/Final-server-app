@@ -27,7 +27,7 @@
             height: 100px;
             margin: 0 auto;
             border-radius: 5%;
-            background-image: url("../static/images/logolms.png");
+
             background-size: 100%;
             background-repeat: no-repeat;
         }
@@ -103,7 +103,13 @@
 </head>
 <body>
 <div class="header">
-    <div class="img"></div>
+<!--    <img src="cid:logolms.png" alt="Logo" />-->
+<!--    <img th:src="'data:image/png;base64,' + ${logo}" alt="Logo" />-->
+<!--    <img th:src="@{/images/logolms.png}" alt="Logo" />-->
+<!--    <img th:src="@{/assets/images/logolms.png}" alt="Logo">-->
+<!--    <img src="https://ibb.co/4SVftN5" alt="logo" />-->
+    <a href="https://ibb.co/4SVftN5"><img src="https://i.ibb.co/jwr5f41/logolms.png" alt="logolms" border="0" /></a>
+<!--    <div class="img"></div>-->
     <h1>Welcome to Our Community !</h1>
 </div>
 <div class="container">
@@ -136,7 +142,7 @@
 </div>
 <footer style="background-color: #2596be42; padding: 20px;">
     <div style="text-align: center;">
-        <p style="margin: 0; color: white;">© 2023 Our Community. All rights reserved.</p>
+        <p style="margin: 0; color: #2596be;">© 2023 Our Community. All rights reserved.</p>
     </div>
 </footer>
 </body>
