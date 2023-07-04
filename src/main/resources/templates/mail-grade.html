@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Header</title>
+    <style type="text/css">
+        /* Set background color and font styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
+        }
+        /* Style the header container */
+        .header {
+            background-color: #2596be42;
+            padding: 20px 20px 0 20px;
+            text-align: center;
+        }
+        /* Style the logo */
+        .img {
+            max-width: 300px;
+            height: 100px;
+            margin: 0 auto;
+            border-radius: 5%;
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+        /* Style the headline */
+        .header h1 {
+            margin: 20px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2596be;
+        }
+		body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
+        }
+        /* Style the main container */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+        /* Style the image */
+        .image {
+            margin-bottom: 20px;
+        }
+        .image img {
+            max-width: 100%;
+            height: auto;
+        }
+        /* Style the headline */
+        .headline {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333333;
+        }
+        /* Style the description */
+        .description {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #555555;
+        }
+        /* Style the button */
+        .button {
+            display: inline-block;
+			  background-color: #008CBA;
+			  color: #ffffff;
+			  text-decoration: none;
+			  padding: 10px 20px;
+			  border-radius: 5px;
+			  font-weight: bold;
+			  margin-bottom: 20px;
+        }
+		.button-container {
+			  text-align: center;
+		}
+		.table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        /* Style the table data */
+        .table td {
+            padding: 10px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+<!--    <div class="img"></div>-->
+    <a href="https://ibb.co/4SVftN5"><img src="https://i.ibb.co/jwr5f41/logolms.png" alt="logolms" border="0" /></a>
+    <h1>Graduation Announcement</h1>
+</div>
+<div class="container">
+    <h2 class="headline">Hai, <span th:text="${name}"></span></h2>
+    <p class="description">Terimakasih telah bergabung di platform kami, Akun anda dengan username "<b><span th:text="${username}"></span></b>" dinyatakan <b>Tidak Lulus</b> pada :</p>
+        <table class="table">
+            <tbody>
+            <tr>
+                <td>Program</td>
+                <td>:</td>
+                <td><span th:text="${program}"></span></td>
+            </tr>
+            <tr>
+                <td>Kelas</td>
+                <td>:</td>
+                <td><span th:text="${kelas}"></span></td>
+            </tr>
+            <tr>
+                <td>Segment</td>
+                <td>:</td>
+                <td><span th:text="${segment}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    <p class="description">Tetap semangat jangan berkecil hati dan mencoba lagi pada event-event kami selanjutnya.</p>
+    <p class="description"><i>Terimakasih.</i></p>
+</div>
+<footer style="background-color: #2596be42; padding: 20px;">
+    <div style="text-align: center;">
+        <p style="margin: 0; color: #2596be;">© 2023 Our Community. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Header</title>
+    <style type="text/css">
+        /* Set background color and font styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
+        }
+        /* Style the header container */
+        .header {
+            background-color: #2596be42;
+            padding: 20px 20px 0 20px;
+            text-align: center;
+        }
+        /* Style the logo */
+        .img {
+            max-width: 300px;
+            height: 100px;
+            margin: 0 auto;
+            border-radius: 5%;
+
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+        /* Style the headline */
+        .header h1 {
+            margin: 20px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2596be;
+        }
+		body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
+        }
+        /* Style the main container */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+        /* Style the image */
+        .image {
+            margin-bottom: 20px;
+        }
+        .image img {
+            max-width: 100%;
+            height: auto;
+        }
+        /* Style the headline */
+        .headline {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333333;
+        }
+        /* Style the description */
+        .description {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #555555;
+        }
+        /* Style the button */
+        .button {
+            display: inline-block;
+			  background-color: #008CBA;
+			  color: #ffffff;
+			  text-decoration: none;
+			  padding: 10px 20px;
+			  border-radius: 5px;
+			  font-weight: bold;
+			  margin-bottom: 20px;
+        }
+		.button-container {
+			  text-align: center;
+		}
+		.table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        /* Style the table data */
+        .table td {
+            padding: 10px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+<!--    <img src="cid:logolms.png" alt="Logo" />-->
+<!--    <img th:src="'data:image/png;base64,' + ${logo}" alt="Logo" />-->
+<!--    <img th:src="@{/images/logolms.png}" alt="Logo" />-->
+<!--    <img th:src="@{/assets/images/logolms.png}" alt="Logo">-->
+<!--    <img src="https://ibb.co/4SVftN5" alt="logo" />-->
+    <a href="https://ibb.co/4SVftN5"><img src="https://i.ibb.co/jwr5f41/logolms.png" alt="logolms" border="0" /></a>
+<!--    <div class="img"></div>-->
+    <h1>Welcome to Our Community !</h1>
+</div>
+<div class="container">
+    <h2 class="headline">Hai, <span th:text="${name}"></span></h2>
+    <p class="description"><b>Selamat</b>, anda telah terdaftar di platform kami dengan data sebagai berikut :</p>
+    <table class="table">
+        <tbody>
+        <tr>
+            <td>Username</td>
+            <td>:</td>
+            <td><b><span th:text="${username}"></span></b></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td>:</td>
+            <td><b><span th:text="${password}"></span></b></td>
+        </tr>
+        <tr>
+            <td>Program</td>
+            <td>:</td>
+            <td><b><span th:text="${program}"></span> <span th:text="${kelas}"></span></b></td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="description">Silahkan login pada platform kami menggunakan tautan dibawah ini dan selamat belajar.</p>
+    <p class="description"><i>Terimakasih.</i></p>
+        <div class="button-container">
+            <a href="http://localhost:9001/login" class="button" style="color: white">Login</a>
+        </div>
+</div>
+<footer style="background-color: #2596be42; padding: 20px;">
+    <div style="text-align: center;">
+        <p style="margin: 0; color: #2596be;">© 2023 Our Community. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
